@@ -4,13 +4,13 @@ export default function Navigation() {
     return (
         <nav className="flex justify-between items-center p-4 max-w-screen-xl mx-auto">
             <ul className="flex gap-10 text-sm font-light font-mono text-gray-500">
-                <li>
+                <li className="hover:underline">
                     <Link href="/">HOME</Link>
                 </li>
-                <li>
+                <li className="hover:underline">
                     <Link href="/about">ABOUT</Link>
                 </li>
-                <li>
+                <li className="hover:underline">
                     <Link href="/services">SERVICES</Link>
                 </li>
             </ul>
@@ -19,13 +19,13 @@ export default function Navigation() {
                 <p className="text-lg font-thin font-mono">AESTHETICS CLINIC</p>
             </div>
             <ul className="flex gap-10 text-sm font-light font-mono text-gray-500">
-                <li>
+                <li className="hover:underline">
                     <Link href="/gallery">GALLERY</Link>
                 </li>
-                <li>
+                <li className="hover:underline">
                     <Link href="/contact">CONTACT</Link>
                 </li>
-                <li>
+                <li className="hover:underline">
                     <Link href="/user">ACCOUNT</Link>
                 </li>
             </ul>
