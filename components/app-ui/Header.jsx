@@ -16,9 +16,8 @@ export default function Header() {
             <Image
                 src={headerImage}
                 alt="background image for the hair salon banner"
-                layout="fill"
-                objectFit="cover"
-                className="z-10"
+                fill={true}
+                className="z-10 object-cover"
                 priority
             />
             <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center z-20">

@@ -11,9 +11,8 @@ export default function ServiceSection() {
                     <Image
                         src={cofounderImage}
                         alt="co founder image for the clinic"
-                        layout="fill"
-                        objectFit="cover"
-                        className="z-10 p-1 rounded-full"
+                        fill={true}
+                        className="z-10 p-1 rounded-full object-cover"
                         priority
                     />
                 </div>

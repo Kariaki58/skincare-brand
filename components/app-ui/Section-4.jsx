@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import eyeLashes from "@/public/eye-lashes-fix.jpg";
-import lashes from "@/public/lashes.jpg";
+import lasheSection from "@/public/eye-lashes-section.jpg";
 import bussinessWoman from "@/public/bussiness-woman.jpeg";
 
 
@@ -13,11 +13,10 @@ export default function CategorySection() {
             <div className="grid grid-cols-3 gap-10 items-center my-20">
                 <Link href="/gallery" className="h-[30rem] shadow-xl shadow-black relative hover:cursor-pointer hover:opacity-80 transition-opacity duration-700">
                     <Image
-                        src={lashes}
+                        src={lasheSection}
                         alt="co founder image for the clinic"
-                        layout="fill"
-                        objectFit="cover"
-                        className="z-10"
+                        fill={true}
+                        className="z-10 object-cover"
                         priority
                     />
                     <div className="absolute bottom-5 left-0 w-full text-white p-4 text-center z-20">
@@ -29,9 +28,8 @@ export default function CategorySection() {
                     <Image
                         src={eyeLashes}
                         alt="co founder image for the clinic"
-                        layout="fill"
-                        objectFit="cover"
-                        className="z-10"
+                        fill={true}
+                        className="z-10 object-cover"
                         priority
                     />
                     <div className="absolute bottom-5 left-0 w-full text-white p-4 text-center z-20">
@@ -43,9 +41,8 @@ export default function CategorySection() {
                     <Image
                         src={bussinessWoman}
                         alt="co founder image for the clinic"
-                        layout="fill"
-                        objectFit="cover"
-                        className="z-10"
+                        fill={true}
+                        className="z-10 object-cover"
                         priority
                     />
                     <div className="absolute bottom-5 left-0 w-full text-white p-4 text-center z-20">
