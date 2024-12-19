@@ -97,7 +97,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className="flex justify-center pt-10 pb-5">
-                <p className="text-sm">© 2024 <span>BUSSINESS NAME</span> | AWESOME DESIGN AGENCY</p>
+                <p className="text-sm text-gray-900">© 2024 <span>BUSSINESS NAME</span> | AWESOME DESIGN AGENCY</p>
             </div>
         </footer>
     )
