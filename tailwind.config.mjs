@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
   	extend: {
+		height: {
+			'custom': 'calc(100vh - 50px)',
+		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
