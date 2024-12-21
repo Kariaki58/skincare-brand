@@ -44,7 +44,7 @@ export default function page() {
                         <Textarea className="bg-white resize-none h-60" id="message" placeholder="WRITE YOUR MESSAGE*" />
                     </div>
                     <div className="flex justify-center">
-                        <Button className="p-7">SEND AN INQUIRY</Button>
+                        <Button className="p-7 bg-[#A88676] hover:bg-[#c29b8a]">SEND AN INQUIRY</Button>
                     </div>
                 </form>
             </div>
