@@ -3,7 +3,7 @@ import { PhoneCall, MapPin, CalendarClock } from "lucide-react";
 
 export default function FooterWorkingHours() {
     return (
-        <section className="bg-[#a88678] p-10 mt-10">
+        <section className="bg-[#a88678] p-10">
             <div className="flex justify-center gap-20 items-center text-white">
                 <div className="flex gap-3">
                     <PhoneCall size={42} className="text-white"/>
