@@ -69,7 +69,7 @@ export default function CategoryDisplay() {
                                 key={index}
                                 className="overflow-hidden"
                             >
-                                <Link href={`services/${service.title}`}>
+                                <Link href={`/services/${service.title}`}>
                                     <Image
                                         src={service.image}
                                         alt={service.title}
@@ -83,7 +83,7 @@ export default function CategoryDisplay() {
                                     <h3 className="text-2xl tracking-widest font-medium mb-2 text-[#A7948B]">{service.title}</h3>
                                     <p className="text-gray-600 mb-4">{service.about}</p>
                                     <Link
-                                        href={`services/${service.title}`}
+                                        href={`/services/${service.title}`}
                                         className="uppercase bg-transparent border border-black outline-black rounded-none text-gray-900 px-10 py-3 bg-white hover:bg-gray-200 inline-block text-sm mt-3"
                                     >
                                         View More Details
