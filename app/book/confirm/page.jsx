@@ -129,7 +129,7 @@ export default function Page() {
                     </div>
                     <Button
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        className="w-full bg-[#7E5A4B] hover:bg-[#573e33] text-white font-medium py-2 px-4 rounded-md shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     >
                         Confirm Booking
                     </Button>
