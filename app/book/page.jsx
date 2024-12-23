@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import ServiceDisplay from "@/components/app-ui/booking/services/service-display";
-
+import { Suspense } from 'react';
 
 
 export default function page() {
@@ -13,7 +13,9 @@ export default function page() {
                     <form className="my-10">
                         <Input className="py-8" name="service" type="text" placeholder="search any services" />
                     </form>
-                    <ServiceDisplay />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <ServiceDisplay />
+                    </Suspense>
                 </div>
             </div>
         </section>
