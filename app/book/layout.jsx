@@ -15,6 +15,20 @@ export default function layout({ children }) {
                     className="z-10 object-cover"
                     priority
                 />
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-20 text-white space-y-5">
+                    <h1 className="text-5xl font-light whitespace-nowrap">
+                        BOOK YOUR APPOINTMENT
+                    </h1>
+                    <p className="text-sm text-justify leading-relaxed tracking-widder">
+                        Write your policies for them to be aware of them before booking. 
+                        Do you have a cancellation policy? You are only limited by your imagination. 
+                        Making all those little fluffies that live in the clouds. By now you should 
+                        be quite happy about what's happening here. Now then, let's play. Automatically, 
+                        all of these beautiful, beautiful things will happen. Exercising the imagination.
+
+                    </p>
+                </div>
+
             </header>
             <Link href='/dashboard/user' className="border-t border-b border-black px-10 py-8 text-black text-sm hover:bg-gray-50 hover:text-gray-700 transition-all duration-300 ease-in-out block text-center">
                 VIEW AND TRACK BOOKINGS
