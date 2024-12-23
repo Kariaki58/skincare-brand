@@ -1,5 +1,39 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+export function AlertDialogDemo() {
+    return (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button className="ml-2 block text-sm border-none outline-none shadow-none hover:border-none hover:outline-none hover:shadow-none hover:bg-transparent underline text-blue-700" variant="outline">terms and conditions</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Terms and Condition display</AlertDialogTitle>
+                    <AlertDialogDescription>
+                    we accept payment before service
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction>I Agreed</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    )
+}
+
 
 export default function Page() {
     return (
@@ -87,16 +121,11 @@ export default function Page() {
                         />
                         <label
                             htmlFor="terms"
-                            className="ml-2 block text-sm text-gray-700"
+                            className="ml-2 text-sm text-gray-700"
                         >
-                            I agree to the{" "}
-                            <a
-                                href="#"
-                                className="text-blue-600 hover:underline"
-                            >
-                                terms and conditions
-                            </a>
+                            I agree to the
                         </label>
+                        <AlertDialogDemo />
                     </div>
                     <Button
                         type="submit"
