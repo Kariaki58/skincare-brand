@@ -26,7 +26,7 @@ export default function Navigation() {
                     <Link href="/contact">CONTACT</Link>
                 </li>
                 <li className="hover:underline">
-                    <Link href="/user">ACCOUNT</Link>
+                    <Link href="/book">BOOK ONLINE</Link>
                 </li>
             </ul>
         </nav>

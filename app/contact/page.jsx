@@ -32,16 +32,16 @@ export default function page() {
                 </p>
                 <form className="space-y-5">
                     <div>
-                        <Input className="py-7 bg-white" type="text" id="name" placeholder="FIRST AND LAST NAME*" />
+                        <Input className="py-7 bg-white shadow-none" type="text" id="name" placeholder="FIRST AND LAST NAME*" />
                     </div>
                     <div>
-                        <Input className="py-7 bg-white" type="email" id="email" placeholder="EMAIL ADDRESS*" />
+                        <Input className="py-7 bg-white shadow-none" type="email" id="email" placeholder="EMAIL ADDRESS*" />
                     </div>
                     <div>
-                        <Input className="py-7 bg-white" type="tel" id="phone" placeholder="PHONE NUMBER*" />
+                        <Input className="py-7 bg-white shadow-none" type="tel" id="phone" placeholder="PHONE NUMBER*" />
                     </div>
                     <div>
-                        <Textarea className="bg-white resize-none h-60" id="message" placeholder="WRITE YOUR MESSAGE*" />
+                        <Textarea className="bg-white resize-none h-60 shadow-none" id="message" placeholder="WRITE YOUR MESSAGE*" />
                     </div>
                     <div className="flex justify-center">
                         <Button className="p-7 bg-[#A88676] hover:bg-[#c29b8a]">SEND AN INQUIRY</Button>

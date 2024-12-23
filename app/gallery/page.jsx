@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import photo1 from "@/public/gallery/cute-photo-1.jpg";
 import photo2 from "@/public/gallery/cute-photo-2.jpg";
 import photo3 from "@/public/gallery/cute-photo-3.jpg";
@@ -13,7 +14,6 @@ import photo8 from "@/public/gallery/cute-photo-8.jpeg";
 import photo9 from "@/public/gallery/cute-photo-9.jpeg";
 import photo10 from "@/public/gallery/cute-photo-10.jpg";
 import headerImage from "@/public/header-image.jpg";
-import Link from "next/link";
 
 
 export default function Page() {
@@ -96,7 +96,7 @@ export default function Page() {
                                         src={image}
                                         width={300}
                                         height={300}
-                                        className="w-full"
+                                        className="w-full hover:cursor-pointer"
                                         alt={`Cute Photo ${imageIndex + 1}`}
                                     />
                                 ))}
