@@ -21,7 +21,7 @@ export default function CategoryDisplay() {
                     image: serviceImage1,
                 },
                 {
-                    title: "Facials & Peels",
+                    title: "Facials and Peels",
                     about: "Gentle exfoliation and nourishment for a youthful, healthy complexion.",
                     image: serviceImage2,
                 },
@@ -43,12 +43,12 @@ export default function CategoryDisplay() {
                     image: serviceImage4,
                 },
                 {
-                    title: "Waxing & Laser Removal",
+                    title: "Waxing and Laser Removal",
                     about: "Smooth, hair-free skin with minimal discomfort and long-lasting results.",
                     image: serviceImage5,
                 },
                 {
-                    title: "Makeup & Hair",
+                    title: "Makeup and Hair",
                     about: "Perfect your look for any occasion with our professional artists.",
                     image: serviceImage6,
                 },
@@ -83,7 +83,7 @@ export default function CategoryDisplay() {
                                     <h3 className="text-2xl tracking-widest font-medium mb-2 text-[#A7948B]">{service.title}</h3>
                                     <p className="text-gray-600 mb-4">{service.about}</p>
                                     <Link
-                                        href={`/services/${service.title}`}
+                                        href={`/services/${service.title.replace(/ /g, '-').toLowerCase()}`}
                                         className="uppercase bg-transparent border border-black outline-black rounded-none text-gray-900 px-10 py-3 bg-white hover:bg-gray-200 inline-block text-sm mt-3"
                                     >
                                         View More Details

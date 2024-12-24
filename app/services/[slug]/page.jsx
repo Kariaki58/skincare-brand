@@ -7,9 +7,8 @@ import { MoveLeft } from "lucide-react";
 
 
 export default async function page({ params }) {
+    const slug = (await params).slug.replace(/-/g, ' ');
     
-    const slug = decodeURIComponent((await params).slug);
-    console.log(slug)
     return (
         <section>
             <header className="relative h-screen w-full bg-gradient-to-b from-[#f6f9ff] to-[#9ba3b1]">
