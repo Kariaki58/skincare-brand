@@ -5,10 +5,11 @@ import image1 from "@/public/country-size-girl.jpg";
 import image2 from "@/public/eye-lashes-fix.jpg";
 import { MoveLeft } from "lucide-react";
 
+// /services/Facials%20&%20Peels
 
 export default async function page({ params }) {
     const slug = (await params).slug.replace(/-/g, ' ');
-    
+
     return (
         <section>
             <header className="relative h-screen w-full bg-gradient-to-b from-[#f6f9ff] to-[#9ba3b1]">
@@ -38,7 +39,7 @@ export default async function page({ params }) {
                 BOOK YOUR APPOINTMENT TODAY
             </Link>
             <div className="flex max-w-screen-lg mx-auto items-center space-x-14 my-20">
-                <Link href={`/book?set=${slug}`} className="h-[23rem] max-w-xl w-[30rem] bg-red-600 relative block hover:opacity-90">
+                <Link href={`/book?set=${slug.replace(/ /g, '-').toLowerCase()}`} className="h-[23rem] max-w-xl w-[30rem] bg-red-600 relative block hover:opacity-90">
                     <Image
                         src={image1}
                         alt="A country size girl looking at her eyes"
@@ -58,7 +59,7 @@ export default async function page({ params }) {
                         Exercising the imagination, experimenting with talents, being creative; 
                         these things, to me, are truly the windows to your soul.
                     </p>
-                    <Link href={`/book?set=${slug}`} className="border border-black px-10 py-4 text-black text-sm bg-white hover:bg-gray-50 hover:text-gray-700 transition-all duration-300 ease-in-out inline-block text-center mt-5">
+                    <Link href={`/book?set=${slug.replace(/ /g, '-').toLowerCase()}`} className="border border-black px-10 py-4 text-black text-sm bg-white hover:bg-gray-50 hover:text-gray-700 transition-all duration-300 ease-in-out inline-block text-center mt-5">
                         BOOK YOUR SET
                     </Link>
                 </div>
