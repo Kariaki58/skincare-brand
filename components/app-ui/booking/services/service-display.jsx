@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Switch } from "@/components/ui/switch";
+import { CircleCheckBig, CirclePlus } from "lucide-react";
 import {
     Pagination,
     PaginationContent,
@@ -13,32 +14,38 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination";
 import ProceedLink from "../ProceedLink";
+import photo1 from "@/public/gallery/cute-photo-1.jpg";
+import photo2 from "@/public/gallery/cute-photo-2.jpg";
+import photo3 from "@/public/gallery/cute-photo-3.jpg";
+import photo4 from "@/public/gallery/cute-photo-4.jpg";
+import photo5 from "@/public/gallery/cute-photo-5.jpg";
+import photo6 from "@/public/gallery/cute-photo-6.jpeg";
+import photo7 from "@/public/gallery/cute-photo-7.jpg";
+import photo8 from "@/public/gallery/cute-photo-8.jpeg";
 
 
 export default function ServiceDisplay() {
     const serviceBooking = [
-        { title: "Nail Fixing", duration: "1 hour", price: "$50", select: false },
-        { title: "Hair Removal", duration: "2 hours", price: "$100", select: false },
-        { title: "Skincare Consultation", duration: "30 mins", price: "free", select: false },
-        { title: "Facials & Peels", duration: "30 mins", price: "$100", select: false },
-        { title: "Hair Treatment", duration: "1 hour", price: "$50", select: false },
-        { title: "Microdermabrasion", duration: "3 hours", price: "$50", select: false },
-        { title: "Eyelash Extensions", duration: "1 hour", price: "$45", select: false },
-        { title: "Makeup", duration: "1 hour", price: "$10", select: false },
+        { image: photo1, title: "Nail Fixing", duration: "1 hour", price: "$50", select: false },
+        { image: photo2, title: "Hair Removal", duration: "2 hours", price: "$100", select: true },
+        { image: photo3, title: "Skincare Consultation", duration: "30 mins", price: "free", select: false },
+        { image: photo4, title: "Facials & Peels", duration: "30 mins", price: "$100", select: true },
+        { image: photo5, title: "Hair Treatment", duration: "1 hour", price: "$50", select: false },
+        { image: photo6, title: "Microdermabrasion", duration: "3 hours", price: "$50", select: true },
+        { image: photo7, title: "Eyelash Extensions", duration: "1 hour", price: "$45", select: false },
+        { image: photo8, title: "Makeup", duration: "1 hour", price: "$10", select: false },
     ];
 
+    const servicesPerPage = 8; // Number of services per page
+    const totalPages = Math.ceil(serviceBooking.length / servicesPerPage); // Total number of pages
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const servicesPerPage = 5;
-    const totalPages = Math.ceil(serviceBooking.length / servicesPerPage);
-
+    // Get the current page from the URL, default to 1
     const queryPage = parseInt(searchParams.get("page") || "1", 10);
+    const [currentPage, setCurrentPage] = useState(queryPage);
 
-    const [currentPage, setCurrentPage] = useState(
-        queryPage >= 1 && queryPage <= totalPages ? queryPage : 1
-    );
-
+    // Check if the page number is valid and update the page when the query page changes
     useEffect(() => {
         if (queryPage < 1 || queryPage > totalPages) {
             const validPage = queryPage < 1 ? 1 : totalPages;
@@ -49,6 +56,7 @@ export default function ServiceDisplay() {
         }
     }, [queryPage, currentPage, totalPages, router]);
 
+    // Handle page change
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             router.push(`?page=${page}`);
@@ -56,16 +64,18 @@ export default function ServiceDisplay() {
         }
     };
 
+    // Get the services to display on the current page
     const currentServices = serviceBooking.slice(
         (currentPage - 1) * servicesPerPage,
         currentPage * servicesPerPage
     );
 
+    // Render pagination items
     const renderPagination = () => {
         const pagination = [];
         const range = 3; // Number of visible pages around the current page
 
-        // Add the previous button
+        // Previous button
         pagination.push(
             <PaginationItem key="prev">
                 <PaginationPrevious
@@ -74,11 +84,12 @@ export default function ServiceDisplay() {
                         e.preventDefault();
                         handlePageChange(currentPage - 1);
                     }}
+                    disabled={currentPage === 1}
                 />
             </PaginationItem>
         );
 
-        // Add the first page
+        // First page and ellipsis
         if (currentPage > range + 1) {
             pagination.push(
                 <PaginationItem key="1">
@@ -93,12 +104,10 @@ export default function ServiceDisplay() {
                     </PaginationLink>
                 </PaginationItem>
             );
-
-            // Add ellipsis if there are skipped pages
             pagination.push(<PaginationEllipsis key="start-ellipsis" />);
         }
 
-        // Add pages around the current page
+        // Pages around the current page
         for (let i = Math.max(1, currentPage - range); i <= Math.min(totalPages, currentPage + range); i++) {
             pagination.push(
                 <PaginationItem key={i}>
@@ -116,7 +125,7 @@ export default function ServiceDisplay() {
             );
         }
 
-        // Add ellipsis if there are skipped pages at the end
+        // Ellipsis and last page
         if (currentPage < totalPages - range) {
             pagination.push(<PaginationEllipsis key="end-ellipsis" />);
             pagination.push(
@@ -134,7 +143,7 @@ export default function ServiceDisplay() {
             );
         }
 
-        // Add the next button
+        // Next button
         pagination.push(
             <PaginationItem key="next">
                 <PaginationNext
@@ -143,6 +152,7 @@ export default function ServiceDisplay() {
                         e.preventDefault();
                         handlePageChange(currentPage + 1);
                     }}
+                    disabled={currentPage === totalPages}
                 />
             </PaginationItem>
         );
@@ -152,19 +162,43 @@ export default function ServiceDisplay() {
 
     return (
         <div className="space-y-6">
-            {currentServices.map((service, index) => (
-                <div
-                    key={index}
-                    className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                >
-                    <div>
-                        <h2 className="text-gray-800 font-medium text-lg">{service.title}</h2>
-                        <p className="text-gray-600 text-sm">{service.duration}</p>
-                        <p className="text-gray-600 text-sm font-semibold">{service.price}</p>
+            <div className="grid grid-cols-4 gap-5">
+                {currentServices.map((service, index) => (
+                    <div
+                        key={index}
+                        className="p-4 bg-gray-100 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                    >
+                        <div className="h-52 relative w-full">
+                            <Image
+                                src={service.image}
+                                alt={service.title}
+                                fill={true}
+                                className="z-20 object-cover shadow-xl"
+                                priority
+                            />
+                        </div>
+                        
+                        <div className="mt-5">
+                            <h2 className="text-gray-800 font-medium text-lg">{service.title}</h2>
+                            <p className="text-gray-600 text-base">{service.duration}</p>
+                            <p className="text-gray-600 text-base font-semibold">{service.price}</p>
+                        </div>
+                        <div className="flex justify-center mt-3">
+                            {
+                                service.select ? (
+                                    <div>
+                                        <CircleCheckBig size={35} className="text-green-700 hover:cursor-pointer"/>
+                                    </div>
+                                ): (
+                                    <div>
+                                        <CirclePlus size={35} className="text-[#2D2D2D] hover:cursor-pointer"/>
+                                    </div>
+                                )
+                            }
+                        </div>
                     </div>
-                    <Switch className="ml-4" />
-                </div>
-            ))}
+                ))}
+            </div>
             <ProceedLink nextLink="/book/slots" />
             <Pagination>
                 <PaginationContent>{renderPagination()}</PaginationContent>

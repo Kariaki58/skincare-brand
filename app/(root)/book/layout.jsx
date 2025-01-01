@@ -19,13 +19,12 @@ export default function layout({ children }) {
                     <h1 className="text-5xl font-light whitespace-nowrap">
                         BOOK YOUR APPOINTMENT
                     </h1>
-                    <p className="text-sm text-justify leading-relaxed tracking-widder">
+                    <p className="text-sm text-center leading-relaxed tracking-widder">
                         Write your policies for them to be aware of them before booking. 
                         Do you have a cancellation policy? You are only limited by your imagination. 
                         Making all those little fluffies that live in the clouds. By now you should 
                         be quite happy about what's happening here. Now then, let's play. Automatically, 
                         all of these beautiful, beautiful things will happen. Exercising the imagination.
-
                     </p>
                 </div>
 
@@ -39,7 +38,6 @@ export default function layout({ children }) {
                     {children}
                 </div>
             </section>
-            
         </div>
     )
 }
