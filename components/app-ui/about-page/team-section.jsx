@@ -3,13 +3,30 @@ import photoAbout3 from "@/public/about-images/photo-about-3.jpg";
 import photoAbout4 from "@/public/about-images/photo-about-4.jpeg";
 import photoAbout5 from "@/public/about-images/photo-about-5.webp";
 import Review from "../Reviews";
+import { Spectral, Shippori_Antique, Outfit } from "next/font/google";
+
+
+const spectral = Spectral({
+    subsets: ["latin"],
+    weight: "400",
+});
+
+const shipporiAntique = Shippori_Antique({
+    subsets: ["latin"],
+    weight: "400",
+});
+
+const outfit = Outfit({
+    subsets: ["latin"],
+    weight: "300",
+});
 
 export default function TeamSection() {
     return (
         <section className="my-20 px-6 lg:px-20">
             <div className="text-center mb-12 max-w-4xl mx-auto">
-                <h1 className="uppercase text-[#A7948B] text-4xl font-bold mb-4">meet our team</h1>
-                <p className="text-[#2D2D2D] text-base leading-loose">
+                <h1 className={`uppercase text-[#A7948B] text-[60px] font-bold mb-4 ${spectral.className} antialiased`}>meet our team</h1>
+                <p className={`leading-[30px] text-[#2D2D2D] ${outfit.className} text-[15px]`}>
                     Does your team have years of experience or something great to promote? 
                     Everybody's different. Trees are different. Let them all be individuals. 
                     Anything you want to do you can do here. Nature is so fantastic, enjoy it.

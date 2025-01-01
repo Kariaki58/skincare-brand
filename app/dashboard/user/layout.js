@@ -1,12 +1,7 @@
-import { AppSidebar } from "@/components/dashboard/user/app-sidebar";
-
-export default function layout({ children }) {
+export default function layout() {
     return (
-        <>
-            {/* <AppSidebar /> */}
-            <div>
-                {children}
-            </div>
-        </>
+        <div>
+            user layout
+        </div>
     )
 }

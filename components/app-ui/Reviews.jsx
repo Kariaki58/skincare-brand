@@ -7,16 +7,16 @@ import { SquareChevronRight } from "lucide-react";
 export default function Review() {
     const reviews = [
         {
-          text: "Look No Further, Bare Beauty is The Best Aesthetics Clinic I've Ever Visited in Toronto Area",
-          author: "— LAUREN B.",
+            text: "Look No Further, Bare Beauty is The Best Aesthetics Clinic I've Ever Visited in Toronto Area",
+            author: "— LAUREN B.",
         },
         {
-          text: "Exceptional service and amazing results! I always feel so confident after visiting Bare Beauty.",
-          author: "— EMILY R.",
+            text: "Exceptional service and amazing results! I always feel so confident after visiting Bare Beauty.",
+            author: "— EMILY R.",
         },
         {
-          text: "Bare Beauty is my go-to clinic for all things skincare. Their attention to detail is unmatched!",
-          author: "— SARAH T.",
+            text: "Bare Beauty is my go-to clinic for all things skincare. Their attention to detail is unmatched!",
+            author: "— SARAH T.",
         },
     ];
     

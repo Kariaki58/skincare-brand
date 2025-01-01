@@ -7,6 +7,25 @@ import serviceImage4 from "@/public/services-image/service-image-4.jpeg";
 import serviceImage5 from "@/public/services-image/service-image-5.jpg";
 import serviceImage6 from "@/public/services-image/service-image-6.jpg";
 import ClientShowCase from "../ClientShowCase";
+import { Spectral, Shippori_Antique, Outfit } from "next/font/google";
+
+
+const spectral = Spectral({
+    subsets: ["latin"],
+    weight: "400",
+});
+
+const shipporiAntique = Shippori_Antique({
+    subsets: ["latin"],
+    weight: "400",
+});
+
+const outfit = Outfit({
+    subsets: ["latin"],
+    weight: "300",
+});
+
+
 
 export default function CategoryDisplay() {
     const categoryService = [
@@ -60,9 +79,9 @@ export default function CategoryDisplay() {
         <section className="max-w-screen-xl px-10 mx-auto text-gray-800">
             {categoryService.map((category, index) => (
                 <div key={index} className="mb-16">
-                    <h2 className="text-4xl font-light text-gray-700 uppercase mb-4">{category.categoryServiceName}</h2>
-                    <h4 className="text-xl font-bold text-[#A7948B] mb-4">{category.benefits}</h4>
-                    <summary className="text-gray-600 mb-8 leading-relaxed pr-32">{category.summary}</summary>
+                    <h2 className={`text-5xl font-light text-gray-700 uppercase mb-4 ${spectral.className} antialiased`}>{category.categoryServiceName}</h2>
+                    <h4 className={`text-[16px] font-bold text-[#A7948B] mb-4 ${shipporiAntique.className} antialiased uppercase`}>{category.benefits}</h4>
+                    <summary className={`leading-[30px] text-[#2D2D2D] ${outfit.className} text-[15px] list-none mb-10 max-w-screen-lg`}>{category.summary}</summary>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {category.categoryServices.map((service, index) => (
                             <div
@@ -80,11 +99,11 @@ export default function CategoryDisplay() {
                                     />
                                 </Link>
                                 <div className="pt-5">
-                                    <h3 className="text-2xl tracking-widest font-medium mb-2 text-[#A7948B]">{service.title}</h3>
-                                    <p className="text-gray-600 mb-4">{service.about}</p>
+                                    <h3 className={`text-[25px] ${spectral.className} antialiased tracking-widest font-medium mb-2 text-[#A7948B]`}>{service.title}</h3>
+                                    <p className={`leading-[30px] text-[#2D2D2D] ${outfit.className} text-[15px]`}>{service.about}</p>
                                     <Link
                                         href={`/services/${service.title.replace(/ /g, '-').toLowerCase()}`}
-                                        className="uppercase bg-transparent border border-black outline-black rounded-none text-gray-900 px-10 py-3 bg-white hover:bg-gray-200 inline-block text-sm mt-3"
+                                        className="uppercase bg-transparent border border-black outline-black rounded-none text-gray-900 px-10 py-3 bg-white hover:bg-gray-200 inline-block text-[12px] mt-3"
                                     >
                                         View More Details
                                     </Link>

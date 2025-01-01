@@ -30,7 +30,7 @@ export default function layout({ children }) {
                 </div>
 
             </header>
-            <Link href='/dashboard/user' className="border-t border-b border-black px-10 py-8 text-black text-sm hover:bg-gray-50 hover:text-gray-700 transition-all duration-300 ease-in-out block text-center">
+            <Link href='/dashboard/admin' className="border-t border-b border-black px-10 py-8 text-black text-sm hover:bg-gray-50 hover:text-gray-700 transition-all duration-300 ease-in-out block text-center">
                 VIEW AND TRACK BOOKINGS
             </Link>
             <section className="flex max-w-screen-xl mx-auto gap-5 my-20">

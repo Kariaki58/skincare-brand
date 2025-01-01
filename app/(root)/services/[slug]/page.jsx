@@ -5,6 +5,7 @@ import image1 from "@/public/country-size-girl.jpg";
 import image2 from "@/public/eye-lashes-fix.jpg";
 import { MoveLeft } from "lucide-react";
 
+// export async function generateStaticParams() {}
 
 export default async function page({ params }) {
     const slug = (await params).slug.replace(/-/g, ' ');

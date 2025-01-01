@@ -1,9 +1,28 @@
 import Link from "next/link";
+import { Outfit } from "next/font/google";
+import { Spectral } from "next/font/google";
+import { Shippori_Antique } from "next/font/google";
+
+const outfit = Outfit({
+    subsets: ["latin"],
+    weight: "400",
+});
+
+const spectral = Spectral({
+    subsets: ["latin"],
+    weight: "400",
+});
+
+const shipporiAntique = Shippori_Antique({
+    subsets: ["latin"],
+    weight: "400",
+});
+
 
 export default function Navigation() {
     return (
         <nav className="flex justify-between items-center p-4 max-w-screen-xl mx-auto">
-            <ul className="flex gap-10 text-sm font-light font-mono text-gray-500">
+            <ul className={`flex gap-10 text-[12px] text-[#38271F] font-outfit tracking-widest ${outfit.className} antialiased`}>
                 <li className="hover:underline">
                     <Link href="/">HOME</Link>
                 </li>
@@ -15,10 +34,10 @@ export default function Navigation() {
                 </li>
             </ul>
             <div className="text-center">
-                <Link href="/" className="text-5xl font-mono font-bold text-[#7e5a4b]">LOGO</Link>
-                <p className="text-lg font-thin font-mono">AESTHETICS CLINIC</p>
+                <Link href="/" className={`text-5xl text-[#7e5a4b] ${spectral.className} italic mb-0 pb-0`}>LOGO</Link>
+                <p className={`text-[12px] mt-0 ${shipporiAntique.className} text-[#38271F] pt-0`}>AESTHETICS CLINIC</p>
             </div>
-            <ul className="flex gap-10 text-sm font-light font-mono text-gray-500">
+            <ul className={`flex gap-10 text-[12px] text-[#38271F] ${outfit.className} tracking-widest antialiased`}>
                 <li className="hover:underline">
                     <Link href="/gallery">GALLERY</Link>
                 </li>

@@ -3,13 +3,26 @@ import Link from "next/link";
 import eyeLashes from "@/public/eye-lashes-fix.jpg";
 import lasheSection from "@/public/eye-lashes-section.jpg";
 import bussinessWoman from "@/public/bussiness-woman.jpeg";
+import { Playfair_Display, Shippori_Antique } from "next/font/google";
+
+
+const playfair_display = Playfair_Display({
+    subsets: ["latin"],
+    weight: "400"
+});
+
+
+const shipporiAntique = Shippori_Antique({
+    subsets: ["latin"],
+    weight: "400",
+});
 
 
 export default function CategorySection() {
     return (
         <section className="max-w-screen-xl mx-auto mt-36">
-            <h3 className="uppercase text-center text-sm">aesthetics clinic offering skin treatments, lashes & BEAUTY SERVICES</h3>
-            <h1 className="uppercase text-center text-5xl text-[#a79c97] mt-5">EXPLORE BARE BEAUTY CLINIC</h1>
+            <h3 className={`uppercase text-[#2D2D2D] text-center text-[11px] ${shipporiAntique.className}`}>aesthetics clinic offering skin treatments, lashes & BEAUTY SERVICES</h3>
+            <h1 className={`uppercase text-center text-[54px] ${playfair_display.className} text-[#A7948B] mt-5`}>EXPLORE BARE BEAUTY CLINIC</h1>
             <div className="grid grid-cols-3 gap-10 items-center my-20">
                 <Link href="/gallery" className="h-[30rem] shadow-xl shadow-black relative hover:cursor-pointer hover:opacity-80 transition-opacity duration-700">
                     <Image

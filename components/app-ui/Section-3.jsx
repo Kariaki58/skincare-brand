@@ -1,6 +1,19 @@
 import Image from "next/image";
 import cofounderImage from "@/public/cofounder-girl.jpg";
 import Link from "next/link";
+import { Playfair_Display, Shippori_Antique, Outfit } from "next/font/google";
+
+
+const playfair_display = Playfair_Display({
+    subsets: ["latin"],
+    weight: "400"
+});
+
+const outfit = Outfit({
+    subsets: ["latin"],
+    weight: "300"
+});
+
 
 
 export default function ServiceSection() {
@@ -17,15 +30,15 @@ export default function ServiceSection() {
                     />
                 </div>
                 <div>
-                    <h2 className="text-5xl uppercase font-light text-[#815948]">your go-to skin clinic</h2>
-                    <h3 className="text-base uppercase my-5 tracking-widest font-medium">LOCATED IN YORKVILLE & THE BEACHES IN TORONTO</h3>
-                    <p className="mb-10 tracking-widest text-sm font-light text-gray-800">
+                    <h2 className={`whitespace-nowrap uppercase text-[48px] text-[#A7948B] ${playfair_display.className} antialiased`}>your go-to skin clinic</h2>
+                    <h3 className="text-base uppercase my-5 tracking-widest font-medium font-serif">LOCATED IN YORKVILLE & THE BEACHES IN TORONTO</h3>
+                    <p className={`mb-10 ${outfit.className} text-[14px] tracking-widest text-sm font-light text-[#2D2D2D]`}>
                         Write a summary of your services & what you offer! 
                         Anything you want to do you can do here. Nature is so fantastic, enjoy it. 
                         Let it make you happy. Zip. That easy. We start with a vision in our heart, 
                         and we put it on canvas. For the lack of a better word.
                     </p>
-                    <ul className="flex gap-10 mb-10">
+                    <ul className={`flex gap-10 mb-10 ${playfair_display.className} text-[#38271F] text-[30px]`}>
                         <ul className="space-y-5">
                             <li className="capitalize text-2xl">Eyelash Extensions</li>
                             <li className="capitalize text-2xl">skin Treatments</li>
@@ -37,7 +50,7 @@ export default function ServiceSection() {
                             <li className="capitalize text-2xl">makeup Application</li>
                         </ul>
                     </ul>
-                    <Link href="/services" className="border border-black px-10 py-4 text-black text-sm bg-white hover:bg-gray-50 hover:text-gray-400 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl">VIEW OUR SERVICES</Link>
+                    <Link href="/services" className={`border border-black px-10 py-4 text-black text-[12px] bg-white hover:bg-gray-50 hover:text-gray-400 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl`}>VIEW OUR SERVICES</Link>
                 </div>
             </div>
         </section>

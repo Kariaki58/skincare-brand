@@ -1,6 +1,18 @@
 import Image from "next/image";
 import photoAbout1 from "@/public/about-images/photo-about-1.jpg";
 import Link from "next/link";
+import { Spectral, Outfit } from "next/font/google";
+
+
+const spectral = Spectral({
+    subsets: ["latin"],
+    weight: "400",
+});
+
+const outfit = Outfit({
+    subsets: ["latin"],
+    weight: "300",
+});
 
 
 export default function AboutHeader() {
@@ -16,20 +28,20 @@ export default function AboutHeader() {
                 />
             </div>
             <div className="space-y-6 max-w-xl">
-                <h1 className="uppercase text-5xl leading-snug text-[#A7948B]">toronto's best aesthetics clinic</h1>
-                <p className="text-base leading-relaxed text-gray-800">
+                <h1 className={`uppercase text-[50px] leading-[60px] text-[#A7948B] ${spectral.className} antialiased`}>toronto's best aesthetics clinic</h1>
+                <p className={`text-[15px] ${outfit.className} leading-[30px] text-[#2D2D2D]`}>
                     Write a description about your business & why they should choose 
                     you over anyone else. Anything you want to do you can do here. 
                     Nature is so fantastic, enjoy it. Let it make you happy. Zip. That easy. 
                     We start with a vision in our heart, and we put it on canvas. 
                     For the lack of a better word I call them hangy downs. 
                 </p>
-                <p className="text-base leading-relaxed text-gray-800">
+                <p className={`text-[15px] ${outfit.className} leading-[30px] text-[#2D2D2D]`}>
                     In your world you can create anything you desire. 
                     Absolutely no pressure. Use what happens naturally, don't fight it. 
                     Everybody's different. Trees are different. Let them all be individuals. 
                 </p>
-                <Link href="/book-online" className="uppercase bg-transparent border border-black outline-black rounded-none text-gray-900 px-10 py-4 hover:bg-gray-200 inline-block">BOOK APPOINTMENT</Link>
+                <Link href="/book-online" className="uppercase bg-white border border-black outline-black rounded-none px-10 py-3 hover:bg-gray-200 inline-block text-[14px]">BOOK APPOINTMENT</Link>
             </div>
         </div>
     )
