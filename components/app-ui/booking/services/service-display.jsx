@@ -34,6 +34,11 @@ export default function ServiceDisplay() {
         { image: photo6, title: "Microdermabrasion", duration: "3 hours", price: "$50", select: true },
         { image: photo7, title: "Eyelash Extensions", duration: "1 hour", price: "$45", select: false },
         { image: photo8, title: "Makeup", duration: "1 hour", price: "$10", select: false },
+        { image: photo4, title: "Facials & Peels", duration: "30 mins", price: "$100", select: true },
+        { image: photo5, title: "Hair Treatment", duration: "1 hour", price: "$50", select: false },
+        { image: photo6, title: "Microdermabrasion", duration: "3 hours", price: "$50", select: true },
+        { image: photo7, title: "Eyelash Extensions", duration: "1 hour", price: "$45", select: false },
+        { image: photo8, title: "Makeup", duration: "1 hour", price: "$10", select: false },
     ];
 
     const servicesPerPage = 8; // Number of services per page
