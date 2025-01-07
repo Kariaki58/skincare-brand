@@ -1,3 +1,5 @@
+
+import AppNavBar from "@/components/dashboard/admin/app-nav-bar";
 import { SidebarInsetComponent } from "@/components/dashboard/admin/side-bar-inset-component";
 import { SidebarInset } from "@/components/ui/sidebar";
 
@@ -7,14 +9,11 @@ export default function Page() {
     return (
         <SidebarInset>
             <SidebarInsetComponent />
-            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="aspect-video rounded-xl bg-muted/50" />
-                    <div className="aspect-video rounded-xl bg-muted/50" />
-                    <div className="aspect-video rounded-xl bg-muted/50" />
+            <section className="max-w-screen-lg w-full mx-auto">
+                <div>
+                    <AppNavBar />
                 </div>
-                <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-            </div>
+            </section>
         </SidebarInset>
     )
 }
