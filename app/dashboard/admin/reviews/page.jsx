@@ -1,7 +1,7 @@
 import { SidebarInsetComponent } from "@/components/dashboard/admin/side-bar-inset-component";
 import { SidebarInset } from "@/components/ui/sidebar";
-import Review from "@/components/dashboard/admin/reviews/review";
 import { Suspense } from "react";
+import ReviewDashboard from "@/components/dashboard/admin/reviews/review";
 
 
 export default function Reviews() {
@@ -9,7 +9,7 @@ export default function Reviews() {
         <SidebarInset>
             <SidebarInsetComponent />
             <Suspense fallback={<div>Loading...</div>}>
-                <Review />
+                <ReviewDashboard />
             </Suspense>
         </SidebarInset>
     )
