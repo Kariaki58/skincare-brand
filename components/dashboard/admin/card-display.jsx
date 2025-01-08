@@ -1,17 +1,9 @@
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { Ellipsis, CircleUserRound, Eye, CalendarRange, HandPlatter } from "lucide-react";
+import { Ellipsis, CircleUserRound, Eye, CalendarRange, HandPlatter, Star } from "lucide-react";
 
 
 export default function CardDisplay() {
     return (
-        <section className="grid grid-cols-4 gap-4 mt-10">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-5">
             {/* Small Cards */}
             <div className="col-span-1 bg-white border-2 p-4 shadow-md rounded-xl flex justify-between items-start gap-3 text-gray-600">
                 <div className="flex items-center gap-5">
@@ -33,11 +25,6 @@ export default function CardDisplay() {
                     </div>
                 </div>
                 <Ellipsis size={24}/>
-            </div>
-
-            {/* Large Card */}
-            <div className="col-span-2 row-span-2 bg-white border-2 p-4 shadow-md rounded-xl">
-                gender chart pie chart
             </div>
 
             {/* Small Cards */}

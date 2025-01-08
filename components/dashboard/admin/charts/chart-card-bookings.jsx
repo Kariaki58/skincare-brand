@@ -1,94 +1,81 @@
 "use client"
-
-import { TrendingUp } from "lucide-react"
-import { LabelList, Pie, PieChart } from "recharts"
-
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {
-    ChartConfig,
     ChartContainer,
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
+
+
 const chartData = [
-    { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-    { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-    { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-    { browser: "other", visitors: 90, fill: "var(--color-other)" },
+    { month: "January", bookings: 500, cancellations: 50 },
+    { month: "February", bookings: 420, cancellations: 30 },
+    { month: "March", bookings: 380, cancellations: 40 },
+    { month: "April", bookings: 300, cancellations: 25 },
+    { month: "May", bookings: 450, cancellations: 60 },
+    { month: "June", bookings: 520, cancellations: 70 },
+    { month: "July", bookings: 480, cancellations: 55 },
+    { month: "August", bookings: 600, cancellations: 80 },
+    { month: "September", bookings: 550, cancellations: 65 },
 ]
 
 const chartConfig = {
-    visitors: {
-        label: "Visitors",
-    },
-    chrome: {
-        label: "Chrome",
+    bookings: {
+        label: "Bookings",
         color: "hsl(var(--chart-1))",
     },
-    safari: {
-        label: "Safari",
+    cancellations: {
+        label: "Cancellations",
         color: "hsl(var(--chart-2))",
-    },
-    firefox: {
-        label: "Firefox",
-        color: "hsl(var(--chart-3))",
-    },
-    edge: {
-        label: "Edge",
-        color: "hsl(var(--chart-4))",
-    },
-    other: {
-        label: "Other",
-        color: "hsl(var(--chart-5))",
     },
 }
 
 export function Component() {
     return (
-        <Card className="flex flex-col">
-        <CardHeader className="items-center pb-0">
-            <CardTitle>Pie Chart - Label List</CardTitle>
-            <CardDescription>January - June 2024</CardDescription>
-        </CardHeader>
-        <CardContent className="flex-1 pb-0">
-            <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square max-h-[250px] [&_.recharts-text]:fill-background"
+        <ChartContainer config={chartConfig} className="bg-white border-2 p-4 shadow-md rounded-xl flex justify-between items-start gap-3 text-gray-600 h-96 w-full">
+            <AreaChart
+                accessibilityLayer
+                data={chartData}
+                margin={{
+                    left: 12,
+                    right: 12,
+                }}
             >
-            <PieChart>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                    dataKey="month"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    tickFormatter={(value) => value.slice(0, 3)}
+                />
+                <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    width={40} // Adjust width for spacing
+                />
                 <ChartTooltip
-                content={<ChartTooltipContent nameKey="visitors" hideLabel />}
+                    cursor={false}
+                    content={<ChartTooltipContent indicator="dot" />}
                 />
-                <Pie data={chartData} dataKey="visitors">
-                <LabelList
-                    dataKey="browser"
-                    className="fill-background"
-                    stroke="none"
-                    fontSize={12}
-                    formatter={(value) =>
-                    chartConfig[value]?.label
-                    }
+                <Area
+                    dataKey="bookings"
+                    type="natural"
+                    fill="var(--color-bookings)"
+                    fillOpacity={0.4}
+                    stroke="var(--color-bookings)"
+                    stackId="a"
                 />
-                </Pie>
-            </PieChart>
-            </ChartContainer>
-        </CardContent>
-        <CardFooter className="flex-col gap-2 text-sm">
-            <div className="flex items-center gap-2 font-medium leading-none">
-            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="leading-none text-muted-foreground">
-            Showing total visitors for the last 6 months
-            </div>
-        </CardFooter>
-        </Card>
+                <Area
+                    dataKey="cancellations"
+                    type="natural"
+                    fill="var(--color-cancellations)"
+                    fillOpacity={0.4}
+                    stroke="var(--color-cancellations)"
+                    stackId="a"
+                />
+            </AreaChart>
+        </ChartContainer>
     )
 }
