@@ -70,25 +70,50 @@ export default function ReviewDashboard() {
     return (
         <div className="flex flex-col gap-8 p-4">
         {/* Star Rating Summary */}
-        <div className="bg-white p-4 rounded-md shadow-md">
-            <h2 className="text-lg font-bold mb-4">Star Ratings Summary</h2>
-            <div className="flex flex-col gap-2">
-            {starSummary.map((item) => (
-                <div key={item.stars} className="flex items-center gap-4">
-                <div className="flex items-center gap-1">
-                    {[...Array(item.stars)].map((_, index) => (
-                    <Star key={index} size={16} className="text-yellow-500" />
+        <div className="bg-white shadow-md rounded-lg p-4">
+            <h1 className="text-xl font-bold mb-4 text-gray-600">Star Ratings Summary</h1>
+            <div>
+                <div className="flex items-center mb-2">
+                    {[...Array(5)].map((_, index) => (
+                        <svg
+                            key={index}
+                            className={`w-4 h-4 ${
+                                index < 4.95 ? "text-yellow-300" : "text-gray-300"
+                            } me-1`}
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 22 20"
+                        >
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>
                     ))}
+                    <p className="ms-1 text-sm font-medium text-gray-500">4.95</p>
+                    <p className="ms-1 text-sm font-medium text-gray-500">out of</p>
+                    <p className="ms-1 text-sm font-medium text-gray-500">5</p>
                 </div>
-                <div className="w-full h-4 bg-gray-200 rounded">
-                    <div
-                    className="h-full bg-yellow-500 rounded"
-                    style={{ width: `${item.percentage}%` }}
-                    ></div>
-                </div>
-                <span className="text-gray-600">({item.count})</span>
-                </div>
-            ))}
+                <p className="text-sm font-medium text-gray-500">1,745 global ratings</p>
+                {[5, 4, 3, 2, 1].map((star, index) => (
+                    <div key={index} className="flex items-center mt-4">
+                        <a
+                            href={`?star=${star}`}
+                            className="text-sm font-medium text-blue-600 hover:underline"
+                        >
+                            {star} star
+                        </a>
+                        <div className="w-2/4 h-5 mx-4 bg-gray-200 rounded">
+                            <div
+                                className="h-5 bg-yellow-300 rounded"
+                                style={{
+                                    width: `${star * 14}%`,
+                                }}
+                            ></div>
+                        </div>
+                        <span className="text-sm font-medium text-gray-500">
+                            {star * 14}%
+                        </span>
+                    </div>
+                ))}
             </div>
         </div>
 
@@ -126,7 +151,7 @@ export default function ReviewDashboard() {
                 </TableCell>
                 <TableCell className="flex">
                     {[...Array(review.rating)].map((_, index) => (
-                    <Star key={index} size={13} className="text-yellow-500" />
+                    <Star fill="bg-yellow-500" key={index} size={13} className="text-yellow-500" />
                     ))}
                 </TableCell>
                 <TableCell className="text-right">{review.date}</TableCell>
