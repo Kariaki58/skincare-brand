@@ -12,11 +12,6 @@ export default function Page() {
         <SidebarInset>
             <SidebarInsetComponent />
             <div>
-                <section className="max-w-screen-lg w-full mx-auto px-5 xl:px-0">
-                    <div>
-                        <AppNavBar />
-                    </div>
-                </section>
                 <section className="px-5 max-w-screen-xl mx-auto">
                     <CardDisplay />
                 </section>

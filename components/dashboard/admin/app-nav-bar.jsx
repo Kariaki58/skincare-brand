@@ -4,7 +4,7 @@ import { Bell, Search } from "lucide-react";
 
 export default function AppNavBar() {
     return (
-        <nav className="bg-white p-4 shadow-md flex flex-wrap items-center justify-between rounded-xl border border-gray-200">
+        <nav className="bg-white p-4 shadow-md flex flex-wrap items-center justify-between border border-gray-200">
             {/* Left Section */}
             <div className="flex items-center gap-4 w-full lg:w-auto">
                 <h1 className="font-bold text-xl lg:text-2xl text-gray-900">Overview</h1>
