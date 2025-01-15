@@ -82,9 +82,7 @@ export default function Page() {
                     </h1>
                 </div>
             </header>
-            <Link href='/book' className="border border-black px-10 py-5 text-black text-sm hover:bg-gray-50 hover:text-gray-700 transition-all duration-300 ease-in-out block text-center">
-                BOOK YOUR APPOINTMENT TODAY
-            </Link>
+
             <section className="max-w-screen-xl mx-auto my-10">
                 <div className="grid grid-cols-3 gap-2">
                     {groupedImages.map((columnImages, columnIndex) => (

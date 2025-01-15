@@ -25,6 +25,7 @@ import {
     SidebarRail,
 } from "@/components/ui/sidebar";
 import profile from "@/public/profile-1.jpg";
+import Link from "next/link";
 
 // This is sample data.
 
@@ -91,7 +92,9 @@ export function AppSidebar({ ...props }) {
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
-                <TeamSwitcher teams={data.teams} />
+                <Link href="/">
+                    <TeamSwitcher teams={data.teams} />
+                </Link>
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />

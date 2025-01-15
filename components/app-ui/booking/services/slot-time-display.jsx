@@ -143,7 +143,7 @@ export default function SlotTimeDisplay() {
                 )}
             </AnimatePresence>
             {selectedSlotIndex !== null && (
-                <ProceedLink nextLink="/book/confirm" />
+                <ProceedLink nextLink="/book/confirm" disabled/>
             )}
         </section>
         

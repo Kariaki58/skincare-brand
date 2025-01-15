@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Outfit } from "next/font/google";
 import { Spectral } from "next/font/google";
 import { Shippori_Antique } from "next/font/google";
+import { signIn } from "@/auth";
+
 
 const outfit = Outfit({
     subsets: ["latin"],
@@ -20,6 +22,7 @@ const shipporiAntique = Shippori_Antique({
 
 
 export default function Navigation() {
+    const isAdmin = true;
     return (
         <nav className="flex justify-between items-center p-4 max-w-screen-xl mx-auto">
             <ul className={`flex gap-10 text-[12px] text-[#38271F] font-outfit tracking-widest ${outfit.className} antialiased`}>
@@ -45,7 +48,15 @@ export default function Navigation() {
                     <Link href="/contact">CONTACT</Link>
                 </li>
                 <li className="hover:underline">
-                    <Link href="/book">BOOK ONLINE</Link>
+                    <form
+                        action={async () => {
+                            "use server"
+                            await signIn("google")
+                        }}
+                    >
+                        <button type="submit">Signin with Google</button>
+                    </form>
+                    {/* <Link href={isAdmin ? '/dashboard/admin' : '/dashboard/user'}>PROFILE</Link> */}
                 </li>
             </ul>
         </nav>

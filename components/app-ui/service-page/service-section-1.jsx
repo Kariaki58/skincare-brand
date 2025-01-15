@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import clientFirst from "@/public/client-1.jpg";
 import clientSecond from "@/public/client-2.jpg";
 import { Spectral, Shippori_Antique, Outfit } from "next/font/google";
@@ -55,7 +54,6 @@ export default function ServiceSection1() {
                         let's play. Automatically, all of these beautiful, beautiful things will happen. 
                         Exercising the imagination.
                         </p>
-                        <Link href="/book-online" className="uppercase bg-transparent border bg-white border-black outline-black rounded-none text-gray-900 px-10 py-4 hover:bg-gray-200 inline-block text-[12px]">BOOK APPOINTMENT TODAY</Link>
                     </div>
                 </div>
             </div>

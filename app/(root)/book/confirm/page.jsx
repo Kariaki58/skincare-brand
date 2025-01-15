@@ -38,7 +38,7 @@ export function AlertDialogDemo() {
 export default function Page() {
     return (
         <section className="min-h-screen">
-            <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
+            <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 my-10 mx-auto">
                 <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Confirm Your Booking</h1>
                 <div className="space-y-4">
                     <div className="flex justify-between">

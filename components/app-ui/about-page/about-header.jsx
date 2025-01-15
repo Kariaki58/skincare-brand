@@ -1,6 +1,5 @@
 import Image from "next/image";
 import photoAbout1 from "@/public/about-images/photo-about-1.jpg";
-import Link from "next/link";
 import { Spectral, Outfit } from "next/font/google";
 
 
@@ -41,7 +40,6 @@ export default function AboutHeader() {
                     Absolutely no pressure. Use what happens naturally, don't fight it. 
                     Everybody's different. Trees are different. Let them all be individuals. 
                 </p>
-                <Link href="/book-online" className="uppercase bg-white border border-black outline-black rounded-none px-10 py-3 hover:bg-gray-200 inline-block text-[14px]">BOOK APPOINTMENT</Link>
             </div>
         </div>
     )

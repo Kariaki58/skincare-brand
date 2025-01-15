@@ -1,11 +1,29 @@
-import Link from "next/link";
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
+export default function ProceedLink({ nextLink, disable = false }) {
+    if (!nextLink) return null;
 
-export default function ProceedLink({ nextLink }) {
-        if (!nextLink) return;
+    const handleClick = (e) => {
+        if (disable) {
+        e.preventDefault();
+        }
+    };
+
     return (
         <div className="flex justify-center mt-10">
-            <Link className="bg-[#7E5A4B] hover:bg-[#b17f6a] text-white px-5 py-2 rounded-lg" href={nextLink}>Proceed</Link>
+        <Link
+            href={disable ? '#' : nextLink}
+            onClick={handleClick}
+            className={cn(
+            'px-5 py-2 rounded-lg text-white',
+            disable
+                ? 'bg-[#f3c4af] cursor-not-allowed'
+                : 'bg-[#7E5A4B] hover:bg-[#b17f6a]'
+            )}
+        >
+            Proceed
+        </Link>
         </div>
-    )
+    );
 }
