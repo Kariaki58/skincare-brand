@@ -20,7 +20,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
     Pagination,
@@ -287,76 +287,78 @@ export default function Page() {
                 </div>
             </div>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-screen-lg overflow-x-auto">
-                <Table>
-                    <TableCaption>A list of your customers</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[100px]">ID</TableHead>
-                            <TableHead className="whitespace-nowrap">NAME</TableHead>
-                            <TableHead className="whitespace-nowrap">SERVICES</TableHead>
-                            <TableHead className="whitespace-nowrap">EMAIL</TableHead>
-                            <TableHead className="whitespace-nowrap">PHONE</TableHead>
-                            <TableHead className="whitespace-nowrap">DATE</TableHead>
-                            <TableHead className="whitespace-nowrap">TOTAL DURATION</TableHead>
-                            <TableHead className="whitespace-nowrap">TOTAL PRICE</TableHead>
-                            <TableHead className="whitespace-nowrap">TIME FRAME</TableHead>
-                            <TableHead>ACTIONS</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {paginatedBookings.map((booking) => (
-                            <TableRow key={booking.id}>
-                                <TableCell className="font-medium">{booking.id}</TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-10 h-10 rounded-full relative">
-                                            <Image
-                                                src={booking.profile}
-                                                alt={booking.name}
-                                                fill="true"
-                                                priority
-                                                className="object-cover z-10 rounded-full"
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Table>
+                        <TableCaption>A list of your customers</TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-[100px]">ID</TableHead>
+                                <TableHead className="whitespace-nowrap">NAME</TableHead>
+                                <TableHead className="whitespace-nowrap">SERVICES</TableHead>
+                                <TableHead className="whitespace-nowrap">EMAIL</TableHead>
+                                <TableHead className="whitespace-nowrap">PHONE</TableHead>
+                                <TableHead className="whitespace-nowrap">DATE</TableHead>
+                                <TableHead className="whitespace-nowrap">TOTAL DURATION</TableHead>
+                                <TableHead className="whitespace-nowrap">TOTAL PRICE</TableHead>
+                                <TableHead className="whitespace-nowrap">TIME FRAME</TableHead>
+                                <TableHead>ACTIONS</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {paginatedBookings.map((booking) => (
+                                <TableRow key={booking.id}>
+                                    <TableCell className="font-medium">{booking.id}</TableCell>
+                                    <TableCell>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-10 h-10 rounded-full relative">
+                                                <Image
+                                                    src={booking.profile}
+                                                    alt={booking.name}
+                                                    fill="true"
+                                                    priority
+                                                    className="object-cover z-10 rounded-full"
+                                                />
+                                            </div>
+                                            {booking.name}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="whitespace-nowrap">
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <p className="underline text-blue-700 hover:cursor-pointer">{booking.bookingServices.length}</p>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p className="text-lg">{booking.bookingServices.join(" | ")}</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </TableCell>
+                                    <TableCell className="whitespace-nowrap">{booking.email}</TableCell>
+                                    <TableCell className="whitespace-nowrap">{booking.phone}</TableCell>
+                                    <TableCell className="whitespace-nowrap">{booking.date}</TableCell>
+                                    <TableCell className="whitespace-nowrap">{booking.totalDuration}</TableCell>
+                                    <TableCell className="whitespace-nowrap">{booking.totalPrice}</TableCell>
+                                    <TableCell className="whitespace-nowrap">{booking.timeFrame}</TableCell>
+                                    <TableCell>
+                                        <div className="flex gap-2 justify-center">
+                                            <CircleCheckBig
+                                                size={24}
+                                                className="text-green-700 hover:text-green-900 hover:cursor-pointer"
+                                                title="Confirm Booking"
+                                            />
+                                            <X
+                                                size={24}
+                                                className="text-red-700 hover:text-red-900 hover:cursor-pointer"
+                                                title="Cancel Booking"
                                             />
                                         </div>
-                                        {booking.name}
-                                    </div>
-                                </TableCell>
-                                <TableCell className="whitespace-nowrap">
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <p className="underline text-blue-700 hover:cursor-pointer">{booking.bookingServices.length}</p>
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p className="text-lg">{booking.bookingServices.join(" | ")}</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-                                </TableCell>
-                                <TableCell className="whitespace-nowrap">{booking.email}</TableCell>
-                                <TableCell className="whitespace-nowrap">{booking.phone}</TableCell>
-                                <TableCell className="whitespace-nowrap">{booking.date}</TableCell>
-                                <TableCell className="whitespace-nowrap">{booking.totalDuration}</TableCell>
-                                <TableCell className="whitespace-nowrap">{booking.totalPrice}</TableCell>
-                                <TableCell className="whitespace-nowrap">{booking.timeFrame}</TableCell>
-                                <TableCell>
-                                    <div className="flex gap-2 justify-center">
-                                        <CircleCheckBig
-                                            size={24}
-                                            className="text-green-700 hover:text-green-900 hover:cursor-pointer"
-                                            title="Confirm Booking"
-                                        />
-                                        <X
-                                            size={24}
-                                            className="text-red-700 hover:text-red-900 hover:cursor-pointer"
-                                            title="Cancel Booking"
-                                        />
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Suspense>
                 <Pagination>
                 <PaginationContent>
                     <PaginationItem>
