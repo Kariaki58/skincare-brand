@@ -1,4 +1,5 @@
 "use client";
+import React, { Suspense } from "react";
 import GalleryUploadButton from "@/components/dashboard/admin/gallery-upload-button/gallery-upload-button";
 import { SidebarInsetComponent } from "@/components/dashboard/admin/side-bar-inset-component";
 import {
@@ -10,7 +11,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Trash2 } from 'lucide-react';
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { SidebarInset } from "@/components/ui/sidebar";
 import photo1 from "@/public/gallery/cute-photo-1.jpg";
@@ -26,8 +27,8 @@ import photo10 from "@/public/gallery/cute-photo-10.jpg";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Gallery() {
-    const allImages = [photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo4, photo5, photo6, photo7, photo8, photo9, photo10];
+function GalleryComponent() {
+    const allImages = [photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10];
     const imagesPerPage = 9;
     const columns = 3;
 
@@ -117,5 +118,13 @@ export default function Gallery() {
                 </PaginationContent>
             </Pagination>
         </SidebarInset>
+    );
+}
+
+export default function Gallery() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <GalleryComponent />
+        </Suspense>
     );
 }
