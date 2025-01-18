@@ -6,22 +6,15 @@ import Review from "@/components/app-ui/Reviews";
 import ClientShowCase from "@/components/app-ui/ClientShowCase";
 
 
-export default async function Home() {
-  const data = await fetch('https://skincare-brand.vercel.app/api/products')
-
-  const posts = await data.json()
-  console.log(posts)
+export default function Home() {
   return (
     <div>
-      <ul>
-        {JSON.stringify(posts)}
-      </ul>
-      {/* <Header />
+      <Header />
       <SectionHeadline />
       <ServiceSection />
       <CategorySection />
       <Review />
-      <ClientShowCase /> */}
+      <ClientShowCase />
     </div>
   );
 }
