@@ -1,19 +1,18 @@
 import { connectToDatabase } from "@/lib/mongodb";
 import User from "@/app/models/user";
 
+export const dynamic = 'force-static';
 
 export async function GET() {
-    try {
-        await connectToDatabase();
-
-        const users = await User.find({});
-        console.log(users)
-        const data = await fetch('https://api.vercel.app/blog')
-        const posts = await data.json()
-
-        return Response.json(posts)
-
-    } catch (error) {
-        return Response.status(500).json({ error: "Something went wrong" })
-    }
+    await connectToDatabase();
+    const users = await User.find()
+    console.log(users)
+    const res = await fetch('https://api.vercel.app/blog', {
+        headers: {
+        'Content-Type': 'application/json',
+        },
+    })
+    const data = await res.json()
+    
+    return Response.json({ data })
 }
