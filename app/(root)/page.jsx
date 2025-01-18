@@ -6,15 +6,22 @@ import Review from "@/components/app-ui/Reviews";
 import ClientShowCase from "@/components/app-ui/ClientShowCase";
 
 
-export default function Home() {
+export default async function Home() {
+  const data = await fetch('http://localhost:3000/api/products')
+  const posts = await data.json()
   return (
     <div>
-      <Header />
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul>
+      {/* <Header />
       <SectionHeadline />
       <ServiceSection />
       <CategorySection />
       <Review />
-      <ClientShowCase />
+      <ClientShowCase /> */}
     </div>
   );
 }
