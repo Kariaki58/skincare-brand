@@ -7,7 +7,7 @@ import ClientShowCase from "@/components/app-ui/ClientShowCase";
 
 
 export default async function Home() {
-  const data = await fetch('http://localhost:3000/api/products')
+  const data = await fetch('https://skincare-brand.vercel.app/api/products')
 
   const posts = await data.json()
   console.log(posts)
