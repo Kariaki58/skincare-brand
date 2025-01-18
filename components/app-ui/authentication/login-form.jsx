@@ -9,6 +9,15 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";  
+
+
 export function LoginForm({
     className,
     ...props
@@ -60,18 +69,15 @@ export function LoginForm({
                         required
                     />
                     </div>
-                    <div className="grid gap-2">
-                    <div className="flex items-center">
-                        <Label htmlFor="password">Password</Label>
-                        <a
-                        href="#"
-                        className="ml-auto text-sm underline-offset-4 hover:underline"
-                        >
-                        Forgot your password?
-                        </a>
-                    </div>
-                    <Input id="password" type="password" required />
-                    </div>
+                    <Select className="w-full">
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Customer" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="customer">Customer</SelectItem>
+                            <SelectItem value="admin">Admin</SelectItem>
+                        </SelectContent>
+                    </Select>
                     <Button type="submit" className="w-full">
                     Login
                     </Button>
