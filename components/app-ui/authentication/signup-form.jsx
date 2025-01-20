@@ -1,21 +1,39 @@
 "use client";
 import { GalleryVerticalEnd } from "lucide-react"
-
+import { useState } from "react";
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
+import { authEmailSchema } from "@/schemas/auth-email-schema"
+import { z } from "zod"
 
 
 export function SignUpForm({
     className,
     ...props
 }) {
+        const [email, setEmail] = useState("")
+        const [error, setError] = useState("")
+    
+        const handleSubmit = (e) => {
+            e.preventDefault()
+            
+            try {
+                authEmailSchema.parse({ email })
+                setError("")
+                console.log("Valid email:", email)
+            } catch (err) {
+                if (err instanceof z.ZodError) {
+                    setError(err.errors[0].message)
+                }
+            }
+        }
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
-        <form>
+        <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center gap-2">
                 <a
@@ -43,7 +61,11 @@ export function SignUpForm({
                     type="email"
                     placeholder="m@example.com"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={cn(error && "border-red-500")}
                 />
+                {error && <p className="text-sm text-red-500">{error}</p>}
                 </div>
                 <Button type="submit" className="w-full">
                 Sign Up
