@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { GalleryVerticalEnd } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -9,7 +9,7 @@ import Link from "next/link"
 import { signIn } from "next-auth/react"
 
 
-export function LoginForm({
+export function SignUpForm({
     className,
     ...props
 }) {
@@ -29,9 +29,9 @@ export function LoginForm({
                 </a>
                 <h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
                 <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <Link href="/auth/signup" className="underline underline-offset-4">
-                    Sign up
+                Already have an account?{" "}
+                <Link href="/auth/signin" className="underline underline-offset-4">
+                    Sign in
                 </Link>
                 </div>
             </div>
@@ -46,7 +46,7 @@ export function LoginForm({
                 />
                 </div>
                 <Button type="submit" className="w-full">
-                Sign In
+                Sign Up
                 </Button>
             </div>
             <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

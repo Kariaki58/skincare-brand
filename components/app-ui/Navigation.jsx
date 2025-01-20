@@ -1,12 +1,12 @@
 "use client"
 
+import { useSession, signIn } from "next-auth/react"
+
 import Link from "next/link";
 import { Outfit } from "next/font/google";
 import { Spectral } from "next/font/google";
 import { Shippori_Antique } from "next/font/google";
 import { Button } from "../ui/button";
-import { signIn } from "next-auth/react";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 
@@ -28,12 +28,7 @@ const shipporiAntique = Shippori_Antique({
 
 export default function Navigation() {
     const { data: session } = useSession()
-
     console.log(session)
-
-    if (session?.user?.role === "admin") {
-        return <p>You are an admin, welcome!</p>
-    }
     return (
         <nav className="flex justify-between items-center p-4 max-w-screen-xl mx-auto">
             <ul className={`flex gap-10 text-[12px] text-[#38271F] font-outfit tracking-widest ${outfit.className} antialiased`}>
@@ -60,12 +55,13 @@ export default function Navigation() {
                 </li>
                 <li className="hover:underline">
                     {
-                        !session ? (
-                            <Button variant="secondary" className="text-[#38271F]" onClick={() => signIn("google")}>Login</Button>
-                        ): (
-                            <Link href={session?.user?.role === "admin" ? "/dashboard/admin" : "/dashboard/admin"}>
-                                <Image src={session?.user?.image} alt={session?.user?.name} width={40} height={40} className="rounded-full" />
+                        session? (
+                            <Link href={session?.user?.role === "user" ? "/dashboard/user" : "/dashboard/admin"}>
+                                {/* <Image src="/user.png" alt="User" width={30} height={30} /> */}
+                                <span className="ml-2">Profile</span>
                             </Link>
+                        ) : (
+                            <Button variant="link" className="text-[#38271F]" onClick={() => signIn({ callbackUrl: "/" })}>Login</Button>
                         )
                     }
                 </li>

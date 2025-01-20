@@ -60,7 +60,7 @@ export function NavUser({user}) {
                 sideOffset={4}
             >
                 <DropdownMenuItem
-                onClick={() => signOut({ redirectTo: "/" })}
+                onClick={() => signOut({ callbackUrl: "/" })}
                 >
                     <LogOut />
                     Log out
