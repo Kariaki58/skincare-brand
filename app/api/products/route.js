@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "@/lib/mongoose";
 import User from "@/models/user";
 
 export const dynamic = 'force-static';
