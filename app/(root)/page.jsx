@@ -13,8 +13,8 @@ export default function Home() {
       <SectionHeadline />
       <ServiceSection />
       <CategorySection />
-      <Review />
-      <ClientShowCase />
+      {/* <Review /> */}
+      {/* <ClientShowCase /> */}
     </div>
   );
 }

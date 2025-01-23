@@ -35,7 +35,7 @@ export default function Footer() {
             <FooterWorkingHours />
             <FooterImage />
             <FooterLinks />
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center max-w-screen-xl mx-auto  space-y-10 md:space-y-0 py-5">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center max-w-screen-xl mx-auto  space-y-10 md:space-y-0 py-5 px-5">
                 <div className="max-w-lg">
                     <h1 className={`${spectral.className} text-[35px] font-bold text-[#A7948B] uppercase`}>Bare Beauty</h1>
                     <h2 className={`text-sm tracking-widest uppercase leading-[14.4px] ${shipporiAntique.className} text-[#38271F] mt-2`}>Aesthetics Clinic</h2>

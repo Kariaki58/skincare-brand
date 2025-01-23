@@ -23,7 +23,7 @@ export default function CategorySection() {
         <section className="max-w-screen-xl mx-auto mt-36">
             <h3 className={`uppercase text-[#2D2D2D] text-center text-[11px] ${shipporiAntique.className}`}>aesthetics clinic offering skin treatments, lashes & BEAUTY SERVICES</h3>
             <h1 className={`uppercase text-center text-[54px] ${playfair_display.className} text-[#A7948B] mt-5`}>EXPLORE BARE BEAUTY CLINIC</h1>
-            <div className="grid grid-cols-3 gap-10 items-center my-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-center my-20">
                 <Link href="/gallery" className="h-[30rem] shadow-xl shadow-black relative hover:cursor-pointer hover:opacity-80 transition-opacity duration-700">
                     <Image
                         src={lasheSection}
