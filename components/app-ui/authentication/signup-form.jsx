@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
 import { authEmailSchema } from "@/schemas/auth-email-schema"
+import { EmailVerification } from "@/actions/auth-email-verify";
 import { z } from "zod"
 
 
@@ -24,7 +25,8 @@ export function SignUpForm({
             try {
                 authEmailSchema.parse({ email })
                 setError("")
-                console.log("Valid email:", email)
+                EmailVerification(email)
+                // console.log("Valid email:", email)
             } catch (err) {
                 if (err instanceof z.ZodError) {
                     setError(err.errors[0].message)
@@ -36,15 +38,15 @@ export function SignUpForm({
         <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center gap-2">
-                <a
-                href="#"
+                <Link
+                href="/"
                 className="flex flex-col items-center gap-2 font-medium"
                 >
                 <div className="flex h-8 w-8 items-center justify-center rounded-md">
                     <GalleryVerticalEnd className="size-6" />
                 </div>
                 <span className="sr-only">Acme Inc.</span>
-                </a>
+                </Link>
                 <h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
                 <div className="text-center text-sm">
                 Already have an account?{" "}

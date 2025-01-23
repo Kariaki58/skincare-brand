@@ -2,7 +2,6 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/user";
 import { connectToDatabase } from "@/lib/mongoose";
-import bcrypt from "bcrypt";
 
 export const options = {
     providers: [
@@ -25,6 +24,7 @@ export const options = {
                             email: profile.email,
                             googleId: profile.sub,
                             avatar: profile.picture,
+                            isVerified: true,
                             role: userRole,
                             provider: "google",
                         });
@@ -45,7 +45,6 @@ export const options = {
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "email", placeholder: "your-email" },
-                password: { label: "Password", type: "password", placeholder: "your-password" },
             },
             async authorize(credentials) {
                 try {
@@ -53,21 +52,10 @@ export const options = {
 
                     let user = await User.findOne({ email: credentials.email }).exec();
                     if (!user) {
-                        // Create new user with hashed password
-                        const hashedPassword = await bcrypt.hash(credentials.password, 10);
-                        user = await User.create({
-                            name: credentials.email.split("@")[0], // Default name as part of email
-                            email: credentials.email,
-                            password: hashedPassword,
-                            role: "user",
-                            provider: "credentials",
-                        });
+                        return null;
                     }
-
-                    // Validate password
-                    const isPasswordMatch = await bcrypt.compare(credentials.password, user.password);
-                    if (!isPasswordMatch) {
-                        throw new Error("Invalid email or password");
+                    if (!user.isVerified) {
+                        return null;
                     }
 
                     return {
@@ -97,4 +85,11 @@ export const options = {
             return session;
         },
     },
+    session: {
+        strategy: 'jwt',
+    },
+    jwt: {
+        secret: process.env.NEXTAUTH_SECRET,
+    },
+    secret: process.env.NEXTAUTH_SECRET,
 };

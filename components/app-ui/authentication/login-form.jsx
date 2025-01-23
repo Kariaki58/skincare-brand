@@ -10,6 +10,7 @@ import Link from "next/link"
 import { signIn } from "next-auth/react"
 import { authEmailSchema } from "@/schemas/auth-email-schema"
 import { z } from "zod"
+import { EmailVerification } from "@/actions/auth-email-verify"
 
 export function LoginForm({ className, ...props }) {
     const [email, setEmail] = useState("")
@@ -20,7 +21,11 @@ export function LoginForm({ className, ...props }) {
         try {
             authEmailSchema.parse({ email })
             setError("")
-            console.log("Valid email:", email)
+            if (EmailVerification(email)) {
+                console.log("Email sent to", email)
+            } else {
+                console.log("Email not sent")
+            }
         } catch (err) {
             if (err instanceof z.ZodError) {
                 setError(err.errors[0].message)
