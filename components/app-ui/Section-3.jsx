@@ -16,7 +16,7 @@ const outfit = Outfit({
 export default function ServiceSection() {
     return (
         <section className="max-w-screen-xl mx-auto my-20 px-4 sm:px-8 md:px-12">
-            <div className="flex flex-col-reverse md:flex-row gap-14 items-center">
+            <div className="flex flex-col md:flex-row gap-14 items-center">
                 {/* Image Container */}
                 <div className="relative w-full h-[30rem] sm:h-[25rem] md:h-[40rem] md:w-[50%] border border-black p-2 rounded-full flex items-center justify-center">
                     <Image

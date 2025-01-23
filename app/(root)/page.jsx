@@ -4,6 +4,7 @@ import ServiceSection from "@/components/app-ui/Section-3";
 import CategorySection from "@/components/app-ui/Section-4";
 import Review from "@/components/app-ui/Reviews";
 import ClientShowCase from "@/components/app-ui/ClientShowCase";
+import FeaturedProducts from "@/components/app-ui/shop/featured-products";
 
 
 export default function Home() {
@@ -13,8 +14,9 @@ export default function Home() {
       <SectionHeadline />
       <ServiceSection />
       <CategorySection />
-      {/* <Review /> */}
-      {/* <ClientShowCase /> */}
+      <FeaturedProducts />
+      <Review />
+      <ClientShowCase />
     </div>
   );
 }

@@ -23,7 +23,7 @@ const shappori_antique = Shippori_Antique({
 
 export default function ClientShowCase() {
     return (
-        <section className="max-w-screen-xl mx-auto my-20">
+        <section className="max-w-screen-xl mx-auto my-20 hidden lg:block">
             <div className="flex gap-10 mb-12 items-center">
                 <div className="flex">
                     <div className="h-[30rem] w-96 border-8 border-white p-10 relative -left-36">

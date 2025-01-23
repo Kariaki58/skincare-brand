@@ -37,7 +37,7 @@ export default function CategorySection() {
                         <h2 className="text-3xl font-bold uppercase">The Gallery</h2>
                     </div>
                 </Link>
-                <Link href="/services" className="h-[40rem] shadow-xl shadow-black relative hover:cursor-pointer hover:opacity-80 transition-opacity duration-700">
+                <Link href="/services" className="h-[40rem] shadow-xl order-2 lg:order-none shadow-black relative hover:cursor-pointer hover:opacity-80 transition-opacity duration-700">
                     <Image
                         src={eyeLashes}
                         alt="co founder image for the clinic"

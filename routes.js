@@ -4,6 +4,7 @@ export const PublicRoutes = [
     "/services",
     "/gallery",
     "/contact",
+    "/shop"
 ]
 
 export const PrivateRoutes = [
