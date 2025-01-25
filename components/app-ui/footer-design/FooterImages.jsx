@@ -8,8 +8,8 @@ import Image5 from "@/public/skincare-girl.jpg";
 
 export default function FooterImage() {
     return (
-        <section className="flex gap-1 px-20">
-            <div className="h-52 w-96 relative">
+        <section className="grid grid-cols-2 lg:grid-cols-5 gap-4 px-5">
+            <div className="h-52 w-full relative">
                 <Image
                     src={Image1}
                     alt="country size girl"
@@ -18,7 +18,7 @@ export default function FooterImage() {
                     priority
                 />
             </div>
-            <div className="h-52 w-96 relative">
+            <div className="h-52 w-full relative">
                 <Image
                     src={Image2}
                     alt="cute 1"
@@ -27,7 +27,7 @@ export default function FooterImage() {
                     priority
                 />
             </div>
-            <div className="h-52 w-96 relative">
+            <div className="h-52 w-full relative">
                 <Image
                     src={Image3}
                     alt="eye lashes section"
@@ -36,7 +36,7 @@ export default function FooterImage() {
                     priority
                 />
             </div>
-            <div className="h-52 w-96 relative">
+            <div className="h-52 w-full relative">
                 <Image
                     src={Image4}
                     alt="image"
@@ -45,7 +45,7 @@ export default function FooterImage() {
                     priority
                 />
             </div>
-            <div className="h-52 w-96 relative">
+            <div className="h-52 w-full relative hidden lg:block">
                 <Image
                     src={Image5}
                     alt="skincare girl"
@@ -55,5 +55,5 @@ export default function FooterImage() {
                 />
             </div>
         </section>
-    )
+    );
 }

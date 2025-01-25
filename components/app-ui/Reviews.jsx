@@ -33,7 +33,7 @@ export default function Review() {
     };
     
     return (
-        <section className="max-w-screen-xl mx-auto my-28 p-5">
+        <section className="max-w-screen-xl mx-auto my-20 p-5">
             <div className="flex flex-col items-center w-full max-w-5xl mx-auto">
                 <p className="text-4xl italic text-center text-[#8a6251]">
                     "{reviews[currentIndex].text}"
