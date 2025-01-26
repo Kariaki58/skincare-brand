@@ -25,30 +25,23 @@ export default function TeamSection() {
     return (
         <section className="my-20 px-6 lg:px-20">
             <div className="text-center mb-12 max-w-4xl mx-auto">
-                <h1 className={`uppercase text-[#A7948B] text-[60px] font-bold mb-4 ${spectral.className} antialiased`}>meet our team</h1>
+                <h1 className={`uppercase text-[#A7948B] text-[60px] font-bold mb-4 ${spectral.className} antialiased`}>meet the Salon Owner</h1>
                 <p className={`leading-[30px] text-[#2D2D2D] ${outfit.className} text-[15px]`}>
-                    Does your team have years of experience or something great to promote? 
-                    Everybody's different. Trees are different. Let them all be individuals. 
-                    Anything you want to do you can do here. Nature is so fantastic, enjoy it.
+                    Victoria Oladejo is dedicated to providing personalized braiding and weaving services 
+                    that cater to your unique style and preferences. Whether you're looking for something 
+                    classic or trendy, we make sure every braid is perfectly styled and secured.
                 </p>
             </div>
             <div className="flex flex-wrap gap-10 justify-center">
                 {[{
                     image: photoAbout3,
-                    name: "Tiffany",
+                    name: "Victoria oladejo",
                     role: "SALON OWNER",
-                }, {
-                    image: photoAbout4,
-                    name: "Jamie",
-                    role: "LASH ARTIST",
-                }, {
-                    image: photoAbout5,
-                    name: "SAMMY",
-                    role: "Skin Expert",
-                }].map((member, index) => (
+                }
+                ].map((member, index) => (
                     <div
                         key={index}
-                        className="relative group h-[30rem] w-80 shadow-xl overflow-hidden"
+                        className="relative group h-[30rem] w-96 shadow-xl overflow-hidden"
                     >
                         <Image
                             src={member.image}

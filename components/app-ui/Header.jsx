@@ -12,7 +12,7 @@ const playfair_display = Playfair_Display({
 
 export default function Header() {
     return (
-        <header className="relative h-screen w-full bg-gradient-to-br from-[rgb(2,248,1)] to-[rgb(248,248,0)] max-w-screen-xl mx-auto">
+        <header className="relative h-screen w-full max-w-screen-xl mx-auto">
             <Image
                 src={headerImage}
                 alt="background image for the hair salon banner"

@@ -37,11 +37,11 @@ export default function Footer() {
             <FooterLinks />
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center max-w-screen-xl mx-auto  space-y-10 md:space-y-0 py-5 px-5">
                 <div className="max-w-lg">
-                    <h1 className={`${spectral.className} text-[35px] font-bold text-[#A7948B] uppercase`}>Bare Beauty</h1>
-                    <h2 className={`text-sm tracking-widest uppercase leading-[14.4px] ${shipporiAntique.className} text-[#38271F] mt-2`}>Aesthetics Clinic</h2>
+                    <h1 className={`${spectral.className} text-[35px] font-bold text-[#38271F] uppercase`}>Victoria Hair</h1>
+                    <h2 className={`text-sm tracking-widest uppercase leading-[14.4px] ${shipporiAntique.className} text-[#38271F] mt-2`}>Braiding and Weaving Center</h2>
                     <p className={`text-gray-600 mt-4 ${outfit.className} leading-relaxed`}>
-                        Bare Beauty is an aesthetics & beauty clinic located in Yorkville, 
-                        Toronto, offering a variety of beauty and skin services.
+                        Victoria Hair Braiding and Weaving Center is a premier hair salon located in Charlotte, NC, specializing 
+                        in a wide range of hair braiding, weaving, and styling services designed to celebrate your unique beauty.
                     </p>
                     <div className="flex mt-6 space-x-2">
                         <Link href="https://www.instagram.com">
@@ -110,9 +110,9 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className={`flex justify-center pt-10 pb-5 ${shipporiAntique.className} text-[10px]`}>
+            {/* <div className={`flex justify-center pt-10 pb-5 ${shipporiAntique.className} text-[10px]`}>
                 <p className="text-[#38271F]">© 2024 <span>BUSSINESS NAME</span> | AWESOME DESIGN AGENCY</p>
-            </div>
+            </div> */}
         </footer>
     )
 }

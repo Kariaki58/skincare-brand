@@ -45,11 +45,11 @@ export default function ClientShowCase() {
                 <div className="max-w-sm">
                     <h1 className={`text-[45px] ${playfair_display.className} text-[#38271F] mb-4 leading-[54px]`}>EXPLORE OUR PAST CLIENTS</h1>
                     <p className={`text-[14px] ${outfit.className} leading-[25.2px] text-[#2D2D2D] mb-6`}>
-                        Write about your ideal target audience & what problem you solve. 
-                        You are only limited by your imagination. By now you should be quite happy about 
-                        what's happening here, things will happen.
+                        The problem we solve is twofold: finding a salon that understands your unique hair 
+                        needs and delivering consistent, quality results. We provide expert care for all hair types, 
+                        from braids and weaves to natural hair treatments, ensuring every client leaves feeling confident, stylish, and satisfied.
                     </p>
-                    <Link href="/gallery" className={`text-base leading-[14.4px] text-underline-offset-2 underline ${shappori_antique.className} text-[#A7948B]`}>
+                    <Link href="/gallery" className={`text-base leading-[14.4px] text-underline-offset-2 underline ${shappori_antique.className} text-[#38271F]`}>
                         VIEW FULL GALLERY
                     </Link>
                 </div>

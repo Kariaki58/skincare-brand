@@ -24,17 +24,19 @@ const outfit = Outfit({
 
 export default function SectionHeadline() {
     return (
-        <section className="mx-auto max-w-screen-xl mt-20">
+        <section className="mx-auto max-w-screen-xl mt-20 px-5 md:px-2 lg:px-0">
             <div className="text-center">
-                <h1 className={`text-[40px] text-[#A7948B] ${playfair_display.className} antialiased`}>YOUR NATURAL SKIN IS BEAUTIFUL, EMBRACE IT.</h1>
-                <h3 className={`${shipporiAntique.className} my-6 text-[#38271F] tracking-widest text-[13px]`}>WE OFFER FACIALS, LASH EXTENSIONS, MAKEUP & ALL THINGS BEAUTY</h3>
+                <h1 className={`text-[40px] text-[#38271F] ${playfair_display.className} antialiased uppercase`}>Beautiful girls braid quality hair.</h1>
+                <h3 className={`${shipporiAntique.className} my-6 text-[#38271F] tracking-widest text-[13px] uppercase`}>WE OFFER Micro braids, Box braids, Comfortability & ALL THINGS Braiding</h3>
                 <p className={`max-w-3xl  mx-auto text-[15px] font-light leading-7 ${outfit.className} antialiased`}>
-                    Write your mission statement or an introduction to your business right here. 
-                    You are only limited by your imagination. Making all those little fluffies that 
-                    live in the clouds. By now you should be quite happy about what's happening here. 
-                    Now then, let's play. Automatically, all of these beautiful, beautiful things will happen. 
-                    Exercising the imagination, experimenting with talents, being creative; these things, to me, 
-                    are truly the windows to your soul.
+                    At Victoria Hair Braiding and Weaving Center, our mission is to empower 
+                    every client with a sense of beauty and confidence through exceptional hair 
+                    braiding and styling services. We believe that hair is more than just a look—it’s 
+                    an expression of individuality, creativity, and culture. With a passion for the art 
+                    of African braiding, our talented team is dedicated to delivering impeccable results 
+                    that enhance your natural beauty. Whether you're seeking a timeless classic or a bold new style, 
+                    we create custom hair solutions that perfectly reflect your unique personality. 
+                    At our salon, every visit is a journey to feel beautiful, confident, and truly yourself.
                 </p>
             </div>
         </section>

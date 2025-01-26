@@ -2,7 +2,6 @@ import Image from "next/image";
 import photoAbout1 from "@/public/about-images/photo-about-1.jpg";
 import { Spectral, Outfit } from "next/font/google";
 
-
 const spectral = Spectral({
     subsets: ["latin"],
     weight: "400",
@@ -13,34 +12,27 @@ const outfit = Outfit({
     weight: "300",
 });
 
-
 export default function AboutHeader() {
     return (
-        <div className="max-w-screen-xl mx-auto flex gap-16 items-center justify-center py-10">
-            <div className="relative shadow-xl w-[85rem] h-[35rem] rounded-full flex items-center justify-center max-w-md">
+        <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row gap-10 md:gap-16 items-center justify-center py-10 px-5">
+            <div className="relative shadow-xl w-[18rem] h-[18rem] md:w-[35rem] md:h-[35rem] rounded-full flex items-center justify-center overflow-hidden">
                 <Image
                     src={photoAbout1}
-                    alt="co founder image for the clinic"
+                    alt="Co-founder image for the salon"
                     fill={true}
                     className="z-10 rounded-full object-cover"
                     priority
                 />
             </div>
-            <div className="space-y-6 max-w-xl">
-                <h1 className={`uppercase text-[50px] leading-[60px] text-[#A7948B] ${spectral.className} antialiased`}>toronto's best aesthetics clinic</h1>
-                <p className={`text-[15px] ${outfit.className} leading-[30px] text-[#2D2D2D]`}>
-                    Write a description about your business & why they should choose 
-                    you over anyone else. Anything you want to do you can do here. 
-                    Nature is so fantastic, enjoy it. Let it make you happy. Zip. That easy. 
-                    We start with a vision in our heart, and we put it on canvas. 
-                    For the lack of a better word I call them hangy downs. 
+            <div className="space-y-6 max-w-2xl text-center md:text-left">
+                <h1 className={`uppercase text-[30px] md:text-[50px] leading-[40px] md:leading-[60px] text-[#A7948B] ${spectral.className} antialiased`}>Charlotte's Premier Hair Salon</h1>
+                <p className={`text-[14px] md:text-[15px] ${outfit.className} leading-[24px] md:leading-[30px] text-[#2D2D2D]`}>
+                    At Victoria Hair Braiding and Weaving Center, we pride ourselves on delivering top-notch hair care services in a welcoming and professional environment. From intricate braiding to seamless weaving, our experienced stylists are dedicated to enhancing your beauty and confidence.
                 </p>
-                <p className={`text-[15px] ${outfit.className} leading-[30px] text-[#2D2D2D]`}>
-                    In your world you can create anything you desire. 
-                    Absolutely no pressure. Use what happens naturally, don't fight it. 
-                    Everybody's different. Trees are different. Let them all be individuals. 
+                <p className={`text-[14px] md:text-[15px] ${outfit.className} leading-[24px] md:leading-[30px] text-[#2D2D2D]`}>
+                    Why choose us? Because we understand that your hair is your crown. With a commitment to excellence and personalized care, we ensure every client leaves our salon looking and feeling their best. Your satisfaction is our passion.
                 </p>
             </div>
         </div>
-    )
+    );
 }

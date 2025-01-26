@@ -20,7 +20,7 @@ import {
 import { Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SlotTimeDisplay from "../booking/services/slot-time-display";
-import serviceImage1 from "@/public/services-image/service-image-1.jpg";
+import serviceImage1 from "@/public/services-image/service-image-1.jpg"; // Replace with actual images
 import serviceImage2 from "@/public/services-image/service-image-2.jpg";
 import serviceImage3 from "@/public/services-image/service-image-3.jpeg";
 import serviceImage4 from "@/public/services-image/service-image-4.jpeg";
@@ -30,67 +30,51 @@ import ProceedLink from "../booking/ProceedLink";
 
 const categoryService = [
     {
-        categoryServiceName: "Skin Treatments",
-        benefits: "Enhance your skin health and glow with our tailored treatments.",
+        categoryServiceName: "Braiding Services",
+        benefits: "Expert braiding services to create stylish, long-lasting looks.",
         summary:
-            "Our skin treatments are designed to address a variety of skin concerns, from acne to aging. With expert care and advanced techniques, we aim to rejuvenate your skin, leaving it radiant and refreshed.",
+            "Our braiding services offer a variety of options, from classic box braids to trendy cornrows. Whether you're looking for a protective style or a bold new look, our skilled stylists will craft the perfect braids for you.",
         categoryServices: [
             {
-                title: "Skincare Consultation",
-                about: "Personalized skincare solutions tailored to your unique skin type.",
+                title: "Box Braids",
+                about: "Timeless, versatile braids that can be styled in many ways.",
                 image: serviceImage1,
-                duration: "1 hour",
-                price: "$50",
+                duration: "3 hours",
+                price: "$140",
                 select: false
             },
             {
-                title: "Facials and Peels",
-                about: "Gentle exfoliation and nourishment for a youthful, healthy complexion.",
+                title: "Cornrows",
+                about: "Intricate, close-to-the-scalp braids for a neat and durable style.",
                 image: serviceImage2,
-                duration: "2 hour",
-                price: "$180",
+                duration: "2 hours",
+                price: "$80",
                 select: false
             },
             {
-                title: "Microdermabrasion",
-                about: "Smooth and refine your skin's texture with this advanced treatment.",
+                title: "Knotless Braids",
+                about: "A lighter, tension-free braiding technique for a comfortable fit.",
                 image: serviceImage3,
-                duration: "30 mins",
-                price: "$20",
+                duration: "4 hours",
+                price: "$160",
                 select: false
             },
         ],
     },
     {
-        categoryServiceName: "Beauty Services",
-        benefits: "Enhance your natural beauty with expert techniques and high-quality products.",
+        categoryServiceName: "Hair Weaving",
+        benefits: "Enhance your natural hair with high-quality weaving options.",
         summary:
-            "Our beauty services cater to all your aesthetic needs, ensuring you look and feel your best. From stunning eyelash extensions to flawless makeup, we bring out your inner confidence.",
+            "We offer custom hair weaving services for a seamless blend with your natural hair. Whether you're seeking volume, length, or a completely new look, our stylists will ensure your weave looks natural and flawless.",
         categoryServices: [
             {
-                title: "Eyelash Extensions",
-                about: "Achieve a fuller, more dramatic lash look with our expert application.",
+                title: "Sew-in Weave",
+                about: "A sew-in weave provides a seamless, natural-looking style.",
                 image: serviceImage4,
-                duration: "2.30 mins",
-                price: "$300",
+                duration: "4 hours",
+                price: "$100",
                 select: false
-            },
-            {
-                title: "Waxing and Laser Removal",
-                about: "Smooth, hair-free skin with minimal discomfort and long-lasting results.",
-                image: serviceImage5,
-                duration: "2 hour",
-                price: "$540",
-                select: false
-            },
-            {
-                title: "Makeup and Hair",
-                about: "Perfect your look for any occasion with our professional artists.",
-                image: serviceImage6,
-                duration: "1 hour",
-                price: "$150",
-                select: false
-            },
+            }
         ],
     },
 ];
@@ -132,7 +116,7 @@ export default function CategoryDisplay() {
             {categoryService.map((category, categoryIndex) => (
                 <div key={categoryIndex} className="mb-16">
                     <h2 className="text-5xl font-light text-gray-700 uppercase mb-4">{category.categoryServiceName}</h2>
-                    <h4 className="text-[16px] font-bold text-[#A7948B] mb-4 uppercase">{category.benefits}</h4>
+                    <h4 className="text-[16px] font-bold text-[#38271F] mb-4 uppercase">{category.benefits}</h4>
                     <summary className="leading-[30px] text-[#2D2D2D] text-[15px] list-none mb-10 max-w-screen-lg">
                         {category.summary}
                     </summary>
@@ -150,19 +134,21 @@ export default function CategoryDisplay() {
                                     />
                                 </div>
                                 <div className="pt-5">
-                                    <h3 className="text-[25px] font-medium mb-2 text-[#A7948B]">{service.title}</h3>
+                                    <h3 className="text-[25px] font-medium mb-2 text-gray-700">{service.title}</h3>
                                     <div className="flex justify-between items-center text-xl my-2">
                                         <p className="text-[#2D2D2D] text-lg">Duration - {service.duration}</p>
                                         <p className="text-[#2D2D2D] text-lg">Price - {service.price}</p>
                                     </div>
                                     <p className="leading-[30px] text-[#2D2D2D] text-[15px]">{service.about}</p>
-                                    <Button
-                                        className="flex mt-2"
+                                    <div
+                                        className="flex justify-center items-center mt-4"
                                         onClick={() => handleDrawerOpen(categoryIndex, serviceIndex)}
                                     >
-                                        <Plus size={16} />
-                                        <span>SELECT</span>
-                                    </Button>
+                                        <Button className="flex items-center gap-4">
+                                            <Plus size={16} />
+                                            <span>SELECT</span>
+                                        </Button>
+                                    </div>
                                     <Drawer
                                         className="h-[60vh] p-4 overflow-y-auto shadow-lg"
                                         open={openDrawer === `${categoryIndex}-${serviceIndex}`}
@@ -254,9 +240,6 @@ export default function CategoryDisplay() {
                                                 </div>
                                                 <SlotTimeDisplay />
                                             </DrawerHeader>
-                                            {/* <DrawerFooter className="flex justify-end">
-                                                <ProceedLink nextLink="/service-display" disable={true} />
-                                            </DrawerFooter> */}
                                         </DrawerContent>
                                     </Drawer>
                                 </div>

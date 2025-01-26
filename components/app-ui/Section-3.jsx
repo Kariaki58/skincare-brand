@@ -31,39 +31,40 @@ export default function ServiceSection() {
                 {/* Text Content */}
                 <div className="w-full md:w-[50%] text-center md:text-left">
                     <h2
-                        className={`uppercase text-[32px] sm:text-[40px] md:text-[48px] text-[#A7948B] ${playfair_display.className} antialiased`}
+                        className={`uppercase text-[32px] sm:text-[40px] text-[#38271F] ${playfair_display.className} antialiased`}
                     >
-                        your go-to skin clinic
+                        Professional Braid feel
                     </h2>
                     <h3 className="text-sm sm:text-base uppercase my-5 tracking-widest font-medium font-serif">
-                        LOCATED IN YORKVILLE & THE BEACHES IN TORONTO
+                        LOCATED IN 5811 Freedom Drive, Charlotte, NC 28214
                     </h3>
                 <p
                     className={`mb-10 ${outfit.className} text-[12px] sm:text-[14px] tracking-widest text-sm font-light text-[#2D2D2D]`}
                 >
-                    Write a summary of your services & what you offer! Anything you want to do you can do
-                    here. Nature is so fantastic, enjoy it. Let it make you happy. Zip. That easy. We start
-                    with a vision in our heart, and we put it on canvas. For the lack of a better word.
+                    At Victoria Hair Braiding and Weaving Center, we specialize in creating beautiful, 
+                    custom braids and weaves that express your unique style. From box braids to knotless, cornrows, 
+                    and extensions, we offer styles that last and make you feel confident. 
+                    Let us bring your hair vision to life with expert care and creativity.
                 </p>
                 <ul
                     className={`flex flex-col sm:flex-row justify-between gap-8 sm:gap-10 mb-10 ${playfair_display.className} text-[#38271F] text-[24px] sm:text-[30px]`}
                 >
                     <ul className="space-y-3 sm:space-y-5">
-                        <li className="capitalize text-xl sm:text-2xl">Eyelash Extensions</li>
-                        <li className="capitalize text-xl sm:text-2xl">skin Treatments</li>
-                        <li className="capitalize text-xl sm:text-2xl">body waxing</li>
+                        <li className="capitalize text-xl sm:text-2xl">Micro braids</li>
+                        <li className="capitalize text-xl sm:text-2xl">Knotless Braids</li>
+                        <li className="capitalize text-xl sm:text-2xl">Senegalese Twist</li>
                     </ul>
                     <ul className="space-y-3 sm:space-y-5">
-                        <li className="capitalize text-xl sm:text-2xl">laser Hair removal</li>
-                        <li className="capitalize text-xl sm:text-2xl">Brow Tinting</li>
-                        <li className="capitalize text-xl sm:text-2xl">makeup Application</li>
+                        <li className="capitalize text-xl sm:text-2xl">Box braids</li>
+                        <li className="capitalize text-xl sm:text-2xl">Kinky twist</li>
+                        <li className="capitalize text-xl sm:text-2xl">Soft Loc</li>
                     </ul>
                 </ul>
                 <Link
                     href="/services"
                     className={`inline-block border border-black px-8 sm:px-10 py-3 sm:py-4 text-black text-[10px] sm:text-[12px] bg-white hover:bg-gray-50 hover:text-gray-400 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl`}
                 >
-                    VIEW OUR SERVICES
+                    VIEW ALL SERVICES
                 </Link>
                 </div>
             </div>
