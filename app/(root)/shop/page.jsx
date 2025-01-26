@@ -1,7 +1,12 @@
+import ProductCategoryFilter from "@/components/app-ui/shop/category-filter";
+
 export default function Page() {
     return (
-        <div>
-            shop page
+        <div className="h-screen">
+            <ProductCategoryFilter />
+            <div>
+                Hello world
+            </div>
         </div>
     )
 }

@@ -37,6 +37,9 @@ export default function FeaturedProducts() {
                             className="object-cover shadow-xl rounded-lg w-full h-[520px] md:h-[320px]"
                             priority
                         />
+                        <div className="absolute top-2 left-2 bg-[#1c1f1f86] px-2 text-sm text-gray-200">
+                            18%
+                        </div>
                         <div className="flex absolute bottom-2 left-2 items-center gap-2 font-bold cursor-pointer text-[#fce7de]">
                             <MdOutlineShoppingCart className="text-2xl" />
                             <p className="text-sm uppercase">Add to Cart</p>
