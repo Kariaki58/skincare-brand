@@ -16,17 +16,17 @@ const outfit = Outfit({
 
 export default function WhyChooseUs() {
     return (
-        <section className="my-20 h-custom flex items-center bg-[#DCD4CB] px-4 xl:px-0">
+        <section className="my-20 h-custom flex items-center bg-[#214207] text-white px-4 xl:px-0">
             <div className="max-w-md mx-auto space-y-8 md:mr-10">
-                <h1 className={`uppercase text-[#38271F] text-4xl ${spectral.className} antialiased text-center md:text-left`}>WHY CHOOSE US</h1>
-                <p className={`leading-[30px] text-[#2D2D2D] ${outfit.className} text-[15px]`}>
+                <h1 className={`uppercase text-4xl ${spectral.className} antialiased text-center md:text-left`}>WHY CHOOSE US</h1>
+                <p className={`leading-[30px] text-white ${outfit.className} text-[15px]`}>
                     At Victoria Hair Braiding and Weaving Center, we believe every client deserves 
                     exceptional service and unparalleled results. Our salon is designed with a modern 
                     and welcoming ambiance to ensure your experience is both relaxing and enjoyable. 
                     Whether you are looking for intricate braiding, seamless weaving, or custom hair care, 
                     our skilled stylists are here to bring your vision to life with precision and artistry.
                 </p>
-                <p className={`leading-[30px] text-[#2D2D2D] ${outfit.className} text-[15px]`}>
+                <p className={`leading-[30px] text-white ${outfit.className} text-[15px]`}>
                     Why choose us? We prioritize your satisfaction and confidence above all else. With years of 
                     experience and a passion for excellence, our team takes pride in delivering personalized 
                     services tailored to your unique needs. From protective styles that nurture your natural 

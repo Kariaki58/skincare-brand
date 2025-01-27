@@ -144,13 +144,13 @@ export default function CategoryDisplay() {
                                         className="flex justify-center items-center mt-4"
                                         onClick={() => handleDrawerOpen(categoryIndex, serviceIndex)}
                                     >
-                                        <Button className="flex items-center gap-4">
+                                        <Button className="flex items-center gap-4 bg-[#214207]">
                                             <Plus size={16} />
                                             <span>SELECT</span>
                                         </Button>
                                     </div>
                                     <Drawer
-                                        className="h-[60vh] p-4 overflow-y-auto shadow-lg"
+                                        className="h-[60vh] p-4 overflow-y-auto shadow-lg bg-[#214207]"
                                         open={openDrawer === `${categoryIndex}-${serviceIndex}`}
                                         onClose={handleDrawerClose}
                                     >
@@ -189,7 +189,7 @@ export default function CategoryDisplay() {
                                                 <div className="border-t pt-2">
                                                     <Sheet>
                                                         <SheetTrigger className="flex items-center justify-center max-w-md mx-auto my-4">
-                                                            <div className="flex items-center gap-2 bg-[#b17f6a] hover:bg-[#7E5A4B] text-white py-2 px-6 rounded-lg">
+                                                            <div className="flex items-center gap-2 bg-[#214207] hover:bg-[#2b4715] text-white py-2 px-6 rounded-lg">
                                                                 <Plus size={25} className="hover:cursor-pointer" />
                                                                 <p>Add Services</p>
                                                             </div>
@@ -228,7 +228,7 @@ export default function CategoryDisplay() {
                                                                                 onClick={() => handleServiceRemove(service)}
                                                                             />
                                                                         ) : (
-                                                                            <Button onClick={() => handleServiceSelect(service)}>
+                                                                            <Button onClick={() => handleServiceSelect(service)} className="bg-[#214207] hover:bg-[#2b4715]">
                                                                                 Add
                                                                             </Button>
                                                                         )}

@@ -13,7 +13,7 @@ export default function ProductDisplay({ images }) {
             <Link
                 href={`/product/${index}`}
                 key={index}
-                className="hover:bg-[#DFFFCC] p-1 rounded-lg hover:shadow-lg transition duration-300"
+                className="bg-[#214207] p-1 rounded-lg hover:shadow-lg transition duration-300"
             >
                 <div className="relative group">
                     <Image
@@ -39,11 +39,11 @@ export default function ProductDisplay({ images }) {
                     </div>
                 </div>
                 <div className="space-y-3 mt-4">
-                <p className="hover:underline text-center text-sm md:text-lg font-medium flex justify-center">
+                <p className="hover:underline text-white text-center text-sm md:text-lg font-medium flex justify-center">
                     Product {index + 1} - Premium Quality
                 </p>
                 <p className="flex gap-3 justify-center">
-                    <span className="font-bold text-base text-[#2D2D2D]">$96.00</span>
+                    <span className="font-bold text-base text-white">$96.00</span>
                     <span className="line-through text-sm text-gray-500">$121.54</span>
                 </p>
                 <div className="flex justify-center gap-1">

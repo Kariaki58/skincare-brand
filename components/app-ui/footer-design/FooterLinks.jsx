@@ -10,7 +10,7 @@ const outfit = Outfit({
 export default function FooterLinks() {
     const isAdmin = true
     return (
-        <section className={`${outfit.className} text-xs md:text-[12px] hidden md:flex border border-t-4 border-b-2 border-gray-300 p-5 mb-10 justify-center bg-white text-gray-600`}>
+        <section className={`${outfit.className} text-xs md:text-[12px] hidden md:flex border border-t-4 border-b-2 text-white border-gray-300 p-5 mb-10 justify-center bg-[#214207]`}>
             <nav className="flex gap-4 md:gap-10 lg:gap-20">
                 <Link href="/">HOME</Link>
                 <Link href="/about">ABOUT</Link>

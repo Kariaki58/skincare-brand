@@ -102,9 +102,9 @@ export default function Footer() {
                         <input 
                             type="email" 
                             placeholder="Enter your email" 
-                            className="w-full flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-gray-400 focus:outline-none block"
+                            className="w-full bg-[#214207] text-white flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-gray-400 focus:outline-none block"
                         />
-                        <Button className="uppercase bg-white  font-bold py-5 px-10 hover:bg-gray-200 text-sm rounded-lg text-gray-700 transition-colors w-full">
+                        <Button className="uppercase bg-[#214207] text-white  font-bold py-5 px-10 text-sm rounded-lg transition-colors w-full">
                             Join Newsletter
                         </Button>
                     </div>

@@ -26,14 +26,14 @@ export default function ClientShowCase() {
         <section className="max-w-screen-xl mx-auto my-20 hidden lg:block">
             <div className="flex gap-10 mb-12 items-center">
                 <div className="flex">
-                    <div className="h-[30rem] w-96 border-8 border-white p-10 relative -left-36">
+                    <div className="h-[30rem] w-96 border-8 border-[#214207] p-10 relative -left-36">
                         <Image src={clientFirst} alt="Client 1"
                             fill={true}
                             className="z-10 object-cover"
                             priority
                         />
                     </div>
-                    <div className="h-[30rem] w-96 border-8 border-white relative p-10 -left-28">
+                    <div className="h-[30rem] w-96 border-8 border-[#214207] relative p-10 -left-28">
                         <Image src={clientSecond} alt="Client 2"
                             fill={true}
                             className="z-10 object-cover"

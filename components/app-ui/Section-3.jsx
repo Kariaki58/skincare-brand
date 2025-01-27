@@ -62,7 +62,7 @@ export default function ServiceSection() {
                 </ul>
                 <Link
                     href="/services"
-                    className={`inline-block border border-black px-8 sm:px-10 py-3 sm:py-4 text-black text-[10px] sm:text-[12px] bg-white hover:bg-gray-50 hover:text-gray-400 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl`}
+                    className={`inline-block border border-black px-8 sm:px-10 py-3 sm:py-4 text-white text-[10px] sm:text-[12px] bg-[#214207] hover:bg-[#2b4d12] transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl`}
                 >
                     VIEW ALL SERVICES
                 </Link>

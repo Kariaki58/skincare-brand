@@ -57,7 +57,7 @@ export default function Navigation() {
 
         {/* Middle navigation for larger screens */}
         <ul
-            className={`hidden lg:flex gap-5 text-[12px] text-[#38271F] tracking-widest ${outfit.className} antialiased`}
+            className={`hidden lg:flex gap-5 text-[12px] text-[#2b4715] tracking-widest ${outfit.className} antialiased`}
         >
             <li className="hover:underline">
                 <Link href="/">HOME</Link>
@@ -80,35 +80,38 @@ export default function Navigation() {
         </ul>
 
         {/* Right section */}
-        <ul className={`flex items-center gap-5 text-[12px] text-[#38271F] ${outfit.className} tracking-widest`}>
+        <ul className={`flex items-center gap-5 text-[12px] text-[#2b4715] ${outfit.className} tracking-widest`}>
             <li className="hover:underline">
-            {session ? (
-                <Link href={session?.user?.role === "user" ? "/dashboard/user" : "/dashboard/admin"}>
-                <p className="ml-2 text-[12px]">PROFILE</p>
-                </Link>
-            ) : (
-                <Button variant="link" className="text-[#38271F]" onClick={() => signIn({ callbackUrl: "/" })}>
-                Login
-                </Button>
-            )}
+                {session ? (
+                    <Link href={session?.user?.role === "user" ? "/dashboard/user" : "/dashboard/admin"}>
+                    <p className="ml-2 text-[12px]">PROFILE</p>
+                    </Link>
+                ) : (
+                    <Button variant="link" className="text-[#2b4715]" onClick={() => signIn({ callbackUrl: "/" })}>
+                    Login
+                    </Button>
+                )}
             </li>
             <li>
-            <ShoppingBag className="cursor-pointer" />
+                <Link href="/cart">
+                    <ShoppingBag className="cursor-pointer" />
+                </Link>
+                
             </li>
             <li className="lg:hidden">
-            {menuOpen ? (
-                <X
-                className="cursor-pointer text-[#38271F]"
-                size={24}
-                onClick={() => setMenuOpen(false)}
-                />
-            ) : (
-                <AlignJustify
-                className="cursor-pointer text-[#38271F]"
-                size={24}
-                onClick={() => setMenuOpen(true)}
-                />
-            )}
+                {menuOpen ? (
+                    <X
+                    className="cursor-pointer text-[#2b4715]"
+                    size={24}
+                    onClick={() => setMenuOpen(false)}
+                    />
+                ) : (
+                    <AlignJustify
+                    className="cursor-pointer text-[#2b4715]"
+                    size={24}
+                    onClick={() => setMenuOpen(true)}
+                    />
+                )}
             </li>
         </ul>
 
@@ -116,7 +119,7 @@ export default function Navigation() {
         <AnimatePresence>
             {menuOpen && (
             <motion.div
-                className="fixed inset-0 bg-[#f5f5f5] z-50 flex flex-col items-center justify-center text-[#38271F]"
+                className="fixed inset-0 bg-[#f5f5f5] z-50 flex flex-col items-center justify-center text-[#2b4715]"
                 initial="hidden"
                 animate="visible"
                 exit="exit"

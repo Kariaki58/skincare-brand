@@ -21,11 +21,11 @@ const outfit = Outfit({
 export default function ServiceSection1() {
     return (
             <section>
-            <div className="max-w-screen-xl mx-auto my-16 px-4">
+            <div className="max-w-screen-xl mx-auto my-0 md:my-5 lg:my-16 px-4">
                 <div className="flex flex-col lg:flex-row gap-12 items-center">
                 {/* Image Section */}
                 <div className="flex justify-center gap-8">
-                    <div className="h-[20rem] lg:h-[30rem] w-[20rem] lg:w-[30rem] border-4 lg:border-8 border-white p-4 lg:p-10 relative hidden md:block">
+                    <div className="h-[20rem] lg:h-[30rem] w-[20rem] lg:w-[30rem] border-4 lg:border-8 border-[#214207] p-4 lg:p-10 relative hidden md:block">
                     <Image
                         src={clientSecond}
                         alt="Client 2"

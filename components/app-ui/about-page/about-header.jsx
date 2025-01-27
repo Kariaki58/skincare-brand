@@ -25,7 +25,7 @@ export default function AboutHeader() {
                 />
             </div>
             <div className="space-y-6 max-w-2xl text-center md:text-left">
-                <h1 className={`uppercase text-[30px] md:text-[50px] leading-[40px] md:leading-[60px] text-[#A7948B] ${spectral.className} antialiased`}>Charlotte's Premier Hair Salon</h1>
+                <h1 className={`uppercase text-[30px] md:text-[50px] leading-[40px] md:leading-[60px] text-[#38271F] ${spectral.className} antialiased`}>Charlotte's Premier Hair Salon</h1>
                 <p className={`text-[14px] md:text-[15px] ${outfit.className} leading-[24px] md:leading-[30px] text-[#2D2D2D]`}>
                     At Victoria Hair Braiding and Weaving Center, we pride ourselves on delivering top-notch hair care services in a welcoming and professional environment. From intricate braiding to seamless weaving, our experienced stylists are dedicated to enhancing your beauty and confidence.
                 </p>

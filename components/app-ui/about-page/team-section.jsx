@@ -25,7 +25,7 @@ export default function TeamSection() {
     return (
         <section className="my-20 px-6 lg:px-20">
             <div className="text-center mb-12 max-w-4xl mx-auto">
-                <h1 className={`uppercase text-[#A7948B] text-[60px] font-bold mb-4 ${spectral.className} antialiased`}>meet the Salon Owner</h1>
+                <h1 className={`uppercase text-[#38271F] text-[60px] font-bold mb-4 ${spectral.className} antialiased`}>meet the Salon Owner</h1>
                 <p className={`leading-[30px] text-[#2D2D2D] ${outfit.className} text-[15px]`}>
                     Victoria Oladejo is dedicated to providing personalized braiding and weaving services 
                     that cater to your unique style and preferences. Whether you're looking for something 

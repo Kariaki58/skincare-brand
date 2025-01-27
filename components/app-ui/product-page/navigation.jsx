@@ -13,7 +13,7 @@ export default function Navigation() {
                 <li
                     className={`text-xl font-medium ${
                         isActive("/product/1")
-                            ? "text-blue-600 font-semibold"
+                            ? "text-[#214207] font-semibold"
                             : "text-gray-600"
                     }`}
                 >
@@ -22,7 +22,7 @@ export default function Navigation() {
                 <li
                     className={`text-xl font-medium ${
                         isActive("/product/1/reviews")
-                            ? "text-blue-600 font-semibold"
+                            ? "text-[#214207] font-semibold"
                             : "text-gray-600"
                     }`}
                 >
