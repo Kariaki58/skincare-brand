@@ -37,10 +37,10 @@ export default function FeaturedProducts() {
                 href="/shop"
                 className="flex items-center justify-center gap-2 mt-10 hover:underline"
             >
-                <p className="text-center text-[#A7948B] text-lg md:text-xl">
+                <p className="text-center text-[#38271F] text-lg md:text-xl">
                 VIEW ALL PRODUCTS
                 </p>
-                <MoveRight className="text-[#A7948B] w-5 h-5" />
+                <MoveRight className="text-[#38271F] w-5 h-5" />
             </Link>
         </section>
     );

@@ -88,9 +88,14 @@ export default function Navigation() {
                     <p className="ml-2 text-[12px]">PROFILE</p>
                     </Link>
                 ) : (
-                    <Button variant="link" className="text-[#2b4715]" onClick={() => signIn({ callbackUrl: "/" })}>
-                    Login
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button className="text-white hidden lg:block" onClick={() => signIn({ callbackUrl: "/" })}>
+                            Sign Up
+                        </Button>
+                        <Button className="text-white" onClick={() => signIn({ callbackUrl: "/" })}>
+                            Login
+                        </Button>
+                    </div>
                 )}
             </li>
             <li>
@@ -136,36 +141,36 @@ export default function Navigation() {
                 <ul
                 className={`flex flex-col gap-8 text-lg text-center ${outfit.className} antialiased`}
                 >
-                <li>
-                    <Link href="/" onClick={() => setMenuOpen(false)}>
-                    HOME
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/shop" onClick={() => setMenuOpen(false)}>
-                    SHOP
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/about" onClick={() => setMenuOpen(false)}>
-                    ABOUT
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/gallery" onClick={() => setMenuOpen(false)}>
-                    GALLERY
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/services" onClick={() => setMenuOpen(false)}>
-                    SERVICES
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/contact" onClick={() => setMenuOpen(false)}>
-                    CONTACT
-                    </Link>
-                </li>
+                    <li>
+                        <Link href="/" onClick={() => setMenuOpen(false)}>
+                        HOME
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/shop" onClick={() => setMenuOpen(false)}>
+                        SHOP
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/about" onClick={() => setMenuOpen(false)}>
+                        ABOUT
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/gallery" onClick={() => setMenuOpen(false)}>
+                        GALLERY
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/services" onClick={() => setMenuOpen(false)}>
+                        SERVICES
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/contact" onClick={() => setMenuOpen(false)}>
+                        CONTACT
+                        </Link>
+                    </li>
                 </ul>
             </motion.div>
             )}

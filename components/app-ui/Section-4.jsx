@@ -20,7 +20,7 @@ const shipporiAntique = Shippori_Antique({
 
 export default function CategorySection() {
     return (
-        <section className="max-w-screen-xl mx-auto mt-36">
+        <section className="max-w-screen-xl mx-auto mt-4">
             <h3 className={`uppercase text-[#2D2D2D] text-center text-[11px] ${shipporiAntique.className}`}>Victoria Hair Braiding and Weaving Center offers expert braiding and weaving</h3>
             <h1 className={`uppercase text-center text-[54px] ${playfair_display.className} text-[#38271F] mt-5 uppercase`}>EXPLORE Victoria Hair Braiding</h1>
             <div className="grid grid-cols-1 max-w-screen-sm mx-auto px-10 md:max-w-screen-md md:px-0 md:grid-cols-2 lg:max-w-screen-xl lg:grid-cols-3 gap-10 items-center my-20">

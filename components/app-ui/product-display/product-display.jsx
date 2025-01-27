@@ -10,10 +10,9 @@ export default function ProductDisplay({ images }) {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
             {Array.from({ length: 4 }).map((_, index) => (
-            <Link
-                href={`/product/${index}`}
+            <div
                 key={index}
-                className="bg-[#214207] p-1 rounded-lg hover:shadow-lg transition duration-300"
+                className="p-1 rounded-lg hover:shadow-lg transition duration-300"
             >
                 <div className="relative group">
                     <Image
@@ -39,11 +38,11 @@ export default function ProductDisplay({ images }) {
                     </div>
                 </div>
                 <div className="space-y-3 mt-4">
-                <p className="hover:underline text-white text-center text-sm md:text-lg font-medium flex justify-center">
+                <Link href={`/product/${index}`} className="hover:underline text-black text-center text-sm md:text-lg font-medium flex justify-center">
                     Product {index + 1} - Premium Quality
-                </p>
+                </Link>
                 <p className="flex gap-3 justify-center">
-                    <span className="font-bold text-base text-white">$96.00</span>
+                    <span className="font-bold text-base text-black">$96.00</span>
                     <span className="line-through text-sm text-gray-500">$121.54</span>
                 </p>
                 <div className="flex justify-center gap-1">
@@ -52,7 +51,7 @@ export default function ProductDisplay({ images }) {
                     ))}
                 </div>
                 </div>
-            </Link>
+            </div>
             ))}
         </div>
     )
