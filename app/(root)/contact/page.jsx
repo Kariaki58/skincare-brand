@@ -31,19 +31,19 @@ export default function page() {
                 </p>
                 <form className="space-y-5">
                     <div>
-                        <Input className="py-4 md:py-7 bg-white shadow-none" type="text" id="name" placeholder="FIRST AND LAST NAME*" />
+                        <Input className="py-4 md:py-7 bg-[#214207] text-white shadow-none" type="text" id="name" placeholder="FIRST AND LAST NAME*" />
                     </div>
                     <div>
-                        <Input className="py-4 md:py-7 bg-white shadow-none" type="email" id="email" placeholder="EMAIL ADDRESS*" />
+                        <Input className="py-4 md:py-7 bg-[#214207] text-white shadow-none" type="email" id="email" placeholder="EMAIL ADDRESS*" />
                     </div>
                     <div>
-                        <Input className="py-4 md:py-7 bg-white shadow-none" type="tel" id="phone" placeholder="PHONE NUMBER*" />
+                        <Input className="py-4 md:py-7 bg-[#214207] text-white shadow-none" type="tel" id="phone" placeholder="PHONE NUMBER*" />
                     </div>
                     <div>
-                        <Textarea className="bg-white resize-none h-40 md:h-52 shadow-none" id="message" placeholder="WRITE YOUR MESSAGE*" />
+                        <Textarea className="bg-[#214207] text-white resize-none h-40 md:h-52 shadow-none" id="message" placeholder="WRITE YOUR MESSAGE*" />
                     </div>
                     <div className="flex justify-center">
-                        <Button className="p-4 md:p-7 bg-[#1f1d1daa] hover:bg-gray-700">SEND AN INQUIRY</Button>
+                        <Button className="p-4 md:p-7 bg-[#214207] text-white hover:bg-[#1e330d]">SEND AN INQUIRY</Button>
                     </div>
                 </form>
             </div>

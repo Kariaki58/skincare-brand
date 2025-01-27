@@ -107,7 +107,7 @@ export default function Page() {
                             id="phone"
                             name="phone"
                             required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border-[#214207] shadow-sm bg-[#214207] sm:text-sm"
                             placeholder="Enter your phone number"
                         />
                     </div>

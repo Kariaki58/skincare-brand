@@ -77,6 +77,7 @@ export default function Navigation() {
             <li className="hover:underline">
                 <Link href="/contact">CONTACT</Link>
             </li>
+
         </ul>
 
         {/* Right section */}
@@ -127,10 +128,10 @@ export default function Navigation() {
                 transition={{ duration: 0.4, ease: "easeInOut" }}
             >
                 <button
-                className="absolute top-4 right-4 text-[#7e5a4b] text-3xl"
+                className="absolute top-4 right-4 text-[#214207] text-3xl"
                 onClick={() => setMenuOpen(false)}
                 >
-                <X size={32} />
+                    <X size={32} />
                 </button>
                 <ul
                 className={`flex flex-col gap-8 text-lg text-center ${outfit.className} antialiased`}
@@ -141,18 +142,23 @@ export default function Navigation() {
                     </Link>
                 </li>
                 <li>
+                    <Link href="/shop" onClick={() => setMenuOpen(false)}>
+                    SHOP
+                    </Link>
+                </li>
+                <li>
                     <Link href="/about" onClick={() => setMenuOpen(false)}>
                     ABOUT
                     </Link>
                 </li>
                 <li>
-                    <Link href="/services" onClick={() => setMenuOpen(false)}>
-                    SERVICES
+                    <Link href="/gallery" onClick={() => setMenuOpen(false)}>
+                    GALLERY
                     </Link>
                 </li>
                 <li>
-                    <Link href="/gallery" onClick={() => setMenuOpen(false)}>
-                    GALLERY
+                    <Link href="/services" onClick={() => setMenuOpen(false)}>
+                    SERVICES
                     </Link>
                 </li>
                 <li>
