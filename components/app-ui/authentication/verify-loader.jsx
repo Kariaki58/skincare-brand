@@ -58,7 +58,7 @@ export default function VerifyLoader() {
     }, [token, router]);
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center ">
             {loading && (
                 <ThreeDots
                     visible={true}
