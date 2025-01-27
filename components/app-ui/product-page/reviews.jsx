@@ -1,5 +1,6 @@
 import { IoStar } from "react-icons/io5";
 import { Minus } from "lucide-react";
+import ReviewForm from "./review-form";
 
 export default function Review() {
     return (
@@ -19,6 +20,7 @@ export default function Review() {
                 <Minus />
                 <p>Chung Pham</p>
             </div>
+            <ReviewForm />
         </div>
     )
 }
