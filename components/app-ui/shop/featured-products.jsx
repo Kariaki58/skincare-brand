@@ -8,6 +8,7 @@ import image1 from "@/public/product-images/image2.jpg";
 import image2 from "@/public/product-images/image3.jpg";
 import image3 from "@/public/product-images/image4.jpg";
 import image4 from "@/public/product-images/image5.jpg";
+import { Button } from "@/components/ui/button";
 
 const playfair_display = Playfair_Display({
     subsets: ["latin"],
@@ -39,27 +40,33 @@ export default function FeaturedProducts() {
                 <Link
                     href={`/product/${index}`}
                     key={index}
-                    className="hover:bg-[#DFFFCC] p-4 rounded-lg hover:shadow-lg transition duration-300"
+                    className="hover:bg-[#DFFFCC] p-1 rounded-lg hover:shadow-lg transition duration-300"
                 >
                     <div className="relative group">
-                    <Image
-                        src={images[index % images.length]}
-                        alt={`Product ${index + 1}`}
-                        width={300}
-                        height={300}
-                        className="object-cover shadow-md rounded-lg w-full h-[300px] md:h-[320px]"
-                        priority
-                    />
-                    <div className="absolute top-2 left-2 bg-[rgba(46,119,46,0.8)] px-3 py-1 text-xs text-white font-bold rounded-md">
-                        18% OFF
-                    </div>
-                    <div className="flex absolute bottom-4 left-4 items-center gap-2 font-bold cursor-pointer text-[#2D2D2D] hover:text-[#161616]">
-                        <MdOutlineShoppingCart className="text-xl" />
-                        <p className="text-sm uppercase">Add to Cart</p>
-                    </div>
+                        <Image
+                            src={images[index % images.length]}
+                            alt={`Product ${index + 1}`}
+                            width={300}
+                            height={300}
+                            className="object-cover shadow-md rounded-lg w-full h-[300px] md:h-[320px]"
+                            priority
+                        />
+                        <div className="absolute top-2 left-2 bg-[rgba(46,119,46,0.8)] px-3 py-1 text-xs text-white font-bold rounded-md">
+                            18% OFF
+                        </div>
+                        <div className="absolute bottom-0 left-0 flex items-center gap-2">
+                            <Button
+                                variant="default"
+                                className="bg-[#214207] hover:bg-[#5CA02F] text-white flex items-center gap-2 rounded-none"
+                                // onClick={() => handleAddToCart(product.id)}
+                            >
+                                <MdOutlineShoppingCart className="text-xl" />
+                                <span>Add to Cart</span>
+                            </Button>
+                        </div>
                     </div>
                     <div className="space-y-3 mt-4">
-                    <p className="hover:underline text-center text-sm md:text-lg font-medium">
+                    <p className="hover:underline text-center text-sm md:text-lg font-medium flex justify-center">
                         Product {index + 1} - Premium Quality
                     </p>
                     <p className="flex gap-3 justify-center">
@@ -68,7 +75,7 @@ export default function FeaturedProducts() {
                     </p>
                     <div className="flex justify-center gap-1">
                         {[...Array(5)].map((_, starIndex) => (
-                        <IoStar key={starIndex} className="text-[#ffd900] text-lg" />
+                        <IoStar key={starIndex} className="text-[#214207] text-lg" />
                         ))}
                     </div>
                     </div>
