@@ -1,3 +1,6 @@
+import Image from "next/image";
+import image1 from "@/public/product-images/image2.jpg";
+
 
 const CheckoutUI = () => {
     return (
@@ -9,9 +12,9 @@ const CheckoutUI = () => {
             <h2 className="text-2xl font-semibold mb-6 border-b pb-2">Order Summary</h2>
             <ul className="space-y-4">
                 <li className="flex justify-between items-center border-b pb-2">
-                <img src="image_placeholder" className="h-10" alt="Product Name" />
-                <span>Quantity x Price</span>
-                <span>Total</span>
+                    <Image src={image1} className="h-10 w-10" alt="Product Name" />
+                    <span>Quantity x Price</span>
+                    <span>Total</span>
                 </li>
                 {/* Repeat similar items */}
             </ul>
