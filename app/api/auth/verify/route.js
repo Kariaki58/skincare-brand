@@ -3,20 +3,18 @@ import User from "@/models/user";
 
 export async function POST(request) {
     try {
-        const token = request.nextUrl.searchParams.get('token');
-
-
-        if (!token) {
-            return new Response(JSON.stringify({ error: "token is required" }), {
+        const {pin} = await request.json()
+        
+        if (!pin) {
+            return new Response(JSON.stringify({ error: "token is required", verified: false }), {
                 status: 401,
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-        console.log({ token })
-        const user = await User.findOne({ token }).exec();
+        const user = await User.findOne({ token: pin }).exec();
         console.log({user})
         if (!user) {
-            return new Response(JSON.stringify({ error: "Invalid token" }), {
+            return new Response(JSON.stringify({ error: "Invalid token", verified: false }), {
                 status: 401,
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -24,21 +22,19 @@ export async function POST(request) {
 
         if (user.expires) {
             if (user.expires < Date.now()) {
-                return new Response(JSON.stringify({ error: "Token expired" }), {
+                return new Response(JSON.stringify({ error: "Token expired", verified: false }), {
                     status: 401,
                     headers: { 'Content-Type': 'application/json' },
                 });
             }
         } else {
-            return new Response(JSON.stringify({ error: "Token expired" }), {
+            return new Response(JSON.stringify({ error: "Token expired", verified: false }), {
                 status: 401,
                 headers: { 'Content-Type': 'application/json' },
             });
         }
 
         user.isVerified = true;
-        user.token = null;
-        user.expires = null;
 
         await user.save();
 
@@ -47,7 +43,7 @@ export async function POST(request) {
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
+        return new Response(JSON.stringify({ error: error.message, verified: false }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
         });

@@ -3,14 +3,15 @@ import { sendEmail } from "./sendEmail";
 import { connectToDatabase } from "@/lib/mongoose";
 import User from "@/models/user";
 
+// Function to generate a 6-digit numeric token
+const generateToken = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+};
 
-const token = () => {
-    return Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2);
-}
-
-export async function EmailVerification(email) {
+export async function EmailVerification(formData) {
     try {
-        const verifyToken = token();
+        const { email, password } = formData;
+        const verifyToken = generateToken();
         const html = `
                 <!DOCTYPE html>
                 <html lang="en">
@@ -46,15 +47,12 @@ export async function EmailVerification(email) {
                     .email-body p {
                         line-height: 1.6;
                     }
-                        .email-body a {
-                        display: inline-block;
+                    .email-body .token {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #4caf50;
+                        text-align: center;
                         margin: 20px 0;
-                        padding: 10px 20px;
-                        background: #4caf50;
-                        color: white;
-                        text-decoration: none;
-                        border-radius: 5px;
-                        font-size: 16px;
                     }
                     .email-footer {
                         text-align: center;
@@ -72,8 +70,8 @@ export async function EmailVerification(email) {
                     </div>
                     <div class="email-body">
                         <p>Hi there,</p>
-                        <p>Thank you for signing up! Please verify your email address by clicking the button below:</p>
-                        <a href="http://localhost:3000/auth/verify?token=${verifyToken}" target="_blank">Verify Email</a>
+                        <p>Thank you for signing up! Please verify your email address by entering the code below:</p>
+                        <div class="token">${verifyToken}</div>
                         <p>If you didn’t request this, you can safely ignore this email.</p>
                     </div>
                     <div class="email-footer">
@@ -82,29 +80,31 @@ export async function EmailVerification(email) {
                     </div>
                 </body>
                 </html>
-            `
+            `;
         await connectToDatabase();
-        const exitingUser = await User.findOne({ email })
+        const existingUser = await User.findOne({ email });
 
-        if (!exitingUser) {
+        if (!existingUser) {
             await User.create({ 
                 name: email.split('@')[0], 
-                email, 
-                token: verifyToken, 
-                expires: new Date(Date.now() + 3600000), 
+                email,
+                password,
+                token: verifyToken,
+                expires: new Date(Date.now() + 3600000), // Expires in 1 hour
                 provider: "email" 
             });
         } else {
-            exitingUser.token = verifyToken;
-            exitingUser.expires = new Date(Date.now() + 3600000);
-            await exitingUser.save();
+            existingUser.token = verifyToken;
+            existingUser.expires = new Date(Date.now() + 3600000);
+            await existingUser.save();
         }
-        
-        if (sendEmail(email, "verify your email address", html)) {
+
+        if (sendEmail(email, "Verify Your Email Address", html)) {
             console.log(`Verification email sent to ${email}`);
             return true;
         }
     } catch (error) {
+        console.error(error);
         return false;
     }
 }

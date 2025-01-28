@@ -1,6 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/user";
+import bcrypt from "bcrypt";
 import { connectToDatabase } from "@/lib/mongoose";
 
 export const options = {
@@ -29,6 +30,9 @@ export const options = {
                             provider: "google",
                         });
                     }
+                    if (user.provider !== "google") {
+                        return null;
+                    }
                     return {
                         ...profile,
                         id: profile.sub,
@@ -45,17 +49,37 @@ export const options = {
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "email", placeholder: "your-email" },
+                password: { label: "Password", type: "password", placeholder: "your-password" },
             },
             async authorize(credentials) {
                 try {
                     await connectToDatabase();
 
                     let user = await User.findOne({ email: credentials.email }).exec();
+
                     if (!user) {
-                        return null;
-                    }
-                    if (!user.isVerified) {
-                        return null;
+                        const hashedPassword = await bcrypt.hash(credentials.password, 10);
+
+                        user = await User.create({
+                            name: credentials.email.split("@")[0],
+                            email: credentials.email,
+                            password: hashedPassword,
+                            isVerified: true,
+                            role: "user",
+                            provider: "email",
+                        });
+
+                    } else {
+
+                        if (user.provider === "email") {
+                            const match = await bcrypt.compare(credentials.password, user.password);
+
+                            if (!match) {
+                                return null;
+                            }
+                        } else {
+                            return null;
+                        }
                     }
 
                     return {
@@ -64,6 +88,7 @@ export const options = {
                         email: user.email,
                         role: user.role,
                     };
+
                 } catch (error) {
                     return null;
                 }
