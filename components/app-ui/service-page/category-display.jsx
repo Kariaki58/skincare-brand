@@ -85,7 +85,6 @@ export default function CategoryDisplay() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const handleDrawerOpen = (cid, siv) => {
-        console.log(cid, siv);
         const index = `${cid}-${siv}`;
         const serviceSelected = categoryService[cid].categoryServices[siv];
         handleServiceSelect(serviceSelected)

@@ -1,4 +1,4 @@
-import { Ellipsis, CircleUserRound, Eye, CalendarRange, HandPlatter, Star } from "lucide-react";
+import { Ellipsis, CircleUserRound, ClockArrowUp, CalendarRange, HandPlatter, Star } from "lucide-react";
 
 
 export default function CardDisplay() {
@@ -41,9 +41,9 @@ export default function CardDisplay() {
 
             <div className="col-span-1 bg-white border-2 p-4 shadow-md rounded-xl flex justify-between items-start gap-3 text-gray-600">
                 <div className="flex items-center gap-5">
-                    <Eye size={62} className="text-[#966f5d]"/>
+                    <ClockArrowUp size={62} className="text-[#966f5d]"/>
                     <div>
-                        <h3 className="text-lg font-medium">Views</h3>
+                        <h3 className="text-lg font-medium">Orders</h3>
                         <h1 className="text-xl font-bold">1200</h1>
                     </div>
                 </div>

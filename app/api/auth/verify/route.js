@@ -12,7 +12,6 @@ export async function POST(request) {
             });
         }
         const user = await User.findOne({ token: pin }).exec();
-        console.log({user})
         if (!user) {
             return new Response(JSON.stringify({ error: "Invalid token", verified: false }), {
                 status: 401,

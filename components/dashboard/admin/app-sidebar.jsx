@@ -2,18 +2,18 @@
 
 import {
     Command,
-    Frame,
     GalleryVerticalEnd,
-    Map,
-    PieChart,
     Settings2,
     ChartNoAxesCombined,
     ScanEye,
     Images,
     UsersRound,
-    NotebookPen
+    NotebookPen,
+    ShoppingBasket,
+    Upload,
+    ClockArrowUp,
 } from "lucide-react";
-
+import { MdOutlineInventory } from "react-icons/md";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import { TeamSwitcher } from "./team-switcher";
@@ -50,6 +50,24 @@ const data = {
             isActive: true,
         },
         {
+            title: "Products",
+            url: "/dashboard/admin/products",
+            icon: Upload,
+            isActive: false,
+        },
+        {
+            title: "Orders",
+            url: "/dashboard/admin/orders",
+            icon: ClockArrowUp,
+            isActive: false,
+        },
+        {
+            title: "Inventory",
+            url: "/dashboard/admin/inventory",
+            icon: MdOutlineInventory,
+            isActive: false,
+        },
+        {
             title: "Reviews",
             url: "/dashboard/admin/reviews",
             icon: ScanEye,
@@ -74,8 +92,8 @@ const data = {
             isActive: false,
         },
         {
-            title: "Studio",
-            url: "/dashboard/admin/studio",
+            title: "Services",
+            url: "/dashboard/admin/services",
             icon: Command,
             isActive: false,
         },

@@ -100,7 +100,6 @@ export async function EmailVerification(formData) {
         }
 
         if (sendEmail(email, "Verify Your Email Address", html)) {
-            console.log(`Verification email sent to ${email}`);
             return true;
         }
     } catch (error) {
