@@ -1,25 +1,50 @@
+"use client";
 import { IoStar } from "react-icons/io5";
 import { Minus } from "lucide-react";
 import ReviewForm from "./review-form";
+import useProductStore from "@/store/productStore";
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
+
+
 
 export default function Review() {
+    const params = useParams();
+    const { products, fetchProducts } = useProductStore();
+
+    useEffect(() => {
+        if (params.id) {
+            fetchProducts(params.id);
+        }
+    }, [params.id]);
+
+    if (!products || products.length === 0) {
+        return <p>Loading...</p>;
+    }
+
     return (
         <div className="space-y-4 p-10">
-            <div className="flex justify-between items-center">
-                <div className="flex justify-center gap-1">
-                    {[...Array(5)].map((_, starIndex) => (
-                        <IoStar key={starIndex} className="text-[#214207] text-lg" />
-                    ))}
-                </div>
-                <p>April 3, 2021</p>
-            </div>
-            <p className="text-[#38271F]">
-                I am 6 feet tall and 220 lbs. This shirt fit me perfectly in the chest and shoulders. My only complaint is that it is so long! I like to wear polo shirts untucked. This shirt goes completely past my rear end. If I wore it with ordinary shorts, you probably wouldnt be able to see the shorts at all – completely hidden by the shirt. It needs to be 4 to 5 inches shorter in terms of length to suit me. I have many RL polo shirts, and this one is by far the longest. I dont understand why.
-            </p>
-            <div className="flex items-center font-bold">
-                <Minus />
-                <p>Chung Pham</p>
-            </div>
+            {
+                products.reviews.map((review, index) => (
+                    <div key={index} className="space-y-4">
+                        <div className="flex justify-between items-center">
+                            <div className="flex justify-center gap-1">
+                                {[...Array(review.rating)].map((_, starIndex) => (
+                                    <IoStar key={starIndex} className="text-[#214207] text-lg" />
+                                ))}
+                            </div>
+                            <p>{review.date}</p>
+                        </div>
+                        <p className="text-[#38271F]">
+                            {review.comment}
+                        </p>
+                        <div className="flex items-center font-bold">
+                            <Minus />
+                            <p>{review.name}</p>
+                        </div>
+                    </div>
+                ))
+            }
             <ReviewForm />
         </div>
     )

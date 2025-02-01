@@ -1,7 +1,101 @@
 import { connectToDatabase } from "@/lib/mongoose";
 import User from "@/models/user";
 import Product from "@/models/product";
+import Category from "@/models/category";
+import Review from "@/models/review";
 import { uploadImage } from "@/lib/cloudinary-upload";
+
+
+export async function GET(request) {
+    try {
+        await connectToDatabase();
+        const searchParams = request.nextUrl.searchParams;
+        const queryParams = Object.fromEntries(searchParams.entries());
+        const {
+            search = "",
+            price = "",
+            category = "",
+            sort = "",
+            page = 1
+        } = queryParams;
+        console.log({page})
+
+        const filters = {};
+
+        // Search by product name
+        if (search) {
+            filters.name = { $regex: search, $options: "i" };
+        }
+
+        // Filter by price range (1 to max price provided)
+        if (price) {
+            const maxPrice = Number(price);
+            if (!isNaN(maxPrice)) {
+                filters.price = { $gte: 1, $lte: maxPrice };
+            }
+        }
+
+        // Filter by category name
+        if (category) {
+            console.log({category})
+            const categoryData = await Category.findOne({ name: category.replace("-", " ") });
+            console.log(categoryData)
+            if (categoryData) {
+                filters.category = categoryData._id;
+            }
+        }
+
+
+        console.log({filters});
+
+        // Sorting logic
+        const sortOptions = {};
+        if (sort === "High to Low") {
+            sortOptions.price = -1;
+        } else if (sort === "Low to High") {
+            sortOptions.price = 1;
+        } else if (sort === "Rating") {
+            sortOptions["reviews.rating"] = -1; // Sort by review rating
+        }
+
+        // Pagination settings
+        const limit = 20;
+        const skip = (Number(page) - 1) * limit;
+
+        // Query the database with filters, sorting, and pagination
+        const products = await Product.find(filters)
+            .populate("category")
+            .populate("reviews")
+            .sort(sortOptions)
+            .skip(skip)
+            .limit(limit)
+            .exec();
+
+        console.log({products})
+
+        // Get total product count for pagination
+        const totalProducts = await Product.countDocuments(filters);
+
+        return new Response(
+            JSON.stringify({
+                products,
+                totalPages: Math.ceil(totalProducts / limit),
+                currentPage: Number(page),
+            }),
+            {
+                status: 200,
+                headers: { "Content-Type": "application/json" },
+            }
+        );
+    } catch (error) {
+        console.error(error);
+        return new Response(JSON.stringify({ error: error.message }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+        });
+    }
+}
+
 
 export async function POST(request) {
     try {
@@ -68,7 +162,10 @@ export async function POST(request) {
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-
+        let category = await Category.findOne({ name: content.get("category") });
+        if (!category) {
+            category = await Category.create({ name: content.get("category") });
+        }
         await Product.create({
             userId: content.get("userId"),
             name: content.get("name"),
@@ -76,7 +173,7 @@ export async function POST(request) {
             basePrice: parseFloat(content.get("basePrice")),
             stock: parseInt(content.get("stock")),
             image: image.secure_url,
-            category: content.get("category"),
+            category: category._id,
             description: content.get("description"),
             additionalInfo: JSON.parse(content.get("additionalInfo")),
         });

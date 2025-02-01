@@ -1,7 +1,9 @@
 import ProductInfo from "@/components/app-ui/product-page/product-info";
 
-export default function page() {
+
+export default async function page({ params }) {
+    const {id} = await params
     return (
-        <ProductInfo />
+        <ProductInfo id={id}/>
     );
 }
