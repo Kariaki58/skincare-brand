@@ -6,6 +6,7 @@ import image2 from "@/public/product-images/image3.jpg";
 import image3 from "@/public/product-images/image4.jpg";
 import image4 from "@/public/product-images/image5.jpg";
 import ProductDisplay from "../product-display/product-display";
+import { Suspense } from "react";
 
 const playfair_display = Playfair_Display({
     subsets: ["latin"],
@@ -32,7 +33,9 @@ export default function FeaturedProducts() {
             >
                 SHOP OUR WIDE RANGE OF PRODUCTS
             </h1>
-            <ProductDisplay images={images}/>
+            <Suspense fallback={<p>Loading...</p>}>
+                <ProductDisplay images={images}/>
+            </Suspense>
             <Link
                 href="/shop"
                 className="flex items-center justify-center gap-2 mt-10 hover:underline"

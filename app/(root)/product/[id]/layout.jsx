@@ -6,6 +6,7 @@ import image1 from "@/public/product-images/image2.jpg";
 import image2 from "@/public/product-images/image3.jpg";
 import image3 from "@/public/product-images/image4.jpg";
 import image4 from "@/public/product-images/image5.jpg";
+import { Suspense } from "react";
 
 const images = [image1, image2, image3, image4];
 
@@ -20,7 +21,9 @@ export default function Layout({ children }) {
             </div>
             <div className="mb-20">
                 <h1 className="text-3xl">Related products</h1>
-                <ProductDisplay images={images}/>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <ProductDisplay images={images}/>
+                </Suspense>
             </div>
         </div>
     )

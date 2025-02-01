@@ -2,6 +2,7 @@ import CategoryDb from "@/models/category";
 import Product from "@/models/product";
 import { connectToDatabase } from "@/lib/mongoose";
 import Filter from "./filter";
+import { Suspense } from "react";
 
 export default async function SortedDisplay() {
     let categories = [];
@@ -34,7 +35,9 @@ export default async function SortedDisplay() {
     return (
         <aside className="h-[30rem] bg-[#214207] p-6 space-y-6 shadow-md">
             <h2 className="font-bold text-xl text-white">Filters</h2>
-            <Filter categories={JSON.stringify(categories)} PriceRangeFilter={priceRange} />
+            <Suspense fallback={<div>Loading...</div>}>
+                <Filter categories={JSON.stringify(categories)} PriceRangeFilter={priceRange} />
+            </Suspense>
         </aside>
     );
 }
