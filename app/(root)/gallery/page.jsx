@@ -20,7 +20,7 @@ const spectral = Spectral({
 });
 
 
-export default function Page() {
+export function GalleryShow() {
     const [allImages, setAllImage] = useState([])
     
         useEffect(() => {
@@ -116,5 +116,14 @@ export default function Page() {
                 </PaginationContent>
             </Pagination>
         </>
+    );
+}
+
+
+export default function Page() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <GalleryShow />
+        </Suspense>
     );
 }
