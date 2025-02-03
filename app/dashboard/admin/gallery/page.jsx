@@ -62,18 +62,30 @@ function GalleryComponent() {
         return result;
     }, []);
 
+    const handleDelete = (id) => (e) => {
+        e.preventDefault();
+        console.log(id)
+        fetch(`/api/gallery/${id}`, {
+            method: 'DELETE',
+        })
+            .then(res => res.json())
+            .then(() => {
+                setAllImage(allImages.filter(image => image._id!== id));
+            })
+    }
+
     return (
         <SidebarInset>
             <SidebarInsetComponent />
             <GalleryUploadButton />
             <section className="px-4 my-5">
                 <div className="grid grid-cols-3 gap-2">
-                    {groupedImages.map((columnImages, columnIndex) => (
-                        <div key={columnIndex}>
+                    {groupedImages.map((columnImages, index) => (
+                        <div key={index}>
                             <div className="space-y-2">
                                 {columnImages.map((image, imageIndex) => (
-                                    <div key={imageIndex} className="relative">
-                                        <Trash2 className="absolute top-3 right-2 text-red-800 cursor-pointer" />
+                                    <div key={image._id} className="relative">
+                                        <Trash2 onClick={handleDelete(image._id)} className="absolute top-3 right-2 text-red-800 cursor-pointer" />
                                         <Image
                                             src={image.image}
                                             width={300}

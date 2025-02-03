@@ -23,7 +23,7 @@ export async function DELETE(request, { params }) {
             });
         }
 
-        await galleryItem.delete();
+        await Gallery.findByIdAndDelete(id)
 
         return new Response(JSON.stringify({ success: true, message: "Image deleted successfully" }), {
             status: 200,
