@@ -1,11 +1,15 @@
 import { create } from "zustand";
 
 const useCartStore = create((set, get) => {
-    // Load cart from localStorage when the store is initialized
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-
     return {
-        cart: storedCart,
+        cart: [], // Default empty cart; will be populated on the client
+
+        initializeCart: () => {
+            if (typeof window !== "undefined") {
+                const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+                set({ cart: storedCart });
+            }
+        },
 
         addToCart: (product, quantity = 1) => {
             set((state) => {
@@ -20,7 +24,9 @@ const useCartStore = create((set, get) => {
                     updatedCart = [...state.cart, { ...product, quantity }];
                 }
 
-                localStorage.setItem("cart", JSON.stringify(updatedCart));
+                if (typeof window !== "undefined") {
+                    localStorage.setItem("cart", JSON.stringify(updatedCart));
+                }
                 return { cart: updatedCart };
             });
         },
@@ -28,7 +34,10 @@ const useCartStore = create((set, get) => {
         removeFromCart: (productId) => {
             set((state) => {
                 const updatedCart = state.cart.filter((item) => item._id !== productId);
-                localStorage.setItem("cart", JSON.stringify(updatedCart));
+                
+                if (typeof window !== "undefined") {
+                    localStorage.setItem("cart", JSON.stringify(updatedCart));
+                }
                 return { cart: updatedCart };
             });
         },
@@ -38,7 +47,10 @@ const useCartStore = create((set, get) => {
                 const updatedCart = state.cart.map((item) =>
                     item._id === productId ? { ...item, quantity: item.quantity + 1 } : item
                 );
-                localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+                if (typeof window !== "undefined") {
+                    localStorage.setItem("cart", JSON.stringify(updatedCart));
+                }
                 return { cart: updatedCart };
             });
         },
@@ -51,13 +63,17 @@ const useCartStore = create((set, get) => {
                     )
                     .filter((item) => item.quantity > 0);
                     
-                localStorage.setItem("cart", JSON.stringify(updatedCart));
+                if (typeof window !== "undefined") {
+                    localStorage.setItem("cart", JSON.stringify(updatedCart));
+                }
                 return { cart: updatedCart };
             });
         },
 
         clearCart: () => {
-            localStorage.removeItem("cart");
+            if (typeof window !== "undefined") {
+                localStorage.removeItem("cart");
+            }
             set({ cart: [] });
         },
     };
