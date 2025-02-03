@@ -8,9 +8,9 @@ export default function Reviews() {
     return (
         <SidebarInset>
             <SidebarInsetComponent />
-            <Suspense fallback={<div>Loading...</div>}>
+            {/* <Suspense fallback={<div>Loading...</div>}>
                 <ReviewDashboard />
-            </Suspense>
+            </Suspense> */}
         </SidebarInset>
     )
 }

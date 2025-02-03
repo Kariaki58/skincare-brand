@@ -111,12 +111,12 @@ export default function CategoryDisplay() {
         );
 
     return (
-        <section className="max-w-screen-xl px-10 mx-auto text-gray-800">
+        <section className="max-w-screen-xl px-10 mx-auto text-black">
             {categoryService.map((category, categoryIndex) => (
                 <div key={categoryIndex} className="mb-16">
-                    <h2 className="text-5xl font-light text-gray-700 uppercase mb-4">{category.categoryServiceName}</h2>
-                    <h4 className="text-[16px] font-bold text-[#38271F] mb-4 uppercase">{category.benefits}</h4>
-                    <summary className="leading-[30px] text-[#2D2D2D] text-[15px] list-none mb-10 max-w-screen-lg">
+                    <h2 className="text-5xl font-light text-black uppercase mb-4">{category.categoryServiceName}</h2>
+                    <h4 className="text-[16px] font-bold text-black mb-4 uppercase">{category.benefits}</h4>
+                    <summary className="leading-[30px] text-black text-[15px] list-none mb-10 max-w-screen-lg">
                         {category.summary}
                     </summary>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -133,12 +133,12 @@ export default function CategoryDisplay() {
                                     />
                                 </div>
                                 <div className="pt-5">
-                                    <h3 className="text-[25px] font-medium mb-2 text-gray-700">{service.title}</h3>
+                                    <h3 className="text-[25px] font-medium mb-2 text-black">{service.title}</h3>
                                     <div className="flex justify-between items-center text-xl my-2">
-                                        <p className="text-[#2D2D2D] text-lg">Duration - {service.duration}</p>
-                                        <p className="text-[#2D2D2D] text-lg">Price - {service.price}</p>
+                                        <p className="text-black text-lg">Duration - {service.duration}</p>
+                                        <p className="text-black text-lg">Price - {service.price}</p>
                                     </div>
-                                    <p className="leading-[30px] text-[#2D2D2D] text-[15px]">{service.about}</p>
+                                    <p className="leading-[30px] text-black text-[15px]">{service.about}</p>
                                     <div
                                         className="flex justify-center items-center mt-4"
                                         onClick={() => handleDrawerOpen(categoryIndex, serviceIndex)}

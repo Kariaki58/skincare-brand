@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination";
 import Image from "next/image";
-import photo1 from "@/public/gallery/cute-photo-1.jpg";
-import photo2 from "@/public/gallery/cute-photo-2.jpg";
-import photo3 from "@/public/gallery/cute-photo-3.jpg";
-import photo4 from "@/public/gallery/cute-photo-4.jpg";
-import photo5 from "@/public/gallery/cute-photo-5.jpg";
-import photo6 from "@/public/gallery/cute-photo-6.jpeg";
-import photo7 from "@/public/gallery/cute-photo-7.jpg";
-import photo8 from "@/public/gallery/cute-photo-8.jpeg";
-import photo9 from "@/public/gallery/cute-photo-9.jpeg";
-import photo10 from "@/public/gallery/cute-photo-10.jpg";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import { Spectral } from "next/font/google";
 
 const spectral = Spectral({
@@ -21,53 +21,49 @@ const spectral = Spectral({
 
 
 export default function Page() {
-    const allImages = [photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo4, photo5, photo6, photo7, photo8, photo9, photo10];
-    const itemsPerPage = 6;
-    const [visibleImage, setVisibleImage] = useState([]);
-    const [page, setPage] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        loadMoreImage();
-    }, []);
-
-    const loadMoreImage = () => {
-        if (isLoading) return;
-        setIsLoading(true);
-
-        setTimeout(() => { //mock delay
-            const start = page * itemsPerPage;
-            const end = start + itemsPerPage;
-            const nextImages = allImages.slice(start, end);
-
-            setVisibleImage((prev) => [...prev, ...nextImages]);
-            setPage((prev) => prev + 1);
-            setIsLoading(false);
-        }, 1500)
-    }
-    const handleScroll = () => {
-        const { offsetHeight, scrollTop } = document.documentElement;
-        const scrollThreshold = 800;
-        const bottomPosition = offsetHeight - window.innerHeight;
-
-        if (scrollTop >= bottomPosition - scrollThreshold && page * itemsPerPage <= allImages.length && !isLoading) {
-            loadMoreImage();
-        }
-    }
-
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [page, isLoading]);
+    const [allImages, setAllImage] = useState([])
     
-    const columns = 3;
-
-    const groupedImages = visibleImage.reduce((result, image, index) => {
-        const columnIndex = index % columns;
-        if (!result[columnIndex]) result[columnIndex] = [];
-        result[columnIndex].push(image);
-        return result;
-    }, []);
+        useEffect(() => {
+            fetch('/api/gallery')
+                .then(res => res.json())
+                .then(data => {
+                    setAllImage(data)
+                })
+        }, [])
+        const imagesPerPage = 9;
+        const columns = 3;
+    
+        const searchParams = useSearchParams();
+        const router = useRouter();
+    
+        // Get current page from URL or default to page 1
+        const currentPageFromUrl = parseInt(searchParams.get("page")) || 1;
+    
+        const totalPages = Math.ceil(allImages.length / imagesPerPage);
+    
+        const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
+    
+        useEffect(() => {
+            setCurrentPage(currentPageFromUrl);
+        }, [currentPageFromUrl]);
+    
+        const handlePageChange = (page) => {
+            router.push(`?page=${page}`);
+            setCurrentPage(page);
+        };
+    
+        // Get paginated data
+        const paginatedImages = allImages.slice(
+            (currentPage - 1) * imagesPerPage,
+            currentPage * imagesPerPage
+        );
+    
+        const groupedImages = paginatedImages.reduce((result, image, index) => {
+            const columnIndex = index % columns;
+            if (!result[columnIndex]) result[columnIndex] = [];
+            result[columnIndex].push(image);
+            return result;
+        }, []);
 
     return (
         <>
@@ -80,7 +76,7 @@ export default function Page() {
                                 {columnImages.map((image, imageIndex) => (
                                     <Image
                                         key={imageIndex}
-                                        src={image}
+                                        src={image.image}
                                         width={300}
                                         height={300}
                                         className="w-full hover:cursor-pointer"
@@ -91,10 +87,34 @@ export default function Page() {
                         </div>
                     ))}
                 </div>
-                {isLoading && (
-                    <div className="text-center mt-4 text-gray-500">Loading more images...</div>
-                )}
             </section>
+            <Pagination>
+                <PaginationContent>
+                    <PaginationItem>
+                        <PaginationPrevious
+                            href={`?page=${Math.max(currentPage - 1, 1)}`}
+                            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                        />
+                    </PaginationItem>
+                    {[...Array(totalPages).keys()].map((page) => (
+                        <PaginationItem key={page}>
+                            <PaginationLink
+                                href={`?page=${page + 1}`}
+                                isActive={currentPage === page + 1}
+                                onClick={() => handlePageChange(page + 1)}
+                            >
+                                {page + 1}
+                            </PaginationLink>
+                        </PaginationItem>
+                    ))}
+                    <PaginationItem>
+                        <PaginationNext
+                            href={`?page=${Math.min(currentPage + 1, totalPages)}`}
+                            onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+                        />
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
         </>
     );
 }

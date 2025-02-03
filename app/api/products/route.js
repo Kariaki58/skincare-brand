@@ -5,7 +5,6 @@ import Category from "@/models/category";
 import Review from "@/models/review";
 import { uploadImage } from "@/lib/cloudinary-upload";
 
-
 export async function GET(request) {
     try {
         await connectToDatabase();

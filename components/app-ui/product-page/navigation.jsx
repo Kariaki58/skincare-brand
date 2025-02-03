@@ -1,6 +1,9 @@
 "use client";
 import Link from "next/link";
+import { useEffect } from "react";
 import { usePathname, useParams } from "next/navigation";
+import useProductStore from "@/store/productStore";
+
 
 export default function Navigation() {
     const pathname = usePathname();
@@ -8,6 +11,18 @@ export default function Navigation() {
     const productId = params.id;
 
     const isActive = (path) => pathname.startsWith(path);
+
+    const { products, fetchProducts } = useProductStore();
+    
+    useEffect(() => {
+        if (productId) {
+            fetchProducts(productId);
+        }
+    }, [productId]);
+    
+    if (!products || products.length === 0) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <nav className="flex justify-center">
@@ -28,7 +43,9 @@ export default function Navigation() {
                             : "text-gray-600"
                     }`}
                 >
-                    <Link href={`/product/${productId}/reviews`}>Reviews (5)</Link>
+                <Link href={`/product/${productId}/reviews`}>
+                    {products?.reviews?.length === 1 ? `Review (${products?.reviews?.length})` : `Reviews (${products?.reviews?.length})`}
+                </Link>
                 </li>
             </ul>
         </nav>

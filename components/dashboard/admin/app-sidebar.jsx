@@ -67,12 +67,12 @@ const data = {
             icon: MdOutlineInventory,
             isActive: false,
         },
-        {
-            title: "Reviews",
-            url: "/dashboard/admin/reviews",
-            icon: ScanEye,
-            isActive: false,
-        },
+        // {
+        //     title: "Reviews",
+        //     url: "/dashboard/admin/reviews",
+        //     icon: ScanEye,
+        //     isActive: false,
+        // },
         {
             title: "gallery",
             url: "/dashboard/admin/gallery",

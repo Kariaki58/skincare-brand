@@ -19,7 +19,7 @@ export async function GET(request,  { params }) {
             });
         }
 
-        const product = await Product.findById(id).populate('category').exec();
+        const product = await Product.findById(id).populate('category').populate('reviews').exec();
         
         return new Response(JSON.stringify(product), {
             status: 200,

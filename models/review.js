@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 
+
 const reviewSchema = new mongoose.Schema({
-    title: {
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
         type: String,
         required: true,
     },
@@ -18,7 +23,6 @@ const reviewSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
     }
 }, {
     timestamps: true,

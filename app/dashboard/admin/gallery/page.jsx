@@ -5,7 +5,6 @@ import { SidebarInsetComponent } from "@/components/dashboard/admin/side-bar-ins
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
@@ -14,21 +13,20 @@ import {
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { SidebarInset } from "@/components/ui/sidebar";
-import photo1 from "@/public/gallery/cute-photo-1.jpg";
-import photo2 from "@/public/gallery/cute-photo-2.jpg";
-import photo3 from "@/public/gallery/cute-photo-3.jpg";
-import photo4 from "@/public/gallery/cute-photo-4.jpg";
-import photo5 from "@/public/gallery/cute-photo-5.jpg";
-import photo6 from "@/public/gallery/cute-photo-6.jpeg";
-import photo7 from "@/public/gallery/cute-photo-7.jpg";
-import photo8 from "@/public/gallery/cute-photo-8.jpeg";
-import photo9 from "@/public/gallery/cute-photo-9.jpeg";
-import photo10 from "@/public/gallery/cute-photo-10.jpg";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+
 function GalleryComponent() {
-    const allImages = [photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10];
+    const [allImages, setAllImage] = useState([])
+
+    useEffect(() => {
+        fetch('/api/gallery')
+            .then(res => res.json())
+            .then(data => {
+                setAllImage(data)
+            })
+    }, [])
     const imagesPerPage = 9;
     const columns = 3;
 
@@ -77,7 +75,7 @@ function GalleryComponent() {
                                     <div key={imageIndex} className="relative">
                                         <Trash2 className="absolute top-3 right-2 text-red-800 cursor-pointer" />
                                         <Image
-                                            src={image}
+                                            src={image.image}
                                             width={300}
                                             height={300}
                                             className="w-full"

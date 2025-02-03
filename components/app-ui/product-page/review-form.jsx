@@ -3,29 +3,88 @@ import { IoStar } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+const reviewSchema = z.object({
+    name: z.string().min(3, "Name is required"),
+    email: z.string().email("Invalid email address").min(3, "Email is required"),
+    review: z.string().min(10, "Review content is required"),
+    rating: z.number().min(1, "Rating is required").max(5, "Rating must be between 1 and 5"),
+});
 
 export default function ReviewForm() {
-    const { id } = useParams(); // Extract id from the URL parameters
-    const [rating, setRating] = useState(0); // State to track the selected rating
+    const { id } = useParams();
+    const { data: session } = useSession();
 
+    const [rating, setRating] = useState(0);
+    const [errors, setErrors] = useState({});
+    
     const handleStarClick = (starIndex) => {
-        setRating(starIndex + 1); // Update rating when a star is clicked
+        console.log(starIndex)
+        setRating(starIndex + 1);
     };
 
-    const handleSubmit = (e) => {
+    const handleInputChange = (field) => {
+        setErrors((prevErrors) => {
+            const updatedErrors = { ...prevErrors };
+            delete updatedErrors[field];
+            return updatedErrors;
+        });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         const formData = new FormData(e.target);
         const reviewContent = formData.get("review");
         const name = formData.get("name");
         const email = formData.get("email");
-        
-        console.log("Form Submitted");
-        console.log("Product ID:", id);
-        console.log("Rating:", rating);
-        console.log("Review Content:", reviewContent);
-        console.log("Name:", name);
-        console.log("Email:", email);
+
+        const formValues = {
+            name,
+            email,
+            review: reviewContent,
+            rating,
+        };
+
+        try {
+            reviewSchema.parse(formValues);
+            setErrors({});
+
+            console.log("Form Submitted");
+            console.log("Product ID:", id);
+            console.log("Rating:", rating);
+            console.log("Review Content:", reviewContent);
+            console.log("Name:", name);
+            console.log("Email:", email);
+            console.log("UserId", session?.user?.id);
+            const response = await fetch('/api/review', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...formValues,
+                    userId: session?.user?.id,
+                    productId: id,
+                }),
+            })
+            if (!response.ok) {
+                throw new Error("Failed to submit review");
+            }
+            const data = await response.json();
+            console.log(data);
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const errorMessages = err.errors.reduce((acc, error) => {
+                    acc[error.path[0]] = error.message;
+                    return acc;
+                }, {});
+                setErrors(errorMessages);
+            }
+        }
     };
 
     return (
@@ -34,31 +93,54 @@ export default function ReviewForm() {
                 <label htmlFor="rating" className="text-xl font-bold">Your Rating:</label>
                 <div className="flex gap-2">
                     {[...Array(5)].map((_, starIndex) => (
-                        <div key={starIndex}>
-                            <input 
-                                type="radio" 
-                                id={`star-${starIndex + 1}`} 
-                                name="rating" 
-                                value={starIndex + 1} 
-                                className="hidden" 
-                                onClick={() => handleStarClick(starIndex)} // Set rating on click
-                            />
-                            <label 
-                                htmlFor={`star-${starIndex + 1}`} 
-                                className={`text-lg cursor-pointer ${starIndex < rating ? 'text-yellow-500' : 'text-gray-400'}`} // Color change based on rating
-                            >
-                                <IoStar />
-                            </label>
-                        </div>
+                        <label 
+                            key={starIndex} 
+                            htmlFor={`star-${starIndex + 1}`} 
+                            className={`text-2xl cursor-pointer ${starIndex + 1 <= rating ? 'text-yellow-500' : 'text-gray-400'}`} 
+                            onClick={() => handleStarClick(starIndex)}
+                        >
+                            <IoStar />
+                        </label>
                     ))}
                 </div>
             </div>
-            <textarea name="review" rows="4" placeholder="Write a review..." className="w-full p-4 bg-[#214207] text-white rounded-2xl"/>
+            {errors.rating && <p className="text-red-500 text-sm">{errors.rating}</p>}
+            
+            <textarea
+                name="review"
+                rows="4"
+                placeholder="Write a review..."
+                className="w-full p-4 bg-[#214207] text-white rounded-2xl"
+                onChange={() => handleInputChange("review")}
+            />
+            {errors.review && <p className="text-red-500 text-sm">{errors.review}</p>}
+
             <div className="grid gap-4 grid-cols-2">
-                <Input name="name" type="text" placeholder="Name" className="bg-[#214207] text-white py-6 rounded-2xl" />
-                <Input name="email" type="email" placeholder="Email" className="bg-[#214207] text-white py-6 rounded-2xl" />
+                <div>
+                    <Input
+                        name="name"
+                        type="text"
+                        placeholder="Name"
+                        className="bg-[#214207] text-white py-6 rounded-2xl"
+                        onChange={() => handleInputChange("name")}
+                    />
+                    {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+                </div>
+                <div>
+                    <Input
+                        name="email"
+                        type="email"
+                        placeholder="Email"
+                        className="bg-[#214207] text-white py-6 rounded-2xl"
+                        onChange={() => handleInputChange("email")}
+                    />
+                    {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                </div>
             </div>
-            <button type="submit" className="bg-[#214207] hover:bg-[#2b4d12] text-white font-medium py-4 px-4 rounded-md shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <button
+                type="submit"
+                className="bg-[#214207] hover:bg-[#2b4d12] text-white font-medium py-4 px-4 rounded-md shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
                 Submit Review
             </button>
         </form>

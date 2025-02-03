@@ -1,7 +1,8 @@
 import Image from "next/image";
 import cofounderImage from "@/public/cofounder-girl.jpg";
 import Link from "next/link";
-import { Playfair_Display, Shippori_Antique, Outfit } from "next/font/google";
+import { Playfair_Display, Outfit } from "next/font/google";
+
 
 const playfair_display = Playfair_Display({
     subsets: ["latin"],
@@ -31,7 +32,7 @@ export default function ServiceSection() {
                 {/* Text Content */}
                 <div className="w-full md:w-[50%] text-center md:text-left">
                     <h2
-                        className={`uppercase text-[32px] sm:text-[40px] text-[#38271F] ${playfair_display.className} antialiased`}
+                        className={`uppercase text-[32px] sm:text-[40px] text-black ${playfair_display.className} antialiased`}
                     >
                         Professional Braid feel
                     </h2>
@@ -39,7 +40,7 @@ export default function ServiceSection() {
                         LOCATED IN 5811 Freedom Drive, Charlotte, NC 28214
                     </h3>
                 <p
-                    className={`mb-10 ${outfit.className} text-[12px] sm:text-[14px] tracking-widest text-sm font-light text-[#2D2D2D]`}
+                    className={`mb-10 ${outfit.className} text-[12px] sm:text-[14px] tracking-widest text-sm font-light text-black`}
                 >
                     At Victoria Hair Braiding and Weaving Center, we specialize in creating beautiful, 
                     custom braids and weaves that express your unique style. From box braids to knotless, cornrows, 

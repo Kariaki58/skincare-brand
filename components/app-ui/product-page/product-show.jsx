@@ -2,23 +2,31 @@
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useProductStore from "@/store/productStore";
-import image3 from "@/public/product-images/image4.jpg";
 import { IoStar } from "react-icons/io5";
 import Link from "next/link";
-import { TiSocialFacebook } from "react-icons/ti";
-import { RiTwitterXLine } from "react-icons/ri";
-import { TiSocialLinkedin } from "react-icons/ti";
-import { FaWhatsapp } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
 import { useParams } from "next/navigation";
+import useCartStore from "@/store/cartStore";
 
+
+function calculateAverageRating(reviews) {
+    if (!reviews.length) return 0;
+
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return totalRating / reviews.length;
+}
 
 export default function ProductShow() {
     const params = useParams();
     const { products, fetchProducts } = useProductStore();
+    const [quantity, setQuantity] = useState(1);
     const { id } = params
+    const { addToCart } = useCartStore();
+
+    const handleAddToCart = () => {
+        addToCart(products, quantity);
+    };
 
     useEffect(() => {
         if (id) {
@@ -29,7 +37,7 @@ export default function ProductShow() {
     if (!products || products.length === 0) {
         return <p>Loading...</p>;
     }
-    
+        
     return (
         <section className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 p-6 md:p-10">
             {/* Carousel Section */}
@@ -64,10 +72,24 @@ export default function ProductShow() {
                 <div className="flex items-center gap-3">
                     <div className="flex justify-center gap-1">
                         {[...Array(5)].map((_, starIndex) => (
-                            <IoStar key={starIndex} className="text-[#214207] text-xl" />
+                            <div key={starIndex}>
+                                <input 
+                                    type="radio" 
+                                    id={`star-${starIndex + 1}`} 
+                                    name="rating" 
+                                    value={starIndex + 1} 
+                                    className="hidden" 
+                                />
+                                <label 
+                                    htmlFor={`star-${starIndex + 1}`} 
+                                    className={`text-lg ${starIndex < calculateAverageRating(products.reviews) ? 'text-[#214207]' : 'text-gray-400'}`} // Color change based on rating
+                                >
+                                    <IoStar />
+                                </label>
+                            </div>
                         ))}
                     </div>
-                    <Link href="#" className="text-sm text-[#38271F] underline">(5 customer reviews)</Link>
+                    <Link href={`/product/${id}/reviews`} className="text-sm text-[#38271F] underline">({products.reviews.length} customer reviews)</Link>
                 </div>
                 <p className="text-lg text-gray-700 leading-relaxed">
                     {products.description}
@@ -77,12 +99,17 @@ export default function ProductShow() {
                     <p className="line-through text-lg text-gray-400">${products.price}</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <select className="border w-full bg-[#38271F] text-white px-4 py-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all duration-200">
+                    <select className="border w-full bg-[#38271F] text-white px-4 py-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all duration-200"
+                        onChange={(e) => setQuantity(e.target.value)}
+                        value={quantity}
+                    >
                         {[1, 2, 3, 4].map((quantity) => (
                             <option key={quantity} value={quantity}>{quantity}</option>
                         ))}
                     </select>
-                    <button className="bg-[#38271F] w-full hover:bg-[#291c17] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg">
+                    <button className="bg-[#38271F] w-full hover:bg-[#291c17] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg"
+                        onClick={handleAddToCart}
+                    >
                         Add to Cart
                     </button>
                 </div>

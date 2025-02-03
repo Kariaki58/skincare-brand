@@ -17,7 +17,7 @@ export default function Home() {
       <CategorySection />
       <FeaturedProducts />
       <Review />
-      <VideoGallery />
+      {/* <VideoGallery /> */}
       <ClientShowCase />
     </div>
   );

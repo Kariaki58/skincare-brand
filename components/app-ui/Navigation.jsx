@@ -6,11 +6,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Outfit } from "next/font/google";
 import { Spectral } from "next/font/google";
-import { Shippori_Antique } from "next/font/google";
 import { Button } from "../ui/button";
 import { ShoppingBag, AlignJustify, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/public/image-logo.png";
+import useCartStore from "@/store/cartStore";
 
 
 const outfit = Outfit({
@@ -23,16 +23,13 @@ const spectral = Spectral({
     weight: "400",
 });
 
-const shipporiAntique = Shippori_Antique({
-    subsets: ["latin"],
-    weight: "400",
-});
 
 export default function Navigation() {
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
+    const { cart } = useCartStore();
+    
 
-    // Framer Motion animation variants
     const menuVariants = {
         hidden: { opacity: 0, y: "-100%" },
         visible: { opacity: 1, y: 0 },
@@ -41,23 +38,20 @@ export default function Navigation() {
 
     return (
         <nav className="flex justify-between items-center p-4 max-w-screen-xl mx-auto">
-        {/* Logo */}
         <div className="flex items-center">
             <Link href="/" className={`flex items-center text-5xl text-[#7e5a4b] ${spectral.className} italic`}>
                 <Image
                     src={logo}
                     alt="Logo for the clinic"
-                    className="h-auto w-auto max-h-20 max-w-20 object-contain" // Ensures responsiveness
+                    className="h-auto w-auto max-h-20 max-w-20 object-contain"
                     priority
-                    width={80} // Set explicit width
-                    height={80} // Set explicit height
+                    width={80}
+                    height={80}
                 />
             </Link>
         </div>
-
-        {/* Middle navigation for larger screens */}
         <ul
-            className={`hidden lg:flex gap-5 text-[12px] text-[#2b4715] tracking-widest ${outfit.className} antialiased`}
+            className={`hidden lg:flex gap-5 text-[12px] text-white font-bold tracking-widest ${outfit.className} antialiased`}
         >
             <li className="hover:underline">
                 <Link href="/">HOME</Link>
@@ -81,10 +75,10 @@ export default function Navigation() {
         </ul>
 
         {/* Right section */}
-        <ul className={`flex items-center gap-5 text-[12px] text-[#2b4715] ${outfit.className} tracking-widest`}>
+        <ul className={`flex items-center gap-5 text-[12px] text-white font-bold ${outfit.className} tracking-widest`}>
             <li className="hover:underline">
                 {session ? (
-                    <Link href={session?.user?.role === "user" ? "/dashboard/user" : "/dashboard/admin"}>
+                    <Link href={session?.user?.role === "user" ? "/" : "/dashboard/admin"}>
                     <p className="ml-2 text-[12px]">PROFILE</p>
                     </Link>
                 ) : (
@@ -98,22 +92,22 @@ export default function Navigation() {
                     </div>
                 )}
             </li>
-            <li>
+            <li className="relative">
                 <Link href="/cart">
                     <ShoppingBag className="cursor-pointer" />
                 </Link>
-                
+                <span className="text-sm absolute -top-5 -right-3 bg-green-950 text-white p-1 rounded-lg">{cart.length}</span>
             </li>
             <li className="lg:hidden">
                 {menuOpen ? (
                     <X
-                    className="cursor-pointer text-[#2b4715]"
+                    className="cursor-pointer text-white font-bold"
                     size={24}
                     onClick={() => setMenuOpen(false)}
                     />
                 ) : (
                     <AlignJustify
-                    className="cursor-pointer text-[#2b4715]"
+                    className="cursor-pointer text-white font-bold"
                     size={24}
                     onClick={() => setMenuOpen(true)}
                     />
@@ -121,11 +115,10 @@ export default function Navigation() {
             </li>
         </ul>
 
-        {/* Full-screen navigation for small screens */}
         <AnimatePresence>
             {menuOpen && (
             <motion.div
-                className="fixed inset-0 bg-[#f5f5f5] z-50 flex flex-col items-center justify-center text-[#2b4715]"
+                className="fixed inset-0 bg-[#f5f5f5] z-50 flex flex-col items-center justify-center text-white font-bold"
                 initial="hidden"
                 animate="visible"
                 exit="exit"

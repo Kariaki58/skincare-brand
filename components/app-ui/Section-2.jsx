@@ -26,9 +26,9 @@ export default function SectionHeadline() {
     return (
         <section className="mx-auto max-w-screen-xl mt-20 px-5 md:px-2 lg:px-0">
             <div className="text-center">
-                <h1 className={`text-[40px] text-[#38271F] ${playfair_display.className} antialiased uppercase`}>Beautiful girls braid quality hair.</h1>
-                <h3 className={`${shipporiAntique.className} my-6 text-[#38271F] tracking-widest text-[13px] uppercase`}>WE OFFER Micro braids, Box braids, Comfortability & ALL THINGS Braiding</h3>
-                <p className={`max-w-3xl  mx-auto text-[15px] font-light leading-7 ${outfit.className} antialiased`}>
+                <h1 className={`text-[40px] font-bold text-black ${playfair_display.className} antialiased uppercase`}>Beautiful girls braid quality hair.</h1>
+                <h3 className={`${shipporiAntique.className} my-6 text-black tracking-widest text-[13px] uppercase`}>WE OFFER Micro braids, Box braids, Comfortability & ALL THINGS Braiding</h3>
+                <p className={`max-w-3xl text-white mx-auto text-[15px] font-light leading-7 ${outfit.className} antialiased`}>
                     At Victoria Hair Braiding and Weaving Center, our mission is to empower 
                     every client with a sense of beauty and confidence through exceptional hair 
                     braiding and styling services. We believe that hair is more than just a look—it’s 

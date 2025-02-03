@@ -7,7 +7,7 @@ export default function Customers() {
     return (
         <SidebarInset>
             <SidebarInsetComponent />
-            <Suspense>
+            <Suspense fallback={<div>Loading...</div>}>
                 <CustomerTable />
             </Suspense>
         </SidebarInset>

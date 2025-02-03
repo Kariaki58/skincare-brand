@@ -12,6 +12,15 @@ export default {
     			custom: 'calc(100vh - 50px)'
     		},
     		colors: {
+				'gray-50': '#f9fafb',
+				'gray-100': '#f3f4f6',
+				'gray-200': '#e5e7eb',
+				'gray-700': '#374151',
+				'gray-900': '#111827',
+				'blue-600': '#2563eb',
+				'red-50': '#fef2f2',
+				'red-600': '#dc2626',
+				'red-700': '#b91c1c',
     			background: 'hsl(var(--background))',
     			foreground: 'hsl(var(--foreground))',
     			card: {

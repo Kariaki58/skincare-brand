@@ -39,17 +39,17 @@ export default function ServiceSection1() {
                 {/* Text Section */}
                 <div className="max-w-xl space-y-6 lg:space-y-8 text-center lg:text-left">
                     <h1
-                    className={`text-4xl ${spectral.className} text-[#38271F] mb-4 font-semibold uppercase`}
+                    className={`text-4xl ${spectral.className} text-black mb-4 font-semibold uppercase`}
                     >
                         Choose a perfect style for your hair
                     </h1>
                     <h3
-                    className={`uppercase ${shipporiAntique.className} text-[14px] lg:text-[16px] text-[#38271F] font-bold`}
+                    className={`uppercase ${shipporiAntique.className} text-[14px] lg:text-[16px] text-black font-bold`}
                     >
                         Hair braiding & Weaving
                     </h3>
                     <p
-                    className={`leading-[24px] lg:leading-[30px] text-[#2D2D2D] ${outfit.className} text-[14px] lg:text-[15px]`}
+                    className={`leading-[24px] lg:leading-[30px] text-black ${outfit.className} text-[14px] lg:text-[15px]`}
                     >
                         At Victoria Hair Braiding & Weaving Center, we specialize in high-quality braiding 
                         and weaving services. Whether you're looking for intricate braids, protective weaves, 
