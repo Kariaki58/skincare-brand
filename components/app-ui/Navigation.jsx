@@ -6,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Outfit } from "next/font/google";
 import { Spectral } from "next/font/google";
-import { Button } from "../ui/button";
 import { ShoppingBag, AlignJustify, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/public/image-logo.png";
@@ -77,19 +76,10 @@ export default function Navigation() {
         {/* Right section */}
         <ul className={`flex items-center gap-5 text-[12px] text-white font-bold ${outfit.className} tracking-widest`}>
             <li className="hover:underline">
-                {session ? (
+                {session && (
                     <Link href={session?.user?.role === "user" ? "/" : "/dashboard/admin"}>
                     <p className="ml-2 text-[12px]">PROFILE</p>
                     </Link>
-                ) : (
-                    <div className="flex gap-2">
-                        <Button className="text-white hidden lg:block" onClick={() => signIn({ callbackUrl: "/" })}>
-                            Sign Up
-                        </Button>
-                        <Button className="text-white" onClick={() => signIn({ callbackUrl: "/" })}>
-                            Login
-                        </Button>
-                    </div>
                 )}
             </li>
             <li className="relative">
