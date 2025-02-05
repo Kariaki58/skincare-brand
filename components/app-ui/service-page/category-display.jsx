@@ -22,37 +22,9 @@ import { Button } from "@/components/ui/button";
 import SlotTimeDisplay from "../booking/services/slot-time-display";
 import ProceedLink from "../booking/ProceedLink";
 import { useSession } from "next-auth/react";
-
-// const servicesData = [
-//     {
-//         "_id": "67a0e7d2025c0ba70932a72d",
-//         "name": "service name",
-//         "description": "service description",
-//         "duration": 3000,
-//         "price": 10000,
-//         "image": "http://res.cloudinary.com/duswkmqbu/image/upload/v1738598355/hdqzfh2hmndzg7ehkslt.png",
-//         "categoryId": {
-//             "_id": "67a0e7cd025c0ba70932a72b",
-//             "name": "new category name",
-//             "subHeading": "category subheading",
-//             "description": "category description"
-//         }
-//     },
-//     {
-//         "_id": "67a16d821871627678f9967a",
-//         "name": "new service showcase",
-//         "description": "service description",
-//         "duration": 120,
-//         "price": 400,
-//         "image": "http://res.cloudinary.com/duswkmqbu/image/upload/v1738632576/d0kr3ggyzdvvivigiddw.png",
-//         "categoryId": {
-//             "_id": "67a0e7cd025c0ba70932a72b",
-//             "name": "new category name",
-//             "subHeading": "category subheading",
-//             "description": "category description"
-//         }
-//     }
-// ];
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 
 export default function CategoryDisplay() {
@@ -60,15 +32,23 @@ export default function CategoryDisplay() {
     const [openDrawer, setOpenDrawer] = useState(null);
     const [servicesData, setServicesData] = useState([]);
     const [selectedServices, setSelectedServices] = useState([]);
-    const { data: session } = useSession();
     const [searchTerm, setSearchTerm] = useState("");
+    const router = useRouter();
+    const { data: session } = useSession();
+
 
     const fetchData = async () => {
-        const res = await fetch("/api/services", 
-            { method: "GET", headers: { "Content-Type": "application/json" } }
-        );
-        const data = await res.json();
-        setServicesData(data);
+        try {
+            const res = await fetch("/api/services", 
+                { method: "GET", headers: { "Content-Type": "application/json" } }
+            );
+            if (!res.ok) throw new Error("Failed to fetch services");
+            const data = await res.json();
+    
+            setServicesData(data);
+        } catch (error) {
+            console.error("Error fetching services:", error);
+        }
     };
     useEffect(() => {
         fetchData();
@@ -78,6 +58,7 @@ export default function CategoryDisplay() {
         const categoryName = service.categoryId.name;
         if (!acc[categoryName]) {
             acc[categoryName] = {
+                _id: service.categoryId._id,
                 categoryServiceName: categoryName,
                 benefits: service.categoryId.subHeading,
                 summary: service.categoryId.description,
@@ -85,10 +66,11 @@ export default function CategoryDisplay() {
             };
         }
         acc[categoryName].categoryServices.push({
+            _id: service._id,
             title: service.name,
             about: service.description,
             image: service.image,
-            duration: `${service.duration} minutes`,
+            duration: `${service.duration}mins`,
             price: `$${service.price}`,
             select: false
         });
@@ -117,26 +99,74 @@ export default function CategoryDisplay() {
 
     const handleSearch = (e) => setSearchTerm(e.target.value);
 
+    const handleEdit = async (id, option) => {
+        router.push(`/dashboard/admin/services/edit/${id}/${option}`);
+    }
+
+    const handleDelete = async (id) => {
+        if (!confirm("Are you sure you want to delete this service?")) return;
+        try {
+            const res = await fetch(`/api/services/${id}`, {
+                method: "DELETE",
+                body: JSON.stringify({ userId: session?.user?.id }),
+                headers: { "Content-Type": "application/json" },
+            });
+            if (!res.ok) throw new Error("Failed to delete service");
+            fetchData();
+        } catch (error) {
+            console.error("Error deleting service:", error);
+        }
+    }
+    const handleCategoryDelete = async (id) => {
+        if (!confirm("Are you sure you want to delete this category?")) return;
+        try {
+            const res = await fetch(`/api/services/category/${id}`, {
+                method: "DELETE",
+                body: JSON.stringify({ userId: session?.user?.id }),
+                headers: { "Content-Type": "application/json" },
+            });
+            if (!res.ok) throw new Error("Failed to delete category");
+            fetchData();
+        } catch (error) {
+            console.error("Error deleting category:", error);
+        }
+    }
+
     const filteredServices = categoryService
         .flatMap((category) => category.categoryServices)
         .filter((service) =>
             service.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
-
         return (
             <section className="max-w-screen-xl px-10 mx-auto text-black">
                 {categoryService.map((category, categoryIndex) => (
                     <div key={categoryIndex} className="mb-16">
-                        <h2 className="text-5xl font-light text-black uppercase mb-4">{category.categoryServiceName}</h2>
-                        <h4 className="text-[16px] font-bold text-black mb-4 uppercase">{category.benefits}</h4>
+                        <div className="flex justify-between items-center gap-4">
+                            <div>
+                                <h2 className="text-5xl font-light text-black uppercase mb-4">{category.categoryServiceName}</h2>
+                                <h4 className="text-[16px] font-bold text-black mb-4 uppercase">{category.benefits}</h4>
+                            </div>
+                            {
+                                session?.user?.role === "admin" ? (
+                                    <div className="flex gap-2 text-white bg-black p-3">
+                                        <FaEdit size={24} className="cursor-pointer"
+                                            onClick={() => handleEdit(category._id, "category")}
+                                        />
+                                        <MdDeleteForever size={24} className="cursor-pointer" onClick={() => handleCategoryDelete(category._id)}/>
+                                    </div>
+                                ) : <></>
+                            }
+                            
+                            
+                        </div>
                         <summary className="leading-[30px] text-black text-[15px] list-none mb-10 max-w-screen-lg">
                             {category.summary}
                         </summary>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             {category.categoryServices.map((service, serviceIndex) => (
                                 <div key={serviceIndex} className="overflow-hidden">
-                                    <div>
+                                    <div className="relative">
                                         <Image
                                             src={service.image}
                                             alt={service.title}
@@ -145,6 +175,16 @@ export default function CategoryDisplay() {
                                             height={300}
                                             priority
                                         />
+                                        {
+                                            session?.user?.role === "admin" ? (
+                                                <div className="absolute top-0 bg-black text-white right-0 cursor-pointer flex gap-4 p-3">
+                                                    <FaEdit size={24} className="cursor-pointer"
+                                                        onClick={() => handleEdit(service._id, "service")}
+                                                    />
+                                                    <MdDeleteForever size={24} className="cursor-pointer" onClick={() => handleDelete(service._id)}/>
+                                                </div>
+                                            ): <></>
+                                        }
                                     </div>
                                     <div className="pt-5">
                                         <h3 className="text-[25px] font-medium mb-2 text-black">{service.title}</h3>

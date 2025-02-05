@@ -90,6 +90,8 @@ const ProductForm = ({ productId, initialData }) => {
 
         const formData = new FormData();
 
+        console.log(session?.user)
+
         formData.append("name", product.name);
         formData.append("stock", product.stock);
         formData.append("price", product.price);

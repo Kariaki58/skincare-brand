@@ -5,7 +5,7 @@ import serviceCategory from "@/models/service-category";
 export async function GET(request) {
     try {
         await connectToDatabase();
-        const serviceCategories = await serviceCategory.find({}, { subHeading: 0, description: 0 }).exec();
+        const serviceCategories = await serviceCategory.find({}).exec();
 
         return new Response(JSON.stringify(serviceCategories), {
             status: 200,

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import clientFirst from "@/public/client-1.jpg";
 import clientSecond from "@/public/client-2.jpg";
 import { Spectral, Shippori_Antique, Outfit } from "next/font/google";
 

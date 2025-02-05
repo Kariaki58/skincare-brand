@@ -35,7 +35,7 @@ export const options = {
                     }
                     return {
                         ...profile,
-                        id: profile.sub,
+                        id: user._id.toString(),
                         role: user.role,
                     };
                 } catch (error) {

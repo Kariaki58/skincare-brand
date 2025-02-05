@@ -3,6 +3,7 @@ import User from "@/models/user";
 import Product from "@/models/product";
 import Category from "@/models/category";
 import Review from "@/models/review";
+import mongoose from "mongoose";
 import { uploadImage } from "@/lib/cloudinary-upload";
 
 export async function GET(request) {
@@ -100,8 +101,15 @@ export async function POST(request) {
     try {
         await connectToDatabase();
         const content = await request.formData();
-        const user = await User.findById(content.get("userId"));
+        const userId = content.get("userId");
 
+        console.log({ userId })
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return new Response(JSON.stringify({ error: "Invalid user Id" }), { status: 404, headers: { 'Content-Type': 'application/json'}})
+        }
+
+        const user = await User.findById(userId);
 
         if (!user) {
             return new Response(JSON.stringify({ error: "User not found" }), {
