@@ -1,151 +1,159 @@
 "use client";
-import { useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
-import { addDays, format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import ProceedLink from "@/components/app-ui/booking/ProceedLink";
-import { AnimatePresence, motion } from "framer-motion";
+import DatePicker from "react-datepicker";
+import Image from "next/image";
+import "react-datepicker/dist/react-datepicker.css";
 
+export default function BookingPage() {
+    const [selectedServices, setSelectedServices] = useState([]);
+    const [serviceDetails, setServiceDetails] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [formData, setFormData] = useState({ name: "", email: "", phone: "", additionalInfo: "" });
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedSlot, setSelectedSlot] = useState(null);
+    const bookedSlots = {};
+    const router = useRouter();
 
-export default function SlotTimeDisplay() {
-    const [selectedDate, setSelectedDate] = useState(null); // State for the selected date
-        const timeSlots = [
-            { start: "08:00 AM", booked: false },
-            { start: "8:15AM", booked: false },
-            { start: "8:30AM", booking: false },
-            { start: "8:45AM", booking: false },
-            { start: "09:00 AM", booked: false },
-            { start: "9:15AM", booked: false },
-            { start: "9:30AM", booked: true },
-            { start: "9:45AM", booked: true },
-            { start: "10:00 AM", booked: true },
-            { start: "10:15 AM", booked: true },
-            { start: "10:30 AM", booked: true },
-            { start: "10:45 AM", booked: false },
-            { start: "11:00 AM", booked: false },
-            { start: "11:15 AM", booked: false },
-            { start: "11:30 AM", booked: false },
-            { start: "11:45 AM", booked: false },
-            { start: "12:00 PM", booked: false },
-            { start: "12:15 PM", booked: false },
-            { start: "12:30 PM", booked: false },
-            { start: "12:45 PM", booked: false },
-            { start: "01:00 PM", booked: false },
-            { start: "01:15 PM", booked: false },
-            { start: "01:30 PM", booked: false },
-            { start: "01:45 PM", booked: false },
-            { start: "02:00 PM", booked: false },
-            { start: "02:15 PM", booked: false },
-            { start: "02:30 PM", booked: false },
-            { start: "02:45 PM", booked: false },
-            { start: "03:00 PM", booked: false },
-            { start: "03:15 PM", booked: false },
-            { start: "03:30 PM", booked: false },
-            { start: "03:45 PM", booked: false },
-            { start: "04:00 PM", booked: false },
-            { start: "04:15 PM", booked: false },
-        ]
-    
-        const [selectedSlotIndex, setSelectedSlotIndex] = useState(null); // State for selected slot index
-    
-        const handleSlotToggle = (index) => {
-            setSelectedSlotIndex((prevIndex) => (prevIndex === index ? null : index));
+    useEffect(() => {
+        const storedServices = JSON.parse(localStorage.getItem("selectedServices")) || [];
+        setSelectedServices(storedServices);
+    }, []);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                setLoading(true);
+                const fetchedDetails = await Promise.all(
+                    selectedServices.map(async (id) => {
+                        const res = await fetch(`/api/services/${id}`);
+                        if (!res.ok) throw new Error("Failed to fetch service");
+                        return res.json();
+                    })
+                );
+                setServiceDetails(fetchedDetails);
+            } catch (error) {
+                console.error("Error fetching services:", error);
+            } finally {
+                setLoading(false);
+            }
         };
+        if (selectedServices.length > 0) fetchServices();
+    }, [selectedServices]);
+
+    const removeService = (id) => {
+        const updatedServices = selectedServices.filter(serviceId => serviceId !== id);
+        setSelectedServices(updatedServices);
+        localStorage.setItem("selectedServices", JSON.stringify(updatedServices));
+    };
+
+    const calculateTotalDuration = () => {
+        return serviceDetails.reduce((total, service) => total + service.duration, 0);
+    };
+
+    const generateTimeSlots = () => {
+        const slots = [];
+        const totalDuration = calculateTotalDuration();
+        let startTime = 8 * 60; // 8:00 AM in minutes
+        const endTime = 18 * 60; // 6:00 PM in minutes
     
+        while (startTime + totalDuration <= endTime) {
+            const hours = Math.floor(startTime / 60);
+            const minutes = startTime % 60;
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
+            const displayMinutes = minutes === 0 ? '00' : minutes;
+            const timeString = `${displayHours}:${displayMinutes} ${ampm}`;
+            slots.push({ time: timeString, bookings: bookedSlots[selectedDate]?.[timeString] || 0 });
+            startTime += 15; // Increment by 15 minutes
+        }
+        return slots;
+    };
+    
+
+    const filteredTimeSlots = () => {
+        const slots = generateTimeSlots();
+        const currentTime = new Date();
+        const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+        return slots.filter(slot => {
+            const [hours, minutes] = slot.time.split(':');
+            const slotMinutes = parseInt(hours) * 60 + parseInt(minutes);
+            return slotMinutes >= currentMinutes;
+        });
+    };
+    
+
+    const handleBooking = async (e) => {
+        e.preventDefault();
+        if (!selectedSlot) return alert("Please select a time slot");
+        try {
+            console.log(formData);
+            console.log(selectedSlot);
+            console.log(selectedDate);
+            console.log(selectedServices);
+            const res = await fetch("/api/bookings", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...formData, selectedDate, selectedSlot, services: selectedServices }),
+            });
+            if (!res.ok) throw new Error("Booking failed");
+            alert("Booking successful!");
+            // router.push("/confirmation");
+        } catch (error) {
+            console.error("Error booking service:", error);
+        }
+    };
+
     return (
-        <section>
-            <div className="flex justify-center">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant={"outline"}
-                            className={cn(
-                                "w-[240px] justify-start text-left font-normal",
-                                !selectedDate && "text-muted-foreground"
-                            )}
-                        >
-                            <CalendarIcon />
-                            {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                        align="start"
-                        className="flex w-auto flex-col space-y-2 p-2"
-                    >
-                        <Select
-                            onValueChange={(value) =>
-                                setSelectedDate(addDays(new Date(), parseInt(value)))
-                            }
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select" />
-                            </SelectTrigger>
-                            <SelectContent position="popper">
-                                <SelectItem value="0">Today</SelectItem>
-                                <SelectItem value="1">Tomorrow</SelectItem>
-                                <SelectItem value="3">In 3 days</SelectItem>
-                                <SelectItem value="7">In a week</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <div className="rounded-md border pb-5 p-5 w-full max-w-lg">
-                            <Calendar 
-                                mode="single" 
-                                selected={selectedDate} 
-                                onSelect={setSelectedDate} 
-                                className="text-[30px] [&_.day]:text-2xl [&_.day]:font-bold" 
-                            />
+        <section className="max-w-screen-lg mx-auto p-6">
+            <h1 className="text-3xl font-bold mb-6">Book Your Service</h1>
+            {loading ? (
+                <p>Loading services...</p>
+            ) : (
+                <div>
+                    {serviceDetails.map((service, index) => (
+                        <div key={index} className="mb-4 flex justify-between items-center">
+                            <div>
+                                <h2 className="text-xl font-semibold">{service.name}</h2>
+                                <Image src={service.image} alt={service.name} width={100} height={100} className="w-16 h-16 object-cover rounded-lg"/>
+                            </div>
+                            <Button className="bg-red-500 text-white px-4 py-2" onClick={() => removeService(service._id)}>Remove</Button>
                         </div>
-                    </PopoverContent>
-                </Popover>
-            </div>
-            <AnimatePresence>
-                {selectedDate && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        className="pt-10 px-5"
-                    >
-                        <div className="flex flex-wrap">
-                            {timeSlots.map((slot, index) => (
-                                <button
-                                    key={index}
-                                    className={cn(
-                                        "p-3 border bg-transparent m-1 rounded-full transition-colors duration-300",
-                                        index === selectedSlotIndex
-                                            ? "bg-[#7E5A4B] text-white"
-                                            : slot.booked
-                                            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                            : "hover:bg-gray-100"
-                                    )}
-                                    disabled={slot.booked}
-                                    onClick={() => handleSlotToggle(index)}
-                                >
-                                    {slot.start}
-                                </button>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-            {selectedSlotIndex !== null && (
-                <ProceedLink nextLink="/book/confirm" disabled/>
+                    ))}
+                    <Button className="bg-blue-600 text-white px-4 py-2 mb-4" onClick={() => router.push("/services")}>Add Another Booking</Button>
+                    <h3 className="text-xl font-semibold mt-6">Select a Date</h3>
+                    <DatePicker 
+                        selected={selectedDate} 
+                        onChange={date => setSelectedDate(date)} 
+                        onChangeRaw={(e) => e.preventDefault()}
+                        className="border p-2 mt-3"
+                        minDate={new Date()} 
+                        dateFormat="Pp"
+                    />
+                    <h3 className="text-xl font-semibold mt-6">Select a Time Slot</h3>
+                    <div className="grid grid-cols-4 gap-2 mt-3">
+                        {filteredTimeSlots().map((slot, index) => (
+                            <Button
+                                key={index}
+                                className={`p-2 ${selectedSlot === slot.time ? "bg-green-600" : "bg-gray-300"}`}
+                                onClick={() => setSelectedSlot(slot.time)}
+                            >
+                                {slot.time}
+                            </Button>
+                        ))}
+                    </div>
+
+                    <form onSubmit={handleBooking} className="mt-6">
+                        <input type="text" placeholder="Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full p-2 border mb-2" required />
+                        <input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full p-2 border mb-2" required />
+                        <input type="tel" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full p-2 border mb-2" required />
+                        <textarea placeholder="Additional Information" value={formData.additionalInfo} onChange={(e) => setFormData({ ...formData, additionalInfo: e.target.value })} className="w-full p-2 border mb-2"></textarea>
+                        <Button type="submit" className="bg-blue-600 text-white px-4 py-2 mt-3">Confirm Booking</Button>
+                    </form>
+                </div>
             )}
         </section>
-        
-    )
+    );
 }

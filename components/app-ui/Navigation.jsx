@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -26,7 +26,11 @@ const spectral = Spectral({
 export default function Navigation() {
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
-    const { cart } = useCartStore();
+    const { cart, initializeCart } = useCartStore();
+
+    useEffect(() => {
+        initializeCart();
+    }, [initializeCart]);
     
 
     const menuVariants = {
@@ -108,7 +112,7 @@ export default function Navigation() {
         <AnimatePresence>
             {menuOpen && (
             <motion.div
-                className="fixed inset-0 bg-[#f5f5f5] z-50 flex flex-col items-center justify-center text-white font-bold"
+                className="fixed inset-0 bg-gradient-to-br from-[rgb(20,68,20)] to-[rgb(248,248,0)] z-50 flex flex-col items-center justify-center text-white font-bold"
                 initial="hidden"
                 animate="visible"
                 exit="exit"

@@ -10,7 +10,7 @@ const useCartStore = create((set, get) => {
                 set({ cart: storedCart });
             }
         },
-
+        
         addToCart: (product, quantity = 1) => {
             set((state) => {
                 const existingProduct = state.cart.find((item) => item._id === product._id);
