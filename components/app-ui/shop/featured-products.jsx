@@ -30,27 +30,29 @@ export default function FeaturedProducts() {
                 SHOP OUR WIDE RANGE OF PRODUCTS
             </h1>
             <div className="flex justify-center items-center mt-4">
-                <div className="flex gap-5 flex-wrap">
-                    <div className="relative h-96 w-full md:w-96 rounded-lg">
-                        <Image
-                            src={ProductImage}
-                            alt="Contact page image"
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-lg"
-                        />
+                <div className="flex flex-col md:flex-row gap-5 w-full max-w-4xl px-4">
+                    {/* Image Card 1 */}
+                    <div className="relative w-full md:w-1/2 aspect-[4/5] rounded-lg overflow-hidden">
+                    <Image
+                        src={ProductImage}
+                        alt="Contact page image"
+                        fill
+                        className="object-cover rounded-lg"
+                    />
                     </div>
-                    <div className="relative h-96 w-full md:w-96 rounded-lg">
-                        <Image
-                            src={storeImage}
-                            alt="Contact page image"
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-lg"
-                        />
+
+                    {/* Image Card 2 */}
+                    <div className="relative w-full md:w-1/2 aspect-[4/5] rounded-lg overflow-hidden">
+                    <Image
+                        src={storeImage}
+                        alt="Contact page image"
+                        fill
+                        className="object-cover rounded-lg"
+                    />
                     </div>
                 </div>
             </div>
+
             <Link
                 href="/shop"
                 className="flex items-center justify-center gap-2 mt-10 hover:underline"

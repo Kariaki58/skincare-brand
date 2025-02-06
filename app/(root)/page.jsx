@@ -6,18 +6,19 @@ import Review from "@/components/app-ui/Reviews";
 import ClientShowCase from "@/components/app-ui/ClientShowCase";
 import FeaturedProducts from "@/components/app-ui/shop/featured-products";
 import VideoGallery from "@/components/app-ui/video-gallery";
-
+import VideoBackground from "@/components/app-ui/videoBackground";
 
 export default function Home() {
   return (
     <div>
-      <Header />
+      <VideoBackground />
+      {/* <Header /> */}
       <SectionHeadline />
       <ServiceSection />
-      <CategorySection />
+      <VideoGallery />
+      {/* <CategorySection /> */}
       <FeaturedProducts />
       <Review />
-      {/* <VideoGallery /> */}
       <ClientShowCase />
     </div>
   );
