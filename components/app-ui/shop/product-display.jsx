@@ -15,13 +15,21 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
+import { cache } from "react";
 
 function calculateAverageRating(reviews) {
     if (!reviews?.length) return 0;
     const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
     return totalRating / reviews.length;
 }
+
+// ✅ Wrap fetch function inside cache() to memoize it
+const fetchCachedProducts = cache(async (queryString) => {
+    const response = await fetch(`/api/products?${queryString}`, { next: { revalidate: 1800 } });
+    if (!response.ok) throw new Error('Failed to fetch products');
+    return response.json();
+});
 
 export default function ProductDisplay() {
     const pathname = usePathname();
@@ -36,9 +44,7 @@ export default function ProductDisplay() {
             try {
                 const params = Object.fromEntries(searchParams.entries());
                 const queryString = new URLSearchParams(params).toString();
-                const response = await fetch(`/api/products?${queryString}`);
-                if (!response.ok) throw new Error('Failed to fetch products');
-                const data = await response.json();
+                const data = await fetchCachedProducts(queryString); // ✅ Uses cached fetch
                 setProductQueryContent(data);
             } catch (err) {
                 setError(err.message);
@@ -79,9 +85,6 @@ export default function ProductDisplay() {
                                     priority
                                 />
                             </Link>
-                            <div className="absolute top-2 left-2 bg-[rgba(46,119,46,0.8)] px-3 py-1 text-xs text-white font-bold rounded-md">
-                                {Math.round(((product.basePrice - product.price) / product.basePrice) * 100)}% OFF
-                            </div>
                             <div className="absolute bottom-0 left-0 flex items-center gap-2">
                                 <Button variant="default" className="bg-[#214207] hover:bg-[#5CA02F] text-white flex items-center gap-2 rounded-none" onClick={() => handleAddToCart(product._id)}>
                                     <MdOutlineShoppingCart className="text-xl" />
@@ -112,82 +115,19 @@ export default function ProductDisplay() {
                 <Pagination className="mt-8">
                     <PaginationContent>
                         <PaginationItem>
-                            <PaginationPrevious
-                                href={productQueryContent.hasPrevPage ? getPageHref(productQueryContent.currentPage - 1) : '#'}
-                                aria-disabled={!productQueryContent.hasPrevPage}
-                                className={!productQueryContent.hasPrevPage ? 'opacity-50 cursor-not-allowed' : ''}
-                            />
+                            <PaginationPrevious href={productQueryContent.currentPage > 1 ? getPageHref(productQueryContent.currentPage - 1) : '#'} />
                         </PaginationItem>
 
-                        {/* First Page */}
-                        <PaginationItem>
-                            <PaginationLink
-                                href={getPageHref(1)}
-                                isActive={1 === productQueryContent.currentPage}
-                            >
-                                1
-                            </PaginationLink>
-                        </PaginationItem>
-
-                        {/* Ellipsis before current page if needed */}
-                        {productQueryContent.currentPage > 3 && (
-                            <PaginationItem>
-                                <PaginationEllipsis />
-                            </PaginationItem>
-                        )}
-
-                        {/* Previous page if not adjacent to first */}
-                        {productQueryContent.currentPage > 2 && (
-                            <PaginationItem>
-                                <PaginationLink href={getPageHref(productQueryContent.currentPage - 1)}>
-                                    {productQueryContent.currentPage - 1}
+                        {[...Array(productQueryContent.totalPages)].map((_, index) => (
+                            <PaginationItem key={index}>
+                                <PaginationLink href={getPageHref(index + 1)} isActive={index + 1 === productQueryContent.currentPage}>
+                                    {index + 1}
                                 </PaginationLink>
                             </PaginationItem>
-                        )}
-
-                        {/* Current page if not first/last */}
-                        {(productQueryContent.currentPage !== 1 && productQueryContent.currentPage !== productQueryContent.totalPages) && (
-                            <PaginationItem>
-                                <PaginationLink href={getPageHref(productQueryContent.currentPage)} isActive>
-                                    {productQueryContent.currentPage}
-                                </PaginationLink>
-                            </PaginationItem>
-                        )}
-
-                        {/* Next page if not adjacent to last */}
-                        {productQueryContent.currentPage < productQueryContent.totalPages - 1 && (
-                            <PaginationItem>
-                                <PaginationLink href={getPageHref(productQueryContent.currentPage + 1)}>
-                                    {productQueryContent.currentPage + 1}
-                                </PaginationLink>
-                            </PaginationItem>
-                        )}
-
-                        {/* Ellipsis after current page if needed */}
-                        {productQueryContent.currentPage < productQueryContent.totalPages - 2 && (
-                            <PaginationItem>
-                                <PaginationEllipsis />
-                            </PaginationItem>
-                        )}
-
-                        {/* Last Page */}
-                        {productQueryContent.totalPages > 1 && (
-                            <PaginationItem>
-                                <PaginationLink
-                                    href={getPageHref(productQueryContent.totalPages)}
-                                    isActive={productQueryContent.totalPages === productQueryContent.currentPage}
-                                >
-                                    {productQueryContent.totalPages}
-                                </PaginationLink>
-                            </PaginationItem>
-                        )}
+                        ))}
 
                         <PaginationItem>
-                            <PaginationNext
-                                href={productQueryContent.hasNextPage ? getPageHref(productQueryContent.currentPage + 1) : '#'}
-                                aria-disabled={!productQueryContent.hasNextPage}
-                                className={!productQueryContent.hasNextPage ? 'opacity-50 cursor-not-allowed' : ''}
-                            />
+                            <PaginationNext href={productQueryContent.currentPage < productQueryContent.totalPages ? getPageHref(productQueryContent.currentPage + 1) : '#'} />
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>

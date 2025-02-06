@@ -88,6 +88,11 @@ export default function CategoryDisplay() {
         return acc;
     }, {});
 
+    const handleEdit = (categoryId, type) => {
+        router.push(`/admin/categories/edit/${categoryId}`)
+    };
+    
+
     const categoryService = Object.values(groupedCategories);
 
     return (
@@ -119,9 +124,8 @@ export default function CategoryDisplay() {
                                                 />
                                                 <MdDeleteForever size={24} className="cursor-pointer" onClick={() => handleCategoryDelete(category._id)}/>
                                             </div>
-                                        ) : <></>
-                                    }
-                                    <div className="flex absolute top-80 left-1/2 transform -translate-x-1/2 z-50 items-center justify-center right-0 gap-2">
+                                        ) : <>
+                                        <div className="flex absolute top-80 left-1/2 transform -translate-x-1/2 z-50 items-center justify-center right-0 gap-2">
                                         <Button 
                                             onClick={() => toggleSelection(service._id)}
                                             className={`flex items-center gap-4 px-4 py-2 rounded-sm ${selectedServices.includes(service._id) ? 'bg-green-600' : 'bg-black/80 hover:bg-black/90'}`}
@@ -130,6 +134,9 @@ export default function CategoryDisplay() {
                                             <span>{selectedServices.includes(service._id) ? "SELECTED" : "SELECT"}</span>
                                         </Button>
                                     </div>
+                                        </>
+                                    }
+                                    
                                     <div className="pt-5">
                                         <h3 className="text-[25px] font-medium mb-2">{service.title}</h3>
                                         <div className="flex justify-between items-center text-xl my-2">
@@ -144,13 +151,13 @@ export default function CategoryDisplay() {
                     </div>
                 ))
             )}
-            {selectedServices.length > 0 && (
+            {selectedServices.length > 0 && session?.user?.role !== "admin" ? (
                 <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 z-50">
                     <Link href="/services/booking/confirmed" className="bg-black/70 text-white px-10 py-5 rounded-full shadow-lg hover:bg-[#1b3606]">
                         Proceed
                     </Link>
                 </div>
-            )}
+            ):<></>}
         </section>
     );
 }

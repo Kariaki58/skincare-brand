@@ -1,12 +1,9 @@
 import { Playfair_Display, Shippori_Antique } from "next/font/google";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
-import image1 from "@/public/product-images/image2.jpg";
-import image2 from "@/public/product-images/image3.jpg";
-import image3 from "@/public/product-images/image4.jpg";
-import image4 from "@/public/product-images/image5.jpg";
-import ProductDisplay from "../product-display/product-display";
-import { Suspense } from "react";
+import Image from "next/image";
+import ProductImage from "@/public/product-images/product-image-1.jpeg"
+import storeImage from "@/public/product-images/store-image-2.jpeg";
 
 const playfair_display = Playfair_Display({
     subsets: ["latin"],
@@ -18,7 +15,6 @@ const shipporiAntique = Shippori_Antique({
     weight: "400",
 });
 
-const images = [image1, image2, image3, image4];
 
 export default function FeaturedProducts() {
     return (
@@ -33,9 +29,28 @@ export default function FeaturedProducts() {
             >
                 SHOP OUR WIDE RANGE OF PRODUCTS
             </h1>
-            <Suspense fallback={<p>Loading...</p>}>
-                <ProductDisplay images={images}/>
-            </Suspense>
+            <div className="flex justify-center items-center mt-4">
+                <div className="flex gap-5 flex-wrap">
+                    <div className="relative h-96 w-full md:w-96 rounded-lg">
+                        <Image
+                            src={ProductImage}
+                            alt="Contact page image"
+                            layout="fill"
+                            objectFit="cover"
+                            className="rounded-lg"
+                        />
+                    </div>
+                    <div className="relative h-96 w-full md:w-96 rounded-lg">
+                        <Image
+                            src={storeImage}
+                            alt="Contact page image"
+                            layout="fill"
+                            objectFit="cover"
+                            className="rounded-lg"
+                        />
+                    </div>
+                </div>
+            </div>
             <Link
                 href="/shop"
                 className="flex items-center justify-center gap-2 mt-10 hover:underline"
