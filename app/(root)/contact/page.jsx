@@ -17,14 +17,14 @@ export default function page() {
                     />
                 </div>
                 <div className="text-center md:text-left mt-4 md:mt-0">
-                    <h1 className="text-2xl md:text-4xl uppercase text-gray-700 my-4">Visit Us in Person</h1>
-                    <address className="text-lg text-gray-700 mb-2">5811 Freedom Drive, Charlotte, NC 28214</address>
-                    <h3 className="text-lg text-gray-700 uppercase">MONDAY TO SATURDAY - 8 AM TO 6 PM</h3>
+                    <h1 className="text-2xl md:text-4xl uppercase text-black my-4">Visit Us in Person</h1>
+                    <address className="text-lg text-black mb-2">5811 Freedom Drive, Charlotte, NC 28214</address>
+                    <h3 className="text-lg text-black uppercase">MONDAY TO SATURDAY - 8 AM TO 6 PM</h3>
                 </div>
             </div>
             <div className="space-y-5 md:w-1/2">
                 <h1 className="uppercase text-xl md:text-2xl text-center text-gray-800">Contact Victoria Hair Braiding and Weaving Center</h1>
-                <h3 className="uppercase text-center text-gray-700">Located at 5811 Freedom Drive, Charlotte, NC</h3>
+                <h3 className="uppercase text-center text-black">Located at 5811 Freedom Drive, Charlotte, NC</h3>
                 <p className="text-center text-sm text-gray-800 tracking-wider leading-relaxed">
                     Please fill out the form below & we’ll get in touch with you shortly! 
                     You can also email us directly at <span>info@victoriahairbraiding.com</span>

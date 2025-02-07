@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import GalleryUploadButton from "@/components/dashboard/admin/gallery-upload-button/gallery-upload-button";
 import { SidebarInsetComponent } from "@/components/dashboard/admin/side-bar-inset-component";
 import {
@@ -13,20 +13,11 @@ import {
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { SidebarInset } from "@/components/ui/sidebar";
-import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-
 function GalleryComponent() {
-    const [allImages, setAllImage] = useState([])
-
-    useEffect(() => {
-        fetch('/api/gallery')
-            .then(res => res.json())
-            .then(data => {
-                setAllImage(data)
-            })
-    }, [])
+    const [allImages, setAllImage] = useState([]);
+    const [totalPages, setTotalPage] = useState(1);
     const imagesPerPage = 9;
     const columns = 3;
 
@@ -35,14 +26,16 @@ function GalleryComponent() {
 
     // Get current page from URL or default to page 1
     const currentPageFromUrl = parseInt(searchParams.get("page")) || 1;
-
-    const totalPages = Math.ceil(allImages.length / imagesPerPage);
-
     const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
 
     useEffect(() => {
-        setCurrentPage(currentPageFromUrl);
-    }, [currentPageFromUrl]);
+        fetch(`/api/gallery?page=${currentPage}&limit=${imagesPerPage}`)
+            .then(res => res.json())
+            .then(data => {
+                setAllImage(data.gallery);
+                setTotalPage(data.pagination.totalPages);
+            });
+    }, [currentPage]);
 
     const handlePageChange = (page) => {
         router.push(`?page=${page}`);
@@ -64,15 +57,14 @@ function GalleryComponent() {
 
     const handleDelete = (id) => (e) => {
         e.preventDefault();
-        console.log(id)
         fetch(`/api/gallery/${id}`, {
             method: 'DELETE',
         })
             .then(res => res.json())
             .then(() => {
-                setAllImage(allImages.filter(image => image._id!== id));
-            })
-    }
+                setAllImage(allImages.filter(image => image._id !== id));
+            });
+    };
 
     return (
         <SidebarInset>
@@ -85,13 +77,16 @@ function GalleryComponent() {
                             <div className="space-y-2">
                                 {columnImages.map((image, imageIndex) => (
                                     <div key={image._id} className="relative">
-                                        <Trash2 onClick={handleDelete(image._id)} className="absolute top-3 right-2 text-red-800 cursor-pointer" />
+                                        <Trash2
+                                            onClick={handleDelete(image._id)}
+                                            className="absolute top-3 right-2 text-red-800 cursor-pointer"
+                                        />
                                         <Image
                                             src={image.image}
                                             width={300}
                                             height={300}
                                             className="w-full"
-                                            alt={`Cute Photo ${imageIndex + 1}`}
+                                            alt={`Image ${imageIndex + 1}`}
                                         />
                                     </div>
                                 ))}
