@@ -19,46 +19,57 @@ const spectral = Spectral({ subsets: ["latin"], weight: "300" });
 export function GalleryShow() {
     const [allImages, setAllImages] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
-
-    useEffect(() => {
-        fetch("/api/gallery")
-            .then((res) => res.json())
-            .then((data) => {
-                setAllImages(data);
-            });
-    }, []);
+    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const imagesPerPage = 20;
     const searchParams = useSearchParams();
     const router = useRouter();
     const currentPageFromUrl = parseInt(searchParams.get("page")) || 1;
-    const totalPages = Math.ceil(allImages.length / imagesPerPage);
     const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
 
     useEffect(() => {
         setCurrentPage(currentPageFromUrl);
     }, [currentPageFromUrl]);
 
+    useEffect(() => {
+        try {
+            setLoading(true);
+            fetch(`/api/gallery?page=${currentPage}&limit=${imagesPerPage}`)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+                console.log(data.pagination.totalPages)
+                setAllImages(data.gallery);
+                setTotalPages(data.pagination.totalPages);
+            });
+        } catch (error) {
+            setError("error: something went wrong, please reload the page.");
+        } finally {
+            setLoading(false);
+        }
+        
+    }, [currentPage]);
+
     const handlePageChange = (page) => {
         router.push(`?page=${page}`);
         setCurrentPage(page);
     };
 
-    const paginatedImages = allImages.slice(
-        (currentPage - 1) * imagesPerPage,
-        currentPage * imagesPerPage
-    );
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
 
     return (
         <>
-            <div className="flex  justify-center">
+            <div className="flex justify-center">
                 <h1 className={`uppercase text-black text-center text-4xl ${spectral.className} antialiased md:text-left mb-6`}>
                     OUR WORK FROM PASSED CLIENTS
                 </h1>
             </div>
             <section className="max-w-screen-xl mx-auto my-10 px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {paginatedImages.map((image, index) => (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {allImages.map((image, index) => (
                         <Image
                             key={index}
                             src={image.image}
