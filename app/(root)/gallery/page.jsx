@@ -11,83 +11,68 @@ import {
 } from "@/components/ui/pagination";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import { Spectral } from "next/font/google";
+import { X } from "lucide-react";
 
-const spectral = Spectral({
-    subsets: ["latin"],
-    weight: "300",
-});
-
+const spectral = Spectral({ subsets: ["latin"], weight: "300" });
 
 export function GalleryShow() {
-    const [allImages, setAllImage] = useState([])
-    
-        useEffect(() => {
-            fetch('/api/gallery')
-                .then(res => res.json())
-                .then(data => {
-                    setAllImage(data)
-                })
-        }, [])
-        const imagesPerPage = 9;
-        const columns = 3;
-    
-        const searchParams = useSearchParams();
-        const router = useRouter();
-    
-        // Get current page from URL or default to page 1
-        const currentPageFromUrl = parseInt(searchParams.get("page")) || 1;
-    
-        const totalPages = Math.ceil(allImages.length / imagesPerPage);
-    
-        const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
-    
-        useEffect(() => {
-            setCurrentPage(currentPageFromUrl);
-        }, [currentPageFromUrl]);
-    
-        const handlePageChange = (page) => {
-            router.push(`?page=${page}`);
-            setCurrentPage(page);
-        };
-    
-        // Get paginated data
-        const paginatedImages = allImages.slice(
-            (currentPage - 1) * imagesPerPage,
-            currentPage * imagesPerPage
-        );
-    
-        const groupedImages = paginatedImages.reduce((result, image, index) => {
-            const columnIndex = index % columns;
-            if (!result[columnIndex]) result[columnIndex] = [];
-            result[columnIndex].push(image);
-            return result;
-        }, []);
+    const [allImages, setAllImages] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    useEffect(() => {
+        fetch("/api/gallery")
+            .then((res) => res.json())
+            .then((data) => {
+                setAllImages(data);
+            });
+    }, []);
+
+    const imagesPerPage = 20;
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const currentPageFromUrl = parseInt(searchParams.get("page")) || 1;
+    const totalPages = Math.ceil(allImages.length / imagesPerPage);
+    const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
+
+    useEffect(() => {
+        setCurrentPage(currentPageFromUrl);
+    }, [currentPageFromUrl]);
+
+    const handlePageChange = (page) => {
+        router.push(`?page=${page}`);
+        setCurrentPage(page);
+    };
+
+    const paginatedImages = allImages.slice(
+        (currentPage - 1) * imagesPerPage,
+        currentPage * imagesPerPage
+    );
 
     return (
         <>
-            <h1 className={`uppercase text-[#38271F] text-4xl ${spectral.className} antialiased flex justify-center md:text-left`}>OUR WORK FROM PASSED CLIENTS</h1>
-            <section className="max-w-screen-xl mx-auto my-10">
-                <div className="grid grid-cols-3 gap-2">
-                    {groupedImages.map((columnImages, columnIndex) => (
-                        <div key={columnIndex}>
-                            <div className="space-y-2">
-                                {columnImages.map((image, imageIndex) => (
-                                    <Image
-                                        key={imageIndex}
-                                        src={image.image}
-                                        width={300}
-                                        height={300}
-                                        className="w-full hover:cursor-pointer"
-                                        alt={`Cute Photo ${imageIndex + 1}`}
-                                    />
-                                ))}
-                            </div>
-                        </div>
+            <div className="flex  justify-center">
+                <h1 className={`uppercase text-black text-center text-4xl ${spectral.className} antialiased md:text-left mb-6`}>
+                    OUR WORK FROM PASSED CLIENTS
+                </h1>
+            </div>
+            <section className="max-w-screen-xl mx-auto my-10 px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {paginatedImages.map((image, index) => (
+                        <Image
+                            key={index}
+                            src={image.image}
+                            width={300}
+                            height={300}
+                            className="w-full h-auto object-cover rounded-lg shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105"
+                            alt={`Gallery Image ${index + 1}`}
+                            onClick={() => setSelectedImage(image.image)}
+                        />
                     ))}
                 </div>
             </section>
+
+            {/* Pagination */}
             <Pagination>
                 <PaginationContent>
                     <PaginationItem>
@@ -115,10 +100,30 @@ export function GalleryShow() {
                     </PaginationItem>
                 </PaginationContent>
             </Pagination>
+
+            {/* Image Modal */}
+            {selectedImage && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-md p-4">
+                    <div className="relative p-5 bg-white rounded-lg shadow-xl max-w-3xl w-full flex flex-col items-center">
+                        <button
+                            className="absolute top-3 right-3 text-gray-700 hover:text-gray-900 bg-gray-200 rounded-full p-2 transition-all hover:bg-gray-300"
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            <X size={24} />
+                        </button>
+                        <Image
+                            src={selectedImage}
+                            width={600}
+                            height={600}
+                            className="rounded-lg w-full h-auto object-contain max-h-[80vh]"
+                            alt="Selected Gallery Image"
+                        />
+                    </div>
+                </div>
+            )}
         </>
     );
 }
-
 
 export default function Page() {
     return (
