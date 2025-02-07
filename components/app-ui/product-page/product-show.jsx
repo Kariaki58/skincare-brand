@@ -55,7 +55,7 @@ export default function ProductShow() {
                         ))}
                     </div>
                     <Link href={`/product/${id}/reviews`} className="text-sm text-[#38271F] underline">
-                        ({product.reviews.length} customer reviews)
+                        ({product?.reviews?.length} customer reviews)
                     </Link>
                 </div>
                 <p className="text-lg text-gray-700 leading-relaxed">{product.description}</p>
