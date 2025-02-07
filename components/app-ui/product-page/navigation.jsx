@@ -6,11 +6,9 @@ import useProductStore from "@/store/productStore";
 
 
 export default function Navigation() {
-    const pathname = usePathname();
     const params = useParams();
     const productId = params.id;
 
-    const isActive = (path) => pathname.startsWith(path);
 
     const { products, fetchProducts } = useProductStore();
     
@@ -27,7 +25,7 @@ export default function Navigation() {
     return (
         <nav className="flex justify-center">
             <ul className="flex items-center gap-8">
-                <li
+                {/* <li
                     className={`text-xl font-medium ${
                         isActive("/product/") && !pathname.includes("/reviews")
                             ? "text-[#214207] font-semibold"
@@ -35,13 +33,9 @@ export default function Navigation() {
                     }`}
                 >
                     <Link href={`/product/${productId}`}>Additional information</Link>
-                </li>
+                </li> */}
                 <li
-                    className={`text-xl font-medium ${
-                        isActive("/product/") && pathname.includes("/reviews")
-                            ? "text-[#214207] font-semibold"
-                            : "text-gray-600"
-                    }`}
+                    className={`text-xl text-[#214207] font-semibold`}
                 >
                 <Link href={`/product/${productId}/reviews`}>
                     {products?.reviews?.length === 1 ? `Review (${products?.reviews?.length})` : `Reviews (${products?.reviews?.length})`}

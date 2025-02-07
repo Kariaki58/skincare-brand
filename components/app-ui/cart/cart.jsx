@@ -93,21 +93,24 @@ export default function Cart() {
                     </div>
                 ))}
             </div>
-
-            <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row justify-around items-center gap-4">
-                <Link href="/shop">
-                    <button className="px-4 py-2 sm:px-6 sm:py-3 bg-[#214207] text-white rounded-md hover:bg-[#1e310f] transition duration-300 text-sm sm:text-base">
-                            Continue Shopping
-                    </button>
-                </Link>
-                <Link href="/checkout">
-                    <button
-                        className="px-4 py-2 sm:px-6 sm:py-3 bg-[#214207] text-white rounded-md hover:bg-[#1e310f] transition duration-300 text-sm sm:text-base"
-                    >
-                            Proceed to Checkout
-                    </button>
-                </Link>
-            </div>
+            {
+                cart.length > 0 && (
+                    <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row justify-around items-center gap-4">
+                        <Link href="/shop">
+                            <button className="px-4 py-2 sm:px-6 sm:py-3 bg-[#214207] text-white rounded-md hover:bg-[#1e310f] transition duration-300 text-sm sm:text-base">
+                                    Continue Shopping
+                            </button>
+                        </Link>
+                        <Link href="/checkout">
+                            <button
+                                className="px-4 py-2 sm:px-6 sm:py-3 bg-[#214207] text-white rounded-md hover:bg-[#1e310f] transition duration-300 text-sm sm:text-base"
+                            >
+                                    Proceed to Checkout
+                            </button>
+                        </Link>
+                    </div>
+                )
+            }
             <div className={`text-center mt-10 sm:mt-20 ${cart.length === 0 ? '' : 'hidden'}`}>
                 <p className="text-xl sm:text-2xl text-gray-700">Your cart is empty.</p>
                 <button className="mt-6 sm:mt-8 px-4 py-2 sm:px-6 sm:py-3 bg-gray-950 text-white rounded-md hover:bg-gray-600 transition duration-300 text-sm sm:text-base">

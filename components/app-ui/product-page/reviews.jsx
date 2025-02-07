@@ -23,14 +23,14 @@ export default function Review() {
     console.log(products)
 
     return (
-        <div className="space-y-4 p-10">
+        <div className="space-y-4 p-10 mt-20">
             {
                 products.reviews.map((review, index) => (
                     <div key={review._id} className="space-y-4">
                         <div className="flex justify-between items-center">
                             <div className="flex justify-center gap-1">
                                 {[...Array(review.rating)].map((_, starIndex) => (
-                                    <IoStar key={starIndex} className="text-[#214207] text-lg" />
+                                    <IoStar key={starIndex} className="text-[#e9ff23] text-lg" />
                                 ))}
                             </div>
                             <p>{new Date(review.createdAt).toLocaleDateString("en-GB", {
@@ -40,7 +40,7 @@ export default function Review() {
                             })}</p>
 
                         </div>
-                        <p className="text-[#38271F]">
+                        <p className="text-black">
                             {review.content}
                         </p>
                         <div className="flex items-center font-bold">

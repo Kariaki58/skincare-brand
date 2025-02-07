@@ -96,7 +96,7 @@ export default function ReviewForm() {
                         <label 
                             key={starIndex} 
                             htmlFor={`star-${starIndex + 1}`} 
-                            className={`text-2xl cursor-pointer ${starIndex + 1 <= rating ? 'text-yellow-500' : 'text-gray-400'}`} 
+                            className={`text-2xl cursor-pointer ${starIndex + 1 <= rating ? 'text-[#e9ff23]' : 'text-gray-400'}`} 
                             onClick={() => handleStarClick(starIndex)}
                         >
                             <IoStar />
