@@ -11,6 +11,7 @@ import useSWR from "swr";
 
 
 function calculateAverageRating(reviews) {
+    if (!reviews) return 0;
     if (!reviews.length) return 0;
 
     const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
@@ -82,7 +83,7 @@ export default function ProductShow() {
                                 />
                                 <label 
                                     htmlFor={`star-${starIndex + 1}`} 
-                                    className={`text-lg ${starIndex < calculateAverageRating(product.reviews) ? 'text-[#214207]' : 'text-gray-400'}`} // Color change based on rating
+                                    className={`text-lg ${starIndex < calculateAverageRating(product?.reviews) ? 'text-[#214207]' : 'text-gray-400'}`} // Color change based on rating
                                 >
                                     <IoStar />
                                 </label>
