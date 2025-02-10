@@ -1,5 +1,5 @@
 import Image from "next/image";
-import headerImage from "@/public/header-image.jpg"; // Change this if needed
+import headerImage from "@/public/header-image.jpg";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";

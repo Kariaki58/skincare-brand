@@ -1,72 +1,83 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
+import useSWRInfinite from "swr/infinite";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Spectral } from "next/font/google";
 import { X } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const spectral = Spectral({ subsets: ["latin"], weight: "300" });
 
-export function GalleryShow() {
-    const [allImages, setAllImages] = useState([]);
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+function GalleryShow() {
     const [selectedImage, setSelectedImage] = useState(null);
-    const [totalPages, setTotalPages] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const { toast } = useToast();
+    const observerRef = useRef(null);
 
-    const imagesPerPage = 20;
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const currentPageFromUrl = parseInt(searchParams.get("page")) || 1;
-    const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
+    const imagesPerPage = 3;
 
+    // SWR Infinite Hook
+    const { data, error, size, setSize, isValidating } = useSWRInfinite(
+        (index) => `/api/gallery?page=${index + 1}&limit=${imagesPerPage}`,
+        fetcher
+    );
+
+    // Combine images from all pages
+    const allImages = data ? data.flatMap((page) => page.gallery) : [];
+    const totalPages = data?.[0]?.pagination?.totalPages || 1;
+
+    // Handle error
+    if (error) {
+        toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: "There was a problem with your request.",
+        });
+
+        return (
+            <main className="flex justify-center items-center max-h-96 my-20">
+                <div className="flex flex-col items-center justify-center p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                    <p className="mb-2 font-semibold">Failed to fetch images</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                    >
+                        Reload Page
+                    </button>
+                </div>
+            </main>
+        );
+    }
+
+    // Infinite Scroll: Load next page when user reaches bottom
     useEffect(() => {
-        setCurrentPage(currentPageFromUrl);
-    }, [currentPageFromUrl]);
+        observerRef.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && size < totalPages) {
+                setSize((prev) => prev + 1);
+            }
+        });
 
-    useEffect(() => {
-        try {
-            setLoading(true);
-            fetch(`/api/gallery?page=${currentPage}&limit=${imagesPerPage}`)
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data)
-                console.log(data.pagination.totalPages)
-                setAllImages(data.gallery);
-                setTotalPages(data.pagination.totalPages);
-            });
-        } catch (error) {
-            setError("error: something went wrong, please reload the page.");
-        } finally {
-            setLoading(false);
+        if (observerRef.current && !isValidating) {
+            const observerTarget = document.querySelector("#load-more-trigger");
+            if (observerTarget) observerRef.current.observe(observerTarget);
         }
-        
-    }, [currentPage]);
 
-    const handlePageChange = (page) => {
-        router.push(`?page=${page}`);
-        setCurrentPage(page);
-    };
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
+        return () => {
+            if (observerRef.current) observerRef.current.disconnect();
+        };
+    }, [size, totalPages, isValidating]);
 
     return (
         <>
             <div className="flex justify-center">
                 <h1 className={`uppercase text-black text-center text-4xl ${spectral.className} antialiased md:text-left mb-6`}>
-                    OUR WORK FROM PASSED CLIENTS
+                    OUR WORK FROM PAST CLIENTS
                 </h1>
             </div>
+
+            {/* Gallery */}
             <section className="max-w-screen-xl mx-auto my-10 px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {allImages.map((image, index) => (
@@ -83,34 +94,10 @@ export function GalleryShow() {
                 </div>
             </section>
 
-            {/* Pagination */}
-            <Pagination>
-                <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious
-                            href={`?page=${Math.max(currentPage - 1, 1)}`}
-                            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-                        />
-                    </PaginationItem>
-                    {[...Array(totalPages).keys()].map((page) => (
-                        <PaginationItem key={page}>
-                            <PaginationLink
-                                href={`?page=${page + 1}`}
-                                isActive={currentPage === page + 1}
-                                onClick={() => handlePageChange(page + 1)}
-                            >
-                                {page + 1}
-                            </PaginationLink>
-                        </PaginationItem>
-                    ))}
-                    <PaginationItem>
-                        <PaginationNext
-                            href={`?page=${Math.min(currentPage + 1, totalPages)}`}
-                            onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
-                        />
-                    </PaginationItem>
-                </PaginationContent>
-            </Pagination>
+            {/* Infinite Scroll Load More Trigger */}
+            <div id="load-more-trigger" className="h-10 flex justify-center items-center">
+                {isValidating && <p className="text-gray-500">Loading more images...</p>}
+            </div>
 
             {/* Image Modal */}
             {selectedImage && (
@@ -137,9 +124,5 @@ export function GalleryShow() {
 }
 
 export default function Page() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <GalleryShow />
-        </Suspense>
-    );
+    return <GalleryShow />;
 }

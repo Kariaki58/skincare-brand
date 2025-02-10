@@ -1,4 +1,5 @@
 import AuthProvider from "@/components/AuthProvider";
+import { Toaster } from "@/components/ui/toaster"
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -25,7 +26,10 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f5f2f1]`}
       >
         <AuthProvider>
-          {children}
+          <main>
+            {children}
+          </main>
+          <Toaster />
         </AuthProvider>
       </body>
     </html>

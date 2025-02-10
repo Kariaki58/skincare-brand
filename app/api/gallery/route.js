@@ -11,7 +11,7 @@ export async function GET(request) {
         const url = new URL(request.url);
         
         const page = parseInt(url.searchParams.get('page')) || 1;  // Default to page 1 if not provided
-        const limit = parseInt(url.searchParams.get('limit')) || 10;  // Default to 10 items per page if not provided
+        const limit = parseInt(url.searchParams.get('limit')) || 3;  // Default to 10 items per page if not provided
 
         // Calculate the number of items to skip based on the page number
         const skip = (page - 1) * limit;
