@@ -108,11 +108,21 @@ export default function ProductShow() {
                             <option key={quantity} value={quantity}>{quantity}</option>
                         ))}
                     </select>
-                    <button className="bg-[#38271F] w-full hover:bg-[#291c17] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg"
-                        onClick={handleAddToCart}
-                    >
-                        Add to Cart
-                    </button>
+                    {product.stock > 0 ? (
+                        <button className="bg-[#38271F] w-full hover:bg-[#291c17] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg"
+                            onClick={handleAddToCart}
+                        >
+                            Add to Cart
+                        </button>
+                    ) : (
+                        <button
+                            className="bg-gray-400 text-white flex items-center gap-2 rounded-none cursor-not-allowed"
+                            disabled
+                        >
+                            <span>Out of Stock</span>
+                        </button>
+                    )}
+                    
                 </div>
                 <div className="border-t border-[#af9e96] pt-4 space-y-2 text-sm">
                     {/* <div className="flex items-center gap-2">

@@ -24,7 +24,6 @@ function calculateAverageRating(reviews) {
 }
 
 export default function ProductDisplay() {
-    const pathname = usePathname();
     const searchParams = useSearchParams();
     const { addToCart } = useCartStore();
     
@@ -62,10 +61,25 @@ export default function ProductDisplay() {
                                 />
                             </Link>
                             <div className="absolute bottom-0 left-0 flex items-center gap-2">
-                                <Button variant="default" className="bg-[#214207] hover:bg-[#5CA02F] text-white flex items-center gap-2 rounded-none" onClick={() => handleAddToCart(product._id)}>
-                                    <MdOutlineShoppingCart className="text-xl" />
-                                    <span>Add to Cart</span>
-                                </Button>
+                                {product.stock > 0 ? (
+                                    <Button
+                                        variant="default"
+                                        className="bg-[#214207] hover:bg-[#5CA02F] text-white flex items-center gap-2 rounded-none"
+                                        onClick={() => handleAddToCart(product._id)}
+                                    >
+                                        <MdOutlineShoppingCart className="text-xl" />
+                                        <span>Add to Cart</span>
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        variant="default"
+                                        className="bg-gray-400 text-white flex items-center gap-2 rounded-none cursor-not-allowed"
+                                        disabled
+                                    >
+                                        <MdOutlineShoppingCart className="text-xl" />
+                                        <span>Out of Stock</span>
+                                    </Button>
+                                )}
                             </div>
                         </div>
                         <div className="space-y-3 mt-4">
