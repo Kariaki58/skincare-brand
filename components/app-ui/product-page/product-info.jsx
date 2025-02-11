@@ -21,7 +21,6 @@ export default function ProductInfo({ id }) {
     if (!products || products.length === 0) {
         return <p>Loading...</p>;
     }
-    console.log(products)
     return (
         <div className="max-w-7xl mx-auto p-6 md:p-10">
             <Table className="border border-black">

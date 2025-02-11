@@ -64,7 +64,6 @@ export async function POST(request) {
             status: 201,
         });
     } catch (error) {
-        console.log(error);
         return new Response(JSON.stringify({ error: "Failed to place order" }), { status: 500 });
     }
 }

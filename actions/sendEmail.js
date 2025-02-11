@@ -46,7 +46,6 @@ export async function sendInquire(subject, html) {
         await transporter.sendMail(mailOptions);
         return true;
     } catch (error) {
-        console.log(error)
         return false;
     }
 }

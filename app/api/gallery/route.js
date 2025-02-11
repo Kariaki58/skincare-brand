@@ -85,7 +85,6 @@ export async function POST(request) {
             });
         }
 
-        console.log(responsedUpload.secure_url)
 
         const galleryItem = new Gallery({
             image: responsedUpload.secure_url,
@@ -97,7 +96,6 @@ export async function POST(request) {
             status: 201,
         });
     } catch (error) {
-        console.log(error);
         return new Response(JSON.stringify({ success: false, message: "Failed to upload image" }), {
             status: 500,
         });

@@ -89,10 +89,6 @@ export default function BookingPage() {
         e.preventDefault();
         if (!selectedSlot) return alert("Please select a time slot");
         try {
-            console.log(formData);
-            console.log(selectedSlot);
-            console.log(selectedDate);
-            console.log(selectedServices);
             const res = await fetch("/api/bookings", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

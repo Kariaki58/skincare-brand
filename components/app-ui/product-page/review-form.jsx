@@ -23,7 +23,6 @@ export default function ReviewForm() {
     const [errors, setErrors] = useState({});
     
     const handleStarClick = (starIndex) => {
-        console.log(starIndex)
         setRating(starIndex + 1);
     };
 

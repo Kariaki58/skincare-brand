@@ -32,8 +32,6 @@ export default function Page() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
-        console.log(serviceDetails);
     };
     return (
         <div className="max-w-screen-lg mx-auto bg-[#214207] p-4 my-20">

@@ -18,7 +18,6 @@ export async function GET(request) {
             sort = "",
             page = 1
         } = queryParams;
-        console.log({page})
 
         const filters = {};
 
@@ -37,16 +36,13 @@ export async function GET(request) {
 
         // Filter by category name
         if (category) {
-            console.log({category})
             const categoryData = await Category.findOne({ name: category.replace("-", " ") });
-            console.log(categoryData)
             if (categoryData) {
                 filters.category = categoryData._id;
             }
         }
 
 
-        console.log({filters});
 
         // Sorting logic
         const sortOptions = {};
@@ -71,7 +67,6 @@ export async function GET(request) {
             .limit(limit)
             .exec();
 
-        console.log({products})
 
         // Get total product count for pagination
         const totalProducts = await Product.countDocuments(filters);
@@ -103,7 +98,6 @@ export async function POST(request) {
         const content = await request.formData();
         const userId = content.get("userId");
 
-        console.log({ userId })
 
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             return new Response(JSON.stringify({ error: "Invalid user Id" }), { status: 404, headers: { 'Content-Type': 'application/json'}})

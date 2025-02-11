@@ -47,7 +47,6 @@ export async function POST(request) {
             return new Response("Additional info too long", { status: 400 });
         }
 
-        console.log(selectedDate)
 
         const selectedDateObj = new Date(selectedDate);
         selectedDateObj.setHours(0, 0, 0, 0);

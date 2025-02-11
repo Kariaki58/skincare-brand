@@ -20,7 +20,6 @@ export default function Review() {
     if (!products || products.length === 0) {
         return <p>Loading...</p>;
     }
-    console.log(products)
 
     return (
         <div className="space-y-4 p-10 mt-20">

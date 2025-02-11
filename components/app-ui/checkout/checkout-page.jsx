@@ -30,8 +30,6 @@ const CheckoutUI = () => {
     const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const handleOrders = async (data) => {
-        console.log("Order placed:", data);
-
         const response = await fetch("/api/order", {
             method: "POST",
             headers: {

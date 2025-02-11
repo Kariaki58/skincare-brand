@@ -116,7 +116,6 @@ export async function PUT(request, { params }) {
         if (!imageUrl || typeof imageUrl !== "string" || !imageUrl.startsWith("http")) {
             const file = content.get("image");
             if (file && file instanceof Blob) {
-                console.log("Uploading new image...");
                 const arrayBuffer = await file.arrayBuffer();
                 const buffer = new Uint8Array(arrayBuffer);
                 const uploadResult = await uploadImage(buffer);

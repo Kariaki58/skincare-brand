@@ -13,7 +13,6 @@ export default async function CustomerCard() {
         errorOccurred = true;
     }
 
-    console.log(customers)
     return (
         <div className="col-span-1 bg-white border-2 p-4 shadow-md rounded-xl flex justify-between items-start gap-3 text-gray-600">
             <div className="flex items-center gap-5">
