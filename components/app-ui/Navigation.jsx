@@ -63,13 +63,13 @@ export default function Navigation() {
                 <Link href="/about">ABOUT</Link>
             </li>
             <li className="hover:underline">
-                <Link href="/services">SERVICES</Link>
-            </li>
-            <li className="hover:underline">
                 <Link href="/gallery">GALLERY</Link>
             </li>
             <li className="hover:underline">
                 <Link href="/shop">SHOP</Link>
+            </li>
+            <li className="hover:underline">
+                <Link href="/appointment">APPOINTMENT</Link>
             </li>
             <li className="hover:underline">
                 <Link href="/contact">CONTACT</Link>
@@ -154,8 +154,8 @@ export default function Navigation() {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/services" onClick={() => setMenuOpen(false)}>
-                        SERVICES
+                        <Link href="/appointment" onClick={() => setMenuOpen(false)}>
+                        APPOINTMENT
                         </Link>
                     </li>
                     <li>
