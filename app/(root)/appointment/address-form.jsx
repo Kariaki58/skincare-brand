@@ -1,9 +1,9 @@
 "use client";
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from "react";
 import countryList from 'react-select-country-list';
 import Select from 'react-select';
 
-export default function AddressForm() {
+export default function AddressForm({ onChange }) {
     const [value, setValue] = useState('');
     const [countries, setCountries] = useState([]);
     
@@ -14,6 +14,7 @@ export default function AddressForm() {
 
     const handleCountryChange = (selectedOption) => {
         setValue(selectedOption);
+        onChange('country', selectedOption); // Pass the country data back to parent
     };
 
     return (
@@ -24,44 +25,72 @@ export default function AddressForm() {
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                     <div>
                         <label htmlFor="street" className="block text-sm font-medium text-white">Street Address</label>
-                        <input type="text" id="street" name="street" required
-                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input
+                            type="text"
+                            id="street"
+                            name="street"
+                            required
+                            onChange={(e) => onChange('street', e.target.value)}
+                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
                     </div>
 
                     {/* Address Line 2 */}
                     <div>
                         <label htmlFor="addressLine2" className="block text-sm font-medium text-white">Address Line 2</label>
-                        <input type="text" id="addressLine2" name="addressLine2"
-                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input
+                            type="text"
+                            id="addressLine2"
+                            name="addressLine2"
+                            onChange={(e) => onChange('addressLine2', e.target.value)}
+                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
                     </div>
                 </div>
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                     {/* City */}
                     <div>
                         <label htmlFor="city" className="block text-sm font-medium text-white">City</label>
-                        <input type="text" id="city" name="city" required
-                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            required
+                            onChange={(e) => onChange('city', e.target.value)}
+                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
                     </div>
 
                     {/* State/Province/Region */}
                     <div>
                         <label htmlFor="state" className="block text-sm font-medium text-white">State/Province/Region</label>
-                        <input type="text" id="state" name="state" required
-                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input
+                            type="text"
+                            id="state"
+                            name="state"
+                            required
+                            onChange={(e) => onChange('state', e.target.value)}
+                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
                     </div>
                 </div>
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                     {/* Postal/Zip Code */}
                     <div>
                         <label htmlFor="postalCode" className="block text-sm font-medium text-white">Postal/Zip Code</label>
-                        <input type="text" id="postalCode" name="postalCode" required
-                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input
+                            type="text"
+                            id="postalCode"
+                            name="postalCode"
+                            required
+                            onChange={(e) => onChange('postalCode', e.target.value)}
+                            className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
                     </div>
 
                     {/* Country */}
                     <div>
                         <label htmlFor="country" className="block text-sm font-medium text-white">Country</label>
-                        {/* Only render the Select component once the countries are loaded */}
                         {countries.length > 0 && (
                             <Select
                                 options={countries}
