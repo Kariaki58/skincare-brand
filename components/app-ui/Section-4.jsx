@@ -37,7 +37,7 @@ export default function CategorySection() {
                         <h2 className="text-3xl font-bold uppercase">The Gallery</h2>
                     </div>
                 </Link>
-                <Link href="/services" className="h-[40rem] shadow-xl order-2 lg:order-none shadow-black relative hover:cursor-pointer hover:opacity-80 transition-opacity duration-700">
+                <Link href="/appointment" className="h-[40rem] shadow-xl order-2 lg:order-none shadow-black relative hover:cursor-pointer hover:opacity-80 transition-opacity duration-700">
                     <Image
                         src={eyeLashes}
                         alt="co founder image for the clinic"
@@ -46,8 +46,8 @@ export default function CategorySection() {
                         priority
                     />
                     <div className="absolute bottom-5 left-0 w-full text-white p-4 text-center z-20">
-                        <h3>EXPORE</h3>
-                        <h2 className="text-3xl">OUR SERVICES</h2>
+                        <h3>BOOK</h3>
+                        <h2 className="text-3xl">APPOINTMENT</h2>
                     </div>
                 </Link>
                 <Link href="/about" className="h-[30rem] shadow-xl shadow-black relative hover:cursor-pointer hover:opacity-80 transition-opacity duration-700">

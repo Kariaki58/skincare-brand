@@ -14,7 +14,7 @@ export default function FooterLinks() {
             <nav className="flex gap-4 md:gap-10 lg:gap-20">
                 <Link href="/">HOME</Link>
                 <Link href="/about">ABOUT</Link>
-                <Link href="/services">SERVICES</Link>
+                <Link href="/appointment">APPOINTMENT</Link>
                 <Link href="/gallery">GALLERY</Link>
                 <Link href="/contact">CONTACT</Link>
                 <Link href={isAdmin ? '/dashboard/admin' : '/dashboard/user'}>PROFILE</Link>

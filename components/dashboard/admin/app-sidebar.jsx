@@ -92,8 +92,8 @@ const data = {
             isActive: false,
         },
         {
-            title: "Services",
-            url: "/dashboard/admin/services",
+            title: "appointment",
+            url: "/dashboard/admin/appointment",
             icon: Command,
             isActive: false,
         },

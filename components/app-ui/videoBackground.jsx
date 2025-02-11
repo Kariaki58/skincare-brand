@@ -48,7 +48,7 @@ const VideoBackground = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="mt-6"
             >
-                <Link href="/services" className="border-2 border-[#333333] bg-[#214207] px-10 py-4 text-white hover:bg-[#4caf50] hover:text-white transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl ml-5 text-[12px] font-[300]">
+                <Link href="/appointment" className="border-2 border-[#333333] bg-[#214207] px-10 py-4 text-white hover:bg-[#4caf50] hover:text-white transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl ml-5 text-[12px] font-[300]">
                     BOOK AN APPOINTMENT
                 </Link>
             </motion.div>

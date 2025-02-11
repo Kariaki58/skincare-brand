@@ -62,10 +62,10 @@ export default function ServiceSection() {
                     </ul>
                 </ul>
                 <Link
-                    href="/services"
+                    href="/appointment"
                     className={`inline-block border border-black px-8 sm:px-10 py-3 sm:py-4 text-white text-[10px] sm:text-[12px] bg-[#214207] hover:bg-[#2b4d12] transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl`}
                 >
-                    VIEW ALL SERVICES
+                    BOOK AN APPOINTMENT
                 </Link>
                 </div>
             </div>
