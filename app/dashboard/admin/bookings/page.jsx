@@ -54,22 +54,6 @@ export default function Page() {
                     </div>
                 </div>
             </div>
-            <div className="rounded-md  p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-                    <div className="bg-white border-2 rounded-md border-gray-200 shadow-md p-4 space-y-4">
-                        <p className="text-lg font-semibold">Top Booking Category</p>
-                        <p className="text-gray-500">Deluxe Spa Package</p>
-                    </div>
-                    <div className="bg-white border-2 rounded-md border-gray-200 shadow-md p-4 space-y-4">
-                        <p className="text-lg font-semibold">Most Active Day</p>
-                        <p className="text-gray-500">Saturday</p>
-                    </div>
-                    <div className="bg-white border-2 rounded-md border-gray-200 shadow-md p-4 space-y-4">
-                        <p className="text-lg font-semibold">Estimated Revenue</p>
-                        <p className="text-gray-500">$10,500</p>
-                    </div>
-                </div>
-            </div>
             <Suspense fallback={<div>Loading...</div>}>
                 <TablePagination />
             </Suspense>

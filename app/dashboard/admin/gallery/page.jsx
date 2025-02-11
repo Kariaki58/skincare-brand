@@ -1,5 +1,6 @@
 "use client";
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState } from "react";
+import useSWR from "swr";
 import GalleryUploadButton from "@/components/dashboard/admin/gallery-upload-button/gallery-upload-button";
 import { SidebarInsetComponent } from "@/components/dashboard/admin/side-bar-inset-component";
 import {
@@ -15,38 +16,28 @@ import Image from "next/image";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { useRouter, useSearchParams } from "next/navigation";
 
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 function GalleryComponent() {
-    const [allImages, setAllImage] = useState([]);
-    const [totalPages, setTotalPage] = useState(1);
     const imagesPerPage = 9;
     const columns = 3;
-
+    
     const searchParams = useSearchParams();
     const router = useRouter();
+    
+    const currentPage = parseInt(searchParams.get("page")) || 1;
 
-    // Get current page from URL or default to page 1
-    const currentPageFromUrl = parseInt(searchParams.get("page")) || 1;
-    const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
+    // Fetch images with SWR
+    const { data, error, mutate } = useSWR(`/api/gallery?page=${currentPage}&limit=${imagesPerPage}`, fetcher);
 
-    useEffect(() => {
-        fetch(`/api/gallery?page=${currentPage}&limit=${imagesPerPage}`)
-            .then(res => res.json())
-            .then(data => {
-                setAllImage(data.gallery);
-                setTotalPage(data.pagination.totalPages);
-            });
-    }, [currentPage]);
+    if (error) return <div>Error loading images</div>;
+    if (!data) return <div>Loading...</div>;
 
-    const handlePageChange = (page) => {
-        router.push(`?page=${page}`);
-        setCurrentPage(page);
-    };
+    const allImages = data.gallery || [];
+    const totalPages = data.pagination?.totalPages || 1;
 
     // Get paginated data
-    const paginatedImages = allImages.slice(
-        (currentPage - 1) * imagesPerPage,
-        currentPage * imagesPerPage
-    );
+    const paginatedImages = allImages.slice(0, imagesPerPage);
 
     const groupedImages = paginatedImages.reduce((result, image, index) => {
         const columnIndex = index % columns;
@@ -55,15 +46,21 @@ function GalleryComponent() {
         return result;
     }, []);
 
-    const handleDelete = (id) => (e) => {
-        e.preventDefault();
-        fetch(`/api/gallery/${id}`, {
-            method: 'DELETE',
-        })
-            .then(res => res.json())
-            .then(() => {
-                setAllImage(allImages.filter(image => image._id !== id));
-            });
+    const handlePageChange = (page) => {
+        router.push(`?page=${page}`);
+    };
+
+    const handleDelete = async (id) => {
+        await fetch(`/api/gallery/${id}`, { method: "DELETE" });
+
+        // Mutate the cache by removing the deleted image
+        mutate(
+            (prevData) => ({
+                ...prevData,
+                gallery: prevData.gallery.filter((image) => image._id !== id),
+            }),
+            false
+        );
     };
 
     return (
@@ -78,7 +75,7 @@ function GalleryComponent() {
                                 {columnImages.map((image, imageIndex) => (
                                     <div key={image._id} className="relative">
                                         <Trash2
-                                            onClick={handleDelete(image._id)}
+                                            onClick={() => handleDelete(image._id)}
                                             className="absolute top-3 right-2 text-red-800 cursor-pointer"
                                         />
                                         <Image

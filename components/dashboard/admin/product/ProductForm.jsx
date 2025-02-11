@@ -1,10 +1,11 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import CreatableSelect from "react-select/creatable";
-import { FiPlus, FiMinus } from "react-icons/fi";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { KeyValueAccordion } from "./KeyValueAccordion";
+// import { KeyValueAccordion } from "./KeyValueAccordion";
+import { useToast } from "@/hooks/use-toast";
+
 
 const ProductForm = ({ productId, initialData }) => {
     const fileInputRef = useRef(null);
@@ -12,23 +13,35 @@ const ProductForm = ({ productId, initialData }) => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(!!productId);
     const [additionalInfo, setAdditionalInfo] = useState([]);
+    const toast = useToast();
 
     const fetchCategories = async () => {
         try {
             const response = await fetch("/api/category",
                 { method: "GET", headers: { "Content-Type": "application/json" } }
             );
-            if (!response.ok) throw new Error("Failed to fetch categories");
+            if (!response.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+                return;
+            }
 
             const data = await response.json();
-            console.log(data);
             if (Array.isArray(data)) {
                 setCategories(data.map((category) => ({ value: category.name, label: category.name })));
             } else {
-                console.error("API response is not an array:", data);
+                
             }
         } catch (error) {
-            console.error("Error fetching categories:", error);
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            return;
         }
     };
 
@@ -66,7 +79,11 @@ const ProductForm = ({ productId, initialData }) => {
                     setAdditionalInfo(data.additionalInfo || []);
                     setLoading(false);
                 } catch (error) {
-                    console.error("Error fetching product:", error);
+                    toast({
+                        variant: "destructive",
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request.",
+                    });
                     setLoading(false);
                 }
             };
@@ -90,15 +107,13 @@ const ProductForm = ({ productId, initialData }) => {
 
         const formData = new FormData();
 
-        console.log(session?.user)
-
         formData.append("name", product.name);
         formData.append("stock", product.stock);
         formData.append("price", product.price);
         formData.append("basePrice", product.basePrice);
         formData.append("description", product.description);
         formData.append("category", product.category);
-        formData.append("additionalInfo", JSON.stringify(additionalInfo));
+        // formData.append("additionalInfo", JSON.stringify(additionalInfo));
         formData.append("userId", session?.user?.id);
         formData.append("image", product.image);
 
@@ -131,8 +146,11 @@ const ProductForm = ({ productId, initialData }) => {
                 alert(`Failed to ${productId ? 'update' : 'create'} product.`);
             }
         } catch (error) {
-            console.error("Submission error:", error);
-            alert("An error occurred during submission.");
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
         }
     };
 
@@ -224,9 +242,9 @@ const ProductForm = ({ productId, initialData }) => {
                         className="border p-2 w-full"
                     />
                 </div>
-                <div className="col-span-2">
+                {/* <div className="col-span-2">
                     <KeyValueAccordion info={additionalInfo} setInfo={setAdditionalInfo} />
-                </div>
+                </div> */}
                 <div className="mt-5 flex justify-center col-span-2">
                     <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
                         {productId ? 'Update Product' : 'Upload Product'}

@@ -35,9 +35,20 @@ export async function POST(request) {
 
         const customer = await Customer.findOne({ $or: [{ email }, { phone }] });
         
-        if (!customer) {
-            await Customer.create({ name, email, phone });
+
+        if (customer) {
+            customer.name = name;
+            customer.email = email;
+            customer.phone = phone;
+            await customer.save();
+        } else {
+            const newCustomer = new Customer({
+                email,
+                phone,
+            });
+            await newCustomer.save();
         }
+
 
         const order = new Order({
             name,

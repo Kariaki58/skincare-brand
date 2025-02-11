@@ -1,47 +1,51 @@
 "use client";
-import { useEffect, useState } from 'react';
 import { Trash2 } from 'lucide-react';
+import useSWR, { mutate } from 'swr';
+import { useToast } from '@/hooks/use-toast';
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function OrdersTable() {
-    const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const { data, error } = useSWR('/api/order', fetcher);
+    const { toast } = useToast();
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await fetch('/api/order', 
-                    { method: 'GET' },
-                    { headers: { 'Content-Type': 'application/json' } }
-                );
-                if (!response.ok) throw new Error('Failed to fetch orders');
-                const data = await response.json();
-                setOrders(data.orders);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchOrders();
-    }, []);
+    
+
+    if (!data) return <div className="text-center p-8">Loading orders...</div>;
+    if (error) return <div className="text-center p-8 text-red-500">Error: {error.message}</div>;
+
+    const orders = data.orders;
 
     const handleDelete = async (orderId) => {
         if (confirm('Are you sure you want to delete this order?')) {
             try {
                 const response = await fetch(`/api/order/${orderId}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
                 });
-                if (!response.ok) throw new Error('Delete failed');
-                setOrders(orders.filter(order => order._id !== orderId));
+                if (!response.ok) {
+                    toast({
+                        variant: "destructive",
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request.",
+                    });
+                    return;
+                }
+                toast({
+                    variant: "success",
+                    title: "Order deleted successfully",
+                    description: "The order has been removed from the system.",
+                });
+
+                // mutate('/api/order', (orders) => orders.filter((order) => order._id !== orderId), false);
             } catch (err) {
-                alert(err.message);
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
             }
         }
     };
-
-    if (loading) return <div className="text-center p-8">Loading orders...</div>;
-    if (error) return <div className="text-center p-8 text-red-500">Error: {error}</div>;
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-sm border border-gray-100">
@@ -97,7 +101,7 @@ export default function OrdersTable() {
                         ))}
                     </tbody>
                 </table>
-                
+
                 {orders.length === 0 && (
                     <div className="text-center py-8 text-gray-500">
                         No orders found

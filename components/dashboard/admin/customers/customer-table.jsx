@@ -18,34 +18,60 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Trash2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import useSWR from "swr";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function CustomerTable() {
-    const [customers, setCustomers] = useState([]);
-    const [totalPages, setTotalPages] = useState(1);
     const searchParams = useSearchParams();
+    const { toast } = useToast();
     const router = useRouter();
-
     const currentPage = parseInt(searchParams.get("page")) || 1;
 
-    useEffect(() => {
-        async function fetchCustomers() {
-            try {
-                const res = await fetch(`/api/customer?page=${currentPage}`);
-                if (!res.ok) throw new Error("Failed to fetch customers");
-                const data = await res.json();
-                setCustomers(data.customers);
-                setTotalPages(data.totalPages);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        fetchCustomers();
-    }, [currentPage]);
+    const { data, error, mutate } = useSWR(`/api/customer?page=${currentPage}`, fetcher);
+
+    if (error) return <p className="text-red-600">Failed to load customers.</p>;
+    if (!data) return <p>Loading...</p>;
+
+    const { customers, totalPages } = data;
 
     const handlePageChange = (page) => {
         router.push(`?page=${page}`);
+    };
+
+    const handleDelete = async (customerId) => {
+        try {
+            const res = await fetch(`/api/customer/${customerId}`, {
+                method: "DELETE",
+            });
+
+            if (!res.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+            }
+
+            // Mutate the cache and remove the deleted customer
+            mutate((currentData) => ({
+                ...currentData,
+                customers: currentData.customers.filter((c) => c._id !== customerId),
+            }), false);
+            toast({
+                variant: "success",
+                title: "Customer deleted successfully",
+                description: "The customer has been removed from the system.",
+            });
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "Failed to delete the customer. Please try again.",
+            });
+        }
     };
 
     return (
@@ -74,6 +100,7 @@ export default function CustomerTable() {
                                 <Trash2
                                     size={24}
                                     className="text-red-700 hover:text-red-900 hover:cursor-pointer"
+                                    onClick={() => handleDelete(customer._id)}
                                 />
                             </TableCell>
                         </TableRow>

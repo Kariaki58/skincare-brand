@@ -44,13 +44,13 @@ export default function TablePagination() {
             id: 1,
             profile: profile1,
             name: "Anabel",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
+            bookingServices: ["nail fixes"],
             email: "anabel@gmail.com",
             phone: "1234567890",
             date: "2015-03-25",
-            timeFrame: "10AM - 12PM",
-            totalDuration: "2 hours",
+            arrival: "10AM",
             totalPrice: "$100",
+            guest: 1
         },
         {
             id: 2,
@@ -60,69 +60,69 @@ export default function TablePagination() {
             email: "sharon@gmail.com",
             phone: "1234567890",
             date: "2015-03-26",
-            timeFrame: "12.15AM - 2.15PM",
-            totalDuration: "2 hours",
+            arrival: "12.15AM",
             totalPrice: "$300",
+            guest: 3
         },
         {
             id: 3,
             profile: profile3,
             name: "Sandra",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
+            bookingServices: ["nail fixes"],
             email: "sandra@gmail.com",
             phone: "1234567890",
             date: "2015-03-25",
-            timeFrame: "2.30AM - 5.30PM",
-            totalDuration: "3 hours",
+            arrival: "2.30AM",
             totalPrice: "$800",
+            guest: 1
         },
         {
             id: 4,
             profile: profile4,
             name: "Sandra",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
+            bookingServices: ["nail fixes", "hair placement"],
             email: "sandra@gmail.com",
             phone: "1234567890",
             date: "2015-03-25",
-            timeFrame: "8AM - 9.45PM",
-            totalDuration: "1.45 mins",
+            arrival: "8AM",
             totalPrice: "$50",
+            guest: 2
         },
         {
             id: 5,
             profile: profile5,
             name: "Favour",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
+            bookingServices: ["nail fixes"],
             email: "favour@gmail.com",
             phone: "1234567890",
             date: "2015-03-26",
-            timeFrame: "10AM - 12PM",
-            totalDuration: "2 hours",
+            arrival: "10AM",
             totalPrice: "$100",
+            guest: 1
         },
         {
             id: 6,
             profile: profile6,
             name: "Angle",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
+            bookingServices: ["nail fixes", "hair placement"],
             email: "angle@gmail.com",
             phone: "1234567890",
             date: "2015-03-25",
-            timeFrame: "2.30AM - 5.30PM",
-            totalDuration: "3 hours",
+            arrival: "2.30AM - 5.30PM",
             totalPrice: "$800",
+            guest: 2
         },
         {
             id: 7,
             profile: profile7,
             name: "Pricilia",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
+            bookingServices: ["nail fixes", "hair placement"],
             email: "pricilia@gmail.com",
             phone: "1234567890",
             date: "2015-03-25",
-            timeFrame: "10AM - 12PM",
-            totalDuration: "2 hours",
+            arrival: "10AM",
             totalPrice: "$100",
+            guest: 2
         },
         {
             id: 8,
@@ -132,21 +132,21 @@ export default function TablePagination() {
             email: "favour@gmail.com",
             phone: "1234567890",
             date: "2015-03-26",
-            timeFrame: "10AM - 12PM",
-            totalDuration: "2 hours",
+            arrival: "10AM",
             totalPrice: "$100",
+            guest: 3
         },
         {
             id: 9,
             profile: profile6,
             name: "Angle",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
+            bookingServices: ["nail fixes"],
             email: "angle@gmail.com",
             phone: "1234567890",
             date: "2015-03-25",
-            timeFrame: "2.30AM - 5.30PM",
-            totalDuration: "3 hours",
+            arrival: "2.30AM",
             totalPrice: "$800",
+            guest: 1
         },
         {
             id: 10,
@@ -156,9 +156,9 @@ export default function TablePagination() {
             email: "pricilia@gmail.com",
             phone: "1234567890",
             date: "2015-03-25",
-            timeFrame: "10AM - 12PM",
-            totalDuration: "2 hours",
+            arrival: "10AM",
             totalPrice: "$100",
+            guest: 3
         },
         {
             id: 11,
@@ -168,9 +168,9 @@ export default function TablePagination() {
             email: "favour@gmail.com",
             phone: "1234567890",
             date: "2015-03-26",
-            timeFrame: "10AM - 12PM",
-            totalDuration: "2 hours",
+            arrival: "10AM",
             totalPrice: "$100",
+            guest: 3
         },
         {
             id: 12,
@@ -180,9 +180,9 @@ export default function TablePagination() {
             email: "angle@gmail.com",
             phone: "1234567890",
             date: "2015-03-25",
-            timeFrame: "2.30AM - 5.30PM",
-            totalDuration: "3 hours",
+            arrival: "2.30AM",
             totalPrice: "$800",
+            guest: 3
         },
         {
             id: 13,
@@ -192,9 +192,9 @@ export default function TablePagination() {
             email: "pricilia@gmail.com",
             phone: "1234567890",
             date: "2015-03-25",
-            timeFrame: "10AM - 12PM",
-            totalDuration: "2 hours",
+            arrival: "10AM",
             totalPrice: "$100",
+            guest: 3
         },
     ];
 
@@ -232,9 +232,9 @@ export default function TablePagination() {
                         <TableHead className="whitespace-nowrap">EMAIL</TableHead>
                         <TableHead className="whitespace-nowrap">PHONE</TableHead>
                         <TableHead className="whitespace-nowrap">DATE</TableHead>
-                        <TableHead className="whitespace-nowrap">TOTAL DURATION</TableHead>
+                        <TableHead className="whitespace-nowrap">GUEST</TableHead>
                         <TableHead className="whitespace-nowrap">TOTAL PRICE</TableHead>
-                        <TableHead className="whitespace-nowrap">TIME FRAME</TableHead>
+                        <TableHead className="whitespace-nowrap">ARRIVAL</TableHead>
                         <TableHead>ACTIONS</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -271,9 +271,10 @@ export default function TablePagination() {
                             <TableCell className="whitespace-nowrap">{booking.email}</TableCell>
                             <TableCell className="whitespace-nowrap">{booking.phone}</TableCell>
                             <TableCell className="whitespace-nowrap">{booking.date}</TableCell>
-                            <TableCell className="whitespace-nowrap">{booking.totalDuration}</TableCell>
+                            <TableCell className="whitespace-nowrap">{booking.guest}</TableCell>
+                            {/* <TableCell className="whitespace-nowrap">{booking.totalDuration}</TableCell> */}
                             <TableCell className="whitespace-nowrap">{booking.totalPrice}</TableCell>
-                            <TableCell className="whitespace-nowrap">{booking.timeFrame}</TableCell>
+                            <TableCell className="whitespace-nowrap">{booking.arrival}</TableCell>
                             <TableCell>
                                 <div className="flex gap-2 justify-center">
                                     <CircleCheckBig

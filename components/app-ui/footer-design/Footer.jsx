@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +13,7 @@ import linkedinIcon from "@/public/social-icons/icons8-linkedin-logo.svg";
 import tiktokIcon from "@/public/social-icons/icons8-tiktok.svg";
 import whatsappIcons from "@/public/social-icons/icons8-whatsapp.svg";
 import { Spectral, Shippori_Antique, Outfit } from "next/font/google";
+import { useState } from "react";
 
 
 const spectral = Spectral({
@@ -30,6 +32,16 @@ const outfit = Outfit({
 });
 
 export default function Footer() {
+    const [email, setEmail] = useState("")
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        await fetch('/api/customer', {
+            method: 'POST',
+            body: JSON.stringify({ email }),
+        })
+    }
+
     return (
         <footer>
             <FooterWorkingHours />
@@ -37,9 +49,9 @@ export default function Footer() {
             <FooterLinks />
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center max-w-screen-xl mx-auto  space-y-10 md:space-y-0 py-5 px-5">
                 <div className="max-w-lg">
-                    <h1 className={`${spectral.className} text-[35px] font-bold text-[#38271F] uppercase`}>Victoria Hair</h1>
-                    <h2 className={`text-sm tracking-widest uppercase leading-[14.4px] ${shipporiAntique.className} text-[#38271F] mt-2`}>Braiding and Weaving Center</h2>
-                    <p className={`text-gray-600 mt-4 ${outfit.className} leading-relaxed`}>
+                    <h1 className={`${spectral.className} text-[35px] font-bold text-black uppercase`}>Victoria Hair</h1>
+                    <h2 className={`text-sm tracking-widest uppercase leading-[14.4px] ${shipporiAntique.className} text-black mt-2`}>Braiding and Weaving Center</h2>
+                    <p className={`text-black mt-4 ${outfit.className} leading-relaxed`}>
                         Victoria Hair Braiding and Weaving Center is a premier hair salon located in Charlotte, NC, specializing 
                         in a wide range of hair braiding, weaving, and styling services designed to celebrate your unique beauty.
                     </p>
@@ -96,22 +108,24 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="max-w-sm">
-                    <h1 className={`text-[40px] font-bold text-[#38271F] uppercase ${spectral.className}`}>Join the List</h1>
-                    <p className="text-gray-600 mt-2 mb-4">Subscribe to our newsletter for updates and exclusive offers.</p>
-                    <div className="items-start space-y-4">
+                    <h1 className={`text-[40px] font-bold text-black uppercase ${spectral.className}`}>Join the List</h1>
+                    <p className="text-black mt-2 mb-4">Subscribe to our newsletter for updates and exclusive offers.</p>
+                    <form onSubmit={handleSubmit} className="items-start space-y-4">
                         <input 
                             type="email" 
-                            placeholder="Enter your email" 
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="w-full bg-[#214207] text-white flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-gray-400 focus:outline-none block"
                         />
-                        <Button className="uppercase bg-[#214207] text-white  font-bold py-5 px-10 text-sm rounded-lg transition-colors w-full">
+                        <Button type="submit" className="uppercase bg-[#214207] text-white  font-bold py-5 px-10 text-sm rounded-lg transition-colors w-full">
                             Join Newsletter
                         </Button>
-                    </div>
+                    </form>
                 </div>
             </div>
             {/* <div className={`flex justify-center pt-10 pb-5 ${shipporiAntique.className} text-[10px]`}>
-                <p className="text-[#38271F]">© 2024 <span>BUSSINESS NAME</span> | AWESOME DESIGN AGENCY</p>
+                <p className="text-black">© 2024 <span>BUSSINESS NAME</span> | AWESOME DESIGN AGENCY</p>
             </div> */}
         </footer>
     )

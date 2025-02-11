@@ -16,7 +16,7 @@ export default function FooterWorkingHours() {
                     <MapPin size={42} className="text-white"/>
                     <div>
                         <h2 className="uppercase font-medium tracking-widest text-base mb-2">LOCATED IN</h2>
-                        <p className="text-sm">Visit our location at <span>123 Maple Street, Toronto, ON</span></p>
+                        <p className="text-sm">Visit our location at <span>5811 Freedom Drive, Charlotte, NC</span></p>
                     </div>
                 </div>
                 <div className="flex gap-3">

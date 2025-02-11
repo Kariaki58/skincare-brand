@@ -3,43 +3,20 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import useSWR from "swr";
+import { mutate } from 'swr';
+import { useToast } from "@/hooks/use-toast";
 
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function ProductInventory() {
-    const [products, setProducts] = useState([]);
     const searchParams = useSearchParams();
     const router = useRouter();
     const { data: session } = useSession();
-
-
-    console.log(session)
+    const { toast } = useToast();
 
     const currentPage = Number(searchParams.get("page")) || 1;
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch(`/api/products?page=${currentPage}`);
-                
-                if (!response.ok) throw new Error("Failed to fetch products");
-    
-                const data = await response.json();
-
-                console.log({data})
-                if (Array.isArray(data.products)) {
-                    setProducts(data.products);
-                } else {
-                    console.error("API response is not an array:", data);
-                    setProducts([]);
-                }
-            } catch (err) {
-                console.error("Error fetching products:", err);
-                setProducts([]);
-            }
-        };
-        fetchProducts();
-    }, [currentPage]);
+    const { data, error, isLoading } = useSWR(`/api/products?page=${currentPage}`, fetcher);
 
     const editProduct = (id) => {
         router.push(`/dashboard/admin/products/edit/${id}`);
@@ -54,14 +31,38 @@ export default function ProductInventory() {
                 body: JSON.stringify({ userId: session?.user?.id }),
                 headers: { "Content-Type": "application/json" },
             });
+            if (!response.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                })
+                return;
+            }
 
-            if (!response.ok) throw new Error("Failed to delete product");
-
-            setProducts((prevProducts) => prevProducts.filter((product) => product._id !== id));
+            // Optimistically update the UI by revalidating the SWR cache
+            mutate(`/api/products?page=${currentPage}`);
+            toast({
+                variant: "success",
+                title: "Product deleted successfully.",
+                description: "The product has been removed from the inventory.",
+            });
         } catch (err) {
-            console.error("Error deleting product:", err);
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "Failed to delete the product. Please try again.",
+            });
         }
     };
+
+    if (isLoading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>Error loading products.</p>;
+    }
 
     return (
         <div className="overflow-x-auto">
@@ -76,7 +77,7 @@ export default function ProductInventory() {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((product) => (
+                    {data.products.map((product) => (
                         <tr key={product._id} className="hover:bg-gray-50">
                             <td className="px-4 py-3 border-b flex items-center gap-4">
                                 <div className="w-20 h-20 relative">

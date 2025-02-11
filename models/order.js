@@ -27,5 +27,7 @@ const orderSchema = new mongoose.Schema(
         timestamps: true
 })
 
+orderSchema.index({ email: 1, phone: 1 });
+
 
 export default mongoose.models.Order || mongoose.model('Order', orderSchema)

@@ -2,13 +2,14 @@
 import { useState } from 'react';
 import { Loader2, UploadCloud } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-
+import { useToast } from '@/hooks/use-toast';
 
 export default function GalleryUploadButton() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const router = useRouter();
+    const { toast } = useToast();
 
     const handleFileChange = async (e) => {
         const file = e.target.files?.[0];
@@ -44,7 +45,12 @@ export default function GalleryUploadButton() {
             });
 
             if (!response.ok) {
-                throw new Error('Upload failed: ' + (await response.text()));
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                })
+                return;
             }
 
             const result = await response.json();

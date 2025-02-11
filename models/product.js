@@ -37,12 +37,14 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    additionalInfo: {
-        type: Object,
-    },
+    // additionalInfo: {
+    //     type: Object,
+    // },
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }]
 }, {
     timestamps: true,
 });
+
+
 
 export default mongoose.models.Product || mongoose.model("Product", productSchema);

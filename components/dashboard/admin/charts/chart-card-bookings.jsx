@@ -1,36 +1,41 @@
 "use client"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
     ChartContainer,
     ChartTooltip,
     ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
+import { useState, useEffect } from "react";
 
 
-const chartData = [
-    { month: "January", bookings: 500, cancellations: 50 },
-    { month: "February", bookings: 420, cancellations: 30 },
-    { month: "March", bookings: 380, cancellations: 40 },
-    { month: "April", bookings: 300, cancellations: 25 },
-    { month: "May", bookings: 450, cancellations: 60 },
-    { month: "June", bookings: 520, cancellations: 70 },
-    { month: "July", bookings: 480, cancellations: 55 },
-    { month: "August", bookings: 600, cancellations: 80 },
-    { month: "September", bookings: 550, cancellations: 65 },
-]
-
-const chartConfig = {
-    bookings: {
-        label: "Bookings",
-        color: "hsl(var(--chart-1))",
-    },
-    cancellations: {
-        label: "Cancellations",
-        color: "hsl(var(--chart-2))",
-    },
-}
 
 export function Component() {
+    const [chartData, setChartData] = useState([]);
+
+    const fetchData = async () => {
+        const response = await fetch("/api/bookings/analytics");
+        if (!response.ok) {
+            return (
+                <p className="text-red-500">Failed to fetch booking analytics.</p>
+            )
+        }
+        const data = await response.json();
+        setChartData(data);
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+    const chartConfig = {
+        bookings: {
+            label: "Bookings",
+            color: "hsl(var(--chart-1))",
+        },
+        cancellations: {
+            label: "Cancellations",
+            color: "hsl(var(--chart-2))",
+        },
+    }
     return (
         <ChartContainer config={chartConfig} className="bg-white border-2 p-4 shadow-md rounded-xl flex justify-between items-start gap-3 text-gray-600 h-96 w-full">
             <AreaChart

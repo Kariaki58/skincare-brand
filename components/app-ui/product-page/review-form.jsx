@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { revalidatePath } from "next/cache";
+import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
 const reviewSchema = z.object({
@@ -16,6 +16,7 @@ const reviewSchema = z.object({
 
 export default function ReviewForm() {
     const { id } = useParams();
+    const { toast } = useToast();
     const { data: session } = useSession();
 
     const [rating, setRating] = useState(0);
@@ -53,13 +54,6 @@ export default function ReviewForm() {
             reviewSchema.parse(formValues);
             setErrors({});
 
-            console.log("Form Submitted");
-            console.log("Product ID:", id);
-            console.log("Rating:", rating);
-            console.log("Review Content:", reviewContent);
-            console.log("Name:", name);
-            console.log("Email:", email);
-            console.log("UserId", session?.user?.id);
             const response = await fetch('/api/review', {
                 method: 'POST',
                 headers: {
@@ -72,10 +66,14 @@ export default function ReviewForm() {
                 }),
             })
             if (!response.ok) {
-                throw new Error("Failed to submit review");
+                toast({
+                    variant: "error",
+                    title: "Failed to submit review",
+                    description: "Please try again later.",
+                });
+                return;
             }
             const data = await response.json();
-            console.log(data);
         } catch (err) {
             if (err instanceof z.ZodError) {
                 const errorMessages = err.errors.reduce((acc, error) => {

@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast";
 
 
 export default function AddService() {
@@ -32,17 +33,30 @@ export default function AddService() {
     const [serviceDescription, setServiceDescription] = useState('');
     const [categorySelect, setCategorySelect] = useState([]);
     const { data: session } = useSession();
+    const { toast } = useToast();
+
 
     const fetchCategories = async () => {
         try {
             const response = await fetch('/api/services/category');
 
-            if (!response.ok) throw new Error('Failed to fetch categories');
+            if (!response.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+                return;
+            }
 
             const data = await response.json();
             setCategorySelect(data.map((category) => ({ value: category.name, label: category.name })));
         } catch (error) {
-            console.error('Error fetching categories:', error);
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
         }
     };
 
@@ -77,12 +91,28 @@ export default function AddService() {
                 body: formData,
             });
 
-            if (!response.ok) throw new Error('Failed to save service');
+            if (!response.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+                return;
+            }
+            toast({
+                variant: "success",
+                title: "Service added successfully",
+                description: "your service upload is successful.",
+            });
 
             resetForm();
             setOpen(false);
         } catch (error) {
-            console.error('Error saving service:', error);
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "Failed to add the service. Please try again.",
+            });
         }
     };
 

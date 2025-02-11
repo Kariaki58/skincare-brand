@@ -16,6 +16,7 @@ function GalleryShow() {
     const { toast } = useToast();
     const observerRef = useRef(null);
 
+    const columns = 4;
     const imagesPerPage = 3;
 
     // SWR Infinite Hook
@@ -69,6 +70,13 @@ function GalleryShow() {
         };
     }, [size, totalPages, isValidating]);
 
+    const groupedImages = allImages.reduce((result, image, index) => {
+        const columnIndex = index % columns;
+        if (!result[columnIndex]) result[columnIndex] = [];
+        result[columnIndex].push(image);
+        return result;
+    }, []);
+
     return (
         <>
             <div className="flex justify-center">
@@ -79,17 +87,24 @@ function GalleryShow() {
 
             {/* Gallery */}
             <section className="max-w-screen-xl mx-auto my-10 px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {allImages.map((image, index) => (
-                        <Image
-                            key={index}
-                            src={image.image}
-                            width={300}
-                            height={300}
-                            className="w-full h-auto object-cover rounded-lg shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105"
-                            alt={`Gallery Image ${index + 1}`}
-                            onClick={() => setSelectedImage(image.image)}
-                        />
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {groupedImages.map((columnImages, index) => (
+                        <div key={index}>
+                            <div className="space-y-2">
+                                {columnImages.map((image, imageIndex) => (
+                                    <div key={image._id} className="relative">
+                                        <Image
+                                            src={image.image}
+                                            width={300}
+                                            height={300}
+                                            className="w-full h-auto object-cover rounded-lg shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105"
+                                            alt={`Gallery Image ${imageIndex + 1}`}
+                                            onClick={() => setSelectedImage(image.image)}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     ))}
                 </div>
             </section>
@@ -101,7 +116,7 @@ function GalleryShow() {
 
             {/* Image Modal */}
             {selectedImage && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-md p-4">
+                <div className="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-md p-4">
                     <div className="relative p-5 bg-white rounded-lg shadow-xl max-w-3xl w-full flex flex-col items-center">
                         <button
                             className="absolute top-3 right-3 text-gray-700 hover:text-gray-900 bg-gray-200 rounded-full p-2 transition-all hover:bg-gray-300"

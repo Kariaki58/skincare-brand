@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useToast } from "@/hooks/use-toast";
 
 
 const schema = z.object({
@@ -24,6 +25,7 @@ const CheckoutUI = () => {
         formState: { errors },
         reset,
     } = useForm({ resolver: zodResolver(schema) });
+    const toast = useToast();
 
     const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -38,7 +40,10 @@ const CheckoutUI = () => {
             body: JSON.stringify({ ...data, cart }),
         });
         if (!response.ok) {
-            console.error("Failed to place order");
+            toast({
+                description: "Failed to place order. Please try again later.",
+                variant: "error",
+            });
             return;
         } else {
             alert("Order placed successfully!");

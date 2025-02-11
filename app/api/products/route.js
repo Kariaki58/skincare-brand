@@ -123,13 +123,17 @@ export async function POST(request) {
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-        if (!content.has("name") ||!content.has("price") ||!content.has("basePrice") ||!content.has("stock") ||!content.has("image") ||!content.has("category") ||!content.has("description") ||!content.has("additionalInfo")) {
+        if (!content.has("name") ||!content.has("price") ||!content.has("basePrice") ||!content.has("stock") ||!content.has("image") ||!content.has("category") ||!content.has("description") 
+            // ||!content.has("additionalInfo")
+        ) {
             return new Response(JSON.stringify({ error: "Missing required fields" }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-        if (content.get("name") === "" || content.get("price") === "" || content.get("basePrice") === "" || content.get("stock") === "" || content.get("image") === "" || content.get("category") === "" || content.get("description") === "" || content.get("additionalInfo") === "") {
+        if (content.get("name") === "" || content.get("price") === "" || content.get("basePrice") === "" || content.get("stock") === "" || content.get("image") === "" || content.get("category") === "" || content.get("description") === ""
+        //  || content.get("additionalInfo") === ""
+        ) {
             return new Response(JSON.stringify({ error: "Missing required fields" }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' },

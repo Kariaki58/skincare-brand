@@ -31,3 +31,49 @@ export async function GET(req) {
         return new Response(JSON.stringify({ error: "Failed to fetch customers" }), { status: 500 });
     }
 }
+
+
+export async function POST(req) {
+    try {
+        await connectToDatabase();
+        let { name, email, phone } = await req.json();
+        if (!email) {
+            return new Response(JSON.stringify({ error: "Email is required" }), { status: 400 });
+        }
+        if (!name) {
+            name = email.split('@')[0];
+        }
+        if (!phone) {
+            phone = "";
+        }
+        const existingCustomer = await Customer.findOne({ email });
+        if (!existingCustomer) {
+            const customer = new Customer({ name, email, phone });
+            await customer.save();
+        }
+        return new Response(JSON.stringify({ message: "Customer added successfully" }), { status: 201 });
+    } catch (error) {
+        return new Response(JSON.stringify({ error: "Failed to add customer" }), { status: 500 });
+    }
+}
+
+
+// TODO: IMPLEMENT PUT FUNCTION YOURSELF.
+// export async function PUT(req) {
+//     try {
+//         await connectToDatabase();
+//         const { customerId } = req.params;
+//         const { name, email, phone } = await req.json();
+//         const customer = await Customer
+//             .findByIdAndUpdate(customerId, { name, email, phone }, { new: true });  
+
+//         if (!customer) {
+//             return new Response(JSON.stringify({ error: "Customer not found" }), { status: 404 });
+//         }
+//         return new Response(JSON.stringify({ message: "Customer updated successfully" }), { status: 200 });
+//     }
+//     catch (error) {
+//         return new Response(JSON.stringify({ error: "Failed to update customer" }), { status: 500 });
+//     }
+
+// }

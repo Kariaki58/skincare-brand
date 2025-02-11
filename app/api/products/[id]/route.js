@@ -1,8 +1,6 @@
 import { connectToDatabase } from "@/lib/mongoose";
 import User from "@/models/user";
 import Product from "@/models/product";
-import { getServerSession } from "next-auth";
-import { options } from "../../auth/options";
 import Category from "@/models/category";
 import { uploadImage, deleteImage } from "@/lib/cloudinary-upload";
 
@@ -51,13 +49,31 @@ export async function PUT(request, { params }) {
             return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { 'Content-Type': 'application/json' } });
         }
 
-        if (!content.has("name") ||!content.has("price") ||!content.has("basePrice") ||!content.has("stock") ||!content.has("image") ||!content.has("category") ||!content.has("description") ||!content.has("additionalInfo")) {
+        if (
+            !content.has("name") ||
+            !content.has("price") ||
+            !content.has("basePrice") ||
+            !content.has("stock") ||
+            !content.has("image") ||
+            !content.has("category") ||
+            !content.has("description")
+            // !content.has("additionalInfo")
+        ) {
             return new Response(JSON.stringify({ error: "Missing required fields" }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-        if (content.get("name") === "" || content.get("price") === "" || content.get("basePrice") === "" || content.get("stock") === "" || content.get("image") === "" || content.get("category") === "" || content.get("description") === "" || content.get("additionalInfo") === "") {
+        if (
+            content.get("name") === "" || 
+            content.get("price") === "" || 
+            content.get("basePrice") === "" || 
+            content.get("stock") === "" || 
+            content.get("image") === "" || 
+            content.get("category") === "" || 
+            content.get("description") === ""
+            // content.get("additionalInfo") === ""
+        ) {
             return new Response(JSON.stringify({ error: "Missing required fields" }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' },
@@ -95,9 +111,7 @@ export async function PUT(request, { params }) {
         if (!product) {
             return new Response(JSON.stringify({ error: "Product not found" }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }
-        console.log(product.category)
         let category = await Category.findByIdAndUpdate(product.category, { name: content.get("category") }, { new: true });
-        console.log(category);
 
         if (!imageUrl || typeof imageUrl !== "string" || !imageUrl.startsWith("http")) {
             const file = content.get("image");
@@ -116,7 +130,6 @@ export async function PUT(request, { params }) {
                     });
                 }
                 if (product.image) {
-                    console.log("Deleting old image...");
                     await deleteImage(product.image);
                 }
             } else {
@@ -124,7 +137,6 @@ export async function PUT(request, { params }) {
             }
         }
         
-        console.log(imageUrl)
 
         const updatedProduct = await Product.findByIdAndUpdate(id, {
             name: content.get("name"),
@@ -134,12 +146,11 @@ export async function PUT(request, { params }) {
             image: imageUrl,
             category: category._id,
             description: content.get("description"),
-            additionalInfo: JSON.parse(content.get("additionalInfo")),
+            // additionalInfo: JSON.parse(content.get("additionalInfo")),
         }, { new: true }).populate('category');
 
         return new Response(JSON.stringify(updatedProduct), { status: 200, headers: { 'Content-Type': 'application/json' } });
     } catch (error) {
-        console.error("Error updating product:", error);
         return new Response(JSON.stringify({ error: "An error occurred" }), { status: 500, headers: { 'Content-Type': 'application/json' } });
     }
 }

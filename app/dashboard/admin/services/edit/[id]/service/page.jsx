@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-
+import { useToast } from '@/hooks/use-toast';
 
 export default function Page() {
     const params = useParams();
@@ -14,6 +14,7 @@ export default function Page() {
     const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(true);
     const { data: session } = useSession();
+    const toast = useToast();
 
     
     useEffect(() => {
@@ -25,7 +26,14 @@ export default function Page() {
                         headers: { 'Content-Type': 'application/json' }
                     }
                 );
-                if (!serviceRes.ok) throw new Error('Failed to fetch service');
+                if (!serviceRes.ok) {
+                    toast({
+                        variant: "destructive",
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request.",
+                    });
+                    return;
+                }
                 const serviceData = await serviceRes.json();
                 const categoriesRes = await fetch('/api/services/category', {
                     method: 'GET',
@@ -33,14 +41,26 @@ export default function Page() {
                 });
 
 
-                if (!categoriesRes.ok) throw new Error('Failed to fetch categories');
+                if (!categoriesRes.ok){
+                    toast({
+                        variant: "destructive",
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request.",
+                    });
+                    return;
+                }
                 const categoriesData = await categoriesRes.json();
 
                 setService(serviceData);
                 setCategories(categoriesData);
                 setCategory(serviceData.categoryId.name);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+                return;
             } finally {
                 setLoading(false);
             }
@@ -85,12 +105,26 @@ export default function Page() {
                 body: formData,
             });
 
-            if (!response.ok) throw new Error('Update failed');
+            if (!response.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+                return;
+            }
             await response.json();
-            alert('Service updated successfully!');
+            toast({
+                variant: "success",
+                title: "Service updated successfully",
+                description: "Your service update is successful.",
+            });
         } catch (error) {
-            console.error('Error updating service:', error);
-            alert('Failed to update service');
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
         }
     };
 

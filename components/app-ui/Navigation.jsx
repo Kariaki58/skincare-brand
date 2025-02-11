@@ -10,7 +10,7 @@ import { ShoppingBag, AlignJustify, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/public/image-logo.png";
 import useCartStore from "@/store/cartStore";
-
+import { Button } from "../ui/button";
 
 const outfit = Outfit({
     subsets: ["latin"],
@@ -79,10 +79,15 @@ export default function Navigation() {
 
         {/* Right section */}
         <ul className={`flex items-center gap-5 text-[12px] text-white font-bold ${outfit.className} tracking-widest`}>
+            <li className="hover:underline cursor-pointer">
+                {!session ? (
+                    <Button onClick={() => signIn("google")} variant="outline" className="ml-2 text-[12px] text-black">LOGIN</Button>
+                ): <></>}
+            </li>
             <li className="hover:underline">
-                {session && (
+                {session && session?.user?.role === "admin" && (
                     <Link href={session?.user?.role === "user" ? "/" : "/dashboard/admin"}>
-                    <p className="ml-2 text-[12px]">PROFILE</p>
+                        <p className="ml-2 text-[12px]">PROFILE</p>
                     </Link>
                 )}
             </li>
