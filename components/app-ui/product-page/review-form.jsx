@@ -65,14 +65,20 @@ export default function ReviewForm() {
                 }),
             })
             if (!response.ok) {
+                const data = await response.json();
+
                 toast({
-                    variant: "error",
+                    variant: "destructive",
                     title: "Failed to submit review",
-                    description: "Please try again later.",
+                    description: data.error,
                 });
                 return;
             }
-            const data = await response.json();
+            toast({
+                variant: "success",
+                title: "Review submitted successfully",
+                description: "Thank you for your feedback!",
+            });
         } catch (err) {
             if (err instanceof z.ZodError) {
                 const errorMessages = err.errors.reduce((acc, error) => {

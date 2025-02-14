@@ -1,6 +1,16 @@
+
 export default function AppointmentForm({ onChange }) {
+    const minDate = new Date().toISOString().split("T")[0];
+    
+    const timeOptions = Array.from({ length: 11 }, (_, i) => {
+        const hour = i + 8;
+        const period = hour < 12 ? "AM" : "PM";
+        const formattedHour = hour > 12 ? hour - 12 : hour;
+        return `${formattedHour.toString().padStart(2, "0")}:00 ${period}`;
+    });
+
     return (
-        <div className="">
+        <div>
             <h2 className="text-2xl font-semibold text-white mb-4 text-center">Book an Appointment</h2>
             <form className="space-y-4">
                 <div>
@@ -10,10 +20,11 @@ export default function AppointmentForm({ onChange }) {
                         id="name"
                         name="name"
                         required
-                        onChange={(e) => onChange('name', e.target.value)}
+                        onChange={(e) => onChange("name", e.target.value)}
                         className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                 </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-white">Email</label>
@@ -22,7 +33,7 @@ export default function AppointmentForm({ onChange }) {
                             id="email"
                             name="email"
                             required
-                            onChange={(e) => onChange('email', e.target.value)}
+                            onChange={(e) => onChange("email", e.target.value)}
                             className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         />
                     </div>
@@ -33,44 +44,50 @@ export default function AppointmentForm({ onChange }) {
                             id="phone"
                             name="phone"
                             required
-                            onChange={(e) => onChange('phone', e.target.value)}
+                            onChange={(e) => onChange("phone", e.target.value)}
                             className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         />
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="">
+                    <div>
                         <label htmlFor="date" className="block text-sm font-medium text-white">Date</label>
                         <input
                             type="date"
                             id="date"
                             name="date"
                             required
-                            onChange={(e) => onChange('date', e.target.value)}
+                            min={minDate} // Restrict past dates
+                            onChange={(e) => onChange("date", e.target.value)}
                             className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         />
                     </div>
 
-                    <div className="">
+                    <div>
                         <label htmlFor="time" className="block text-sm font-medium text-white">Time</label>
-                        <input
-                            type="time"
+                        <select
                             id="time"
                             name="time"
                             required
-                            onChange={(e) => onChange('time', e.target.value)}
+                            onChange={(e) => onChange("time", e.target.value)}
                             className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        />
+                        >
+                            <option value="">Select a time</option>
+                            {timeOptions.map((time) => (
+                                <option key={time} value={time}>{time}</option>
+                            ))}
+                        </select>
                     </div>
                 </div>
+
                 <div>
                     <label htmlFor="message" className="block text-sm font-medium text-white">Message</label>
                     <textarea
                         id="message"
                         name="message"
                         rows={5}
-                        onChange={(e) => onChange('message', e.target.value)}
+                        onChange={(e) => onChange("message", e.target.value)}
                         className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                 </div>

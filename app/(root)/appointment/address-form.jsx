@@ -8,13 +8,12 @@ export default function AddressForm({ onChange }) {
     const [countries, setCountries] = useState([]);
     
     useEffect(() => {
-        // Ensure this runs only on the client
         setCountries(countryList().getData());
     }, []);
 
     const handleCountryChange = (selectedOption) => {
         setValue(selectedOption);
-        onChange('country', selectedOption); // Pass the country data back to parent
+        onChange('country', selectedOption);
     };
 
     return (

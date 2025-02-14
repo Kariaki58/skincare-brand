@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Image1 from "@/public/country-size-girl.jpg";
-import Image2 from "@/public/cute-1.jpg";
-import Image3 from "@/public/eye-lashes-section.jpg";
-import Image4 from "@/public/image.jpg";
-import Image5 from "@/public/skincare-girl.jpg";
+import Image1 from "@/public/hair_braid1.jpg";
+import Image2 from "@/public/hair_braid2.jpeg";
+import Image3 from "@/public/hair_braid3.webp";
+import Image4 from "@/public/hair_braid4.jpeg";
+import Image5 from "@/public/hair_braid5.jpeg";
 
 
 export default function FooterImage() {

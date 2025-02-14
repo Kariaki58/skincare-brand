@@ -1,10 +1,16 @@
 "use client";
+
+import dynamic from "next/dynamic";
+
+
+
 import { useState, useRef, useEffect } from "react";
-import CreatableSelect from "react-select/creatable";
+const CreatableSelect = dynamic(() => import("react-select/creatable"), { ssr: false });
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useToast } from "@/hooks/use-toast"
 // import { KeyValueAccordion } from "./KeyValueAccordion";
-import { useToast } from "@/hooks/use-toast";
+
 
 
 const ProductForm = ({ productId, initialData }) => {
@@ -13,7 +19,10 @@ const ProductForm = ({ productId, initialData }) => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(!!productId);
     const [additionalInfo, setAdditionalInfo] = useState([]);
-    const toast = useToast();
+    const [submitting, setSubmitting] = useState(false);
+    const { toast } = useToast();
+
+    
 
     const fetchCategories = async () => {
         try {
@@ -104,6 +113,7 @@ const ProductForm = ({ productId, initialData }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setSubmitting(true);
 
         const formData = new FormData();
 
@@ -127,7 +137,9 @@ const ProductForm = ({ productId, initialData }) => {
             });
 
             if (response.ok) {
-                alert(`Product ${productId ? 'updated' : 'created'} successfully!`);
+                toast({
+                    title: `Product ${productId ? 'updated' : 'created'} successfully!`,
+                })
                 if (!productId) {
                     // Reset form if creating new
                     setProduct({
@@ -143,7 +155,12 @@ const ProductForm = ({ productId, initialData }) => {
                     if (fileInputRef.current) fileInputRef.current.value = '';
                 }
             } else {
-                alert(`Failed to ${productId ? 'update' : 'create'} product.`);
+                const responseData = await response.json();
+                toast({
+                    variant: "destructive",
+                    title: "Failed to save product.",
+                    description: responseData.error,
+                });
             }
         } catch (error) {
             toast({
@@ -151,6 +168,8 @@ const ProductForm = ({ productId, initialData }) => {
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -161,13 +180,14 @@ const ProductForm = ({ productId, initialData }) => {
             <h1 className="text-center text-xl font-bold">
                 {productId ? 'Edit Product' : 'Upload Product'}
             </h1>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-4 rounded-lg">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 shadow-lg p-4 rounded-lg">
                 {/* Form fields remain the same as original */}
                 <div>
                     <label>Product Name</label>
                     <input 
                         type="text" 
                         value={product.name} 
+                        disabled={submitting}
                         onChange={(e) => setProduct(p => ({ ...p, name: e.target.value }))} 
                         className="border p-2 w-full rounded-md"
                     />
@@ -176,7 +196,8 @@ const ProductForm = ({ productId, initialData }) => {
                     <label>Stock</label>
                     <input 
                         type="number" 
-                        value={product.stock} 
+                        value={product.stock}
+                        disabled={submitting}
                         onChange={(e) => setProduct({...product, stock: e.target.value })} 
                         className="border p-2 w-full rounded-md"
                     />
@@ -185,7 +206,8 @@ const ProductForm = ({ productId, initialData }) => {
                     <label>Base Price</label>
                     <input 
                         type="number" 
-                        value={product.price} 
+                        value={product.price}
+                        disabled={submitting}
                         onChange={(e) => setProduct({...product, price: e.target.value })} 
                         className="border p-2 w-full rounded-md"
                     />
@@ -194,7 +216,8 @@ const ProductForm = ({ productId, initialData }) => {
                     <label>Discounted Price</label>
                     <input 
                         type="number" 
-                        value={product.basePrice} 
+                        value={product.basePrice}
+                        disabled={submitting}
                         onChange={(e) => setProduct({...product, basePrice: e.target.value })} 
                         className="border p-2 w-full rounded-md"
                     />
@@ -234,7 +257,8 @@ const ProductForm = ({ productId, initialData }) => {
                 <div className="col-span-2 mt-5">
                     <label>Description</label>
                     <textarea 
-                        value={product.description} 
+                        value={product.description}
+                        disabled={submitting}
                         onChange={(e) => setProduct({...product, description: e.target.value })}
                         placeholder="Enter a description for the product" 
                         cols="30" 
@@ -246,8 +270,8 @@ const ProductForm = ({ productId, initialData }) => {
                     <KeyValueAccordion info={additionalInfo} setInfo={setAdditionalInfo} />
                 </div> */}
                 <div className="mt-5 flex justify-center col-span-2">
-                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                        {productId ? 'Update Product' : 'Upload Product'}
+                    <button type="submit" disabled={submitting} className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center">
+                        {submitting ? "Processing..." : productId ? 'Update Product' : 'Upload Product'}
                     </button>
                 </div>
             </form>

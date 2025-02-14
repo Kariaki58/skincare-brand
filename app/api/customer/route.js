@@ -42,6 +42,7 @@ export async function POST(req) {
         }
         if (!name) {
             name = email.split('@')[0];
+            console.log({name})
         }
         if (!phone) {
             phone = "";

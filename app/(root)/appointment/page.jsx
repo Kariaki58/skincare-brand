@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-// import CountrySelector from "./address-form";
 import AppointMentService from "./appiontment-service";
 import AddressForm from "./address-form";
 import AppointMentForm from "./appointment-form";
@@ -30,11 +29,52 @@ export default function Page() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!formData.name || !formData.email || !formData.phone || !formData.date || !formData.time || !formData.message) {
+            alert("Please fill in all required fields");
+            return;
+        }
+        if (!formData.street || !formData.city || !formData.state || !formData.postalCode || !formData.country || !formData.addressLine2) {
+            alert("Please fill in all required address fields");
+            return;
+        }
+
+        if (serviceDetails.length === 0) {
+            alert("Please select at least one service");
+            return;
+        }
+        const response = await fetch('/api/appointments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ ...formData, services: serviceDetails })
+        });
+        const data = await response.json();
+        alert(data.message);
+        setFormData({
+            name: "",
+            email: "",
+            phone: "",
+            date: "",
+            time: "",
+            message: "",
+            street: "",
+            addressLine2: "",
+            city: "",
+            state: "",
+            postalCode: "",
+            country: ""
+        });
+
+
+        console.log(formData)
+        console.log(serviceDetails)
     };
     return (
-        <div className="max-w-screen-lg mx-auto bg-[#214207] p-4 my-20">
+        <div className="max-w-screen-lg mx-auto bg-[#214207] p-4 my-10">
             <AppointMentForm onChange={handleChange} />
             <AddressForm onChange={handleChange} />
             <AppointMentService setServiceDetails={setServiceDetails}/>

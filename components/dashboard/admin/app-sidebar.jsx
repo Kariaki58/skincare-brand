@@ -97,12 +97,12 @@ const data = {
             icon: Command,
             isActive: false,
         },
-        {
-            title: "Settings",
-            url: "/dashboard/admin/settings",
-            icon: Settings2,
-            isActive: false,
-        }
+        // {
+        //     title: "Settings",
+        //     url: "/dashboard/admin/settings",
+        //     icon: Settings2,
+        //     isActive: false,
+        // }
     ],
 }
 

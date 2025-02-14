@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Skin care brand",
-  description: "Afordable skincare cilinc",
+  title: "Victoria Hair Braiding and Weaving Center",
+  description: "Afordable hair braiding salon in Charlotte",
 };
 
 export default function RootLayout({ children }) {

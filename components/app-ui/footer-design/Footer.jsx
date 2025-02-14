@@ -14,6 +14,7 @@ import tiktokIcon from "@/public/social-icons/icons8-tiktok.svg";
 import whatsappIcons from "@/public/social-icons/icons8-whatsapp.svg";
 import { Spectral, Shippori_Antique, Outfit } from "next/font/google";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 
 const spectral = Spectral({
@@ -33,13 +34,27 @@ const outfit = Outfit({
 
 export default function Footer() {
     const [email, setEmail] = useState("")
+    const {toast} = useToast();
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        await fetch('/api/customer', {
+        const response = await fetch('/api/customer', {
             method: 'POST',
             body: JSON.stringify({ email }),
         })
+        if (!response.ok) {
+            toast({
+                variant: "destructive",
+                title: "Failed to add your email please try again"
+            });                
+        } else {
+            toast({
+                variant: "success",
+                title: "Email added successfully",
+                description: "Thank you for subscribing to our newsletter"
+            });
+            setEmail("");
+        }
     }
 
     return (

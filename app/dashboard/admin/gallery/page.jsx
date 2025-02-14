@@ -1,5 +1,6 @@
 "use client";
 import React, { Suspense, useState } from "react";
+import { useToast } from '@/hooks/use-toast';
 import useSWR from "swr";
 import GalleryUploadButton from "@/components/dashboard/admin/gallery-upload-button/gallery-upload-button";
 import { SidebarInsetComponent } from "@/components/dashboard/admin/side-bar-inset-component";
@@ -24,6 +25,8 @@ function GalleryComponent() {
     
     const searchParams = useSearchParams();
     const router = useRouter();
+
+    const { toast } = useToast();
     
     const currentPage = parseInt(searchParams.get("page")) || 1;
 
@@ -51,8 +54,31 @@ function GalleryComponent() {
     };
 
     const handleDelete = async (id) => {
-        await fetch(`/api/gallery/${id}`, { method: "DELETE" });
+        try {
+            const response = await fetch(`/api/gallery/${id}`, { method: "DELETE" });
 
+            if (!response.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+                return;
+            }
+            toast({
+                variant: "success",
+                title: "Image deleted successfully",
+                description: "The image has been removed from the gallery.",
+            });
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            return;
+        }
+        
         // Mutate the cache by removing the deleted image
         mutate(
             (prevData) => ({
@@ -61,6 +87,7 @@ function GalleryComponent() {
             }),
             false
         );
+
     };
 
     return (
