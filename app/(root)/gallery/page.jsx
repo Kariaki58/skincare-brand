@@ -111,7 +111,7 @@ function GalleryShow() {
 
             {/* Infinite Scroll Load More Trigger */}
             <div id="load-more-trigger" className="h-10 flex justify-center items-center">
-                {isValidating && <p className="text-gray-500">Loading more images...</p>}
+                {isValidating && <p className="text-black">Loading more images...</p>}
             </div>
 
             {/* Image Modal */}

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import headerImage from "@/public/header-image.jpg";
+// import headerImage from "@/public/header-image.jpg";
 import { Playfair_Display } from "next/font/google";
 
 

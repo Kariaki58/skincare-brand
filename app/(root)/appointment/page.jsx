@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import AppointMentService from "./appiontment-service";
-import AddressForm from "./address-form";
 import AppointMentForm from "./appointment-form";
 import { Button } from "@/components/ui/button";
 
@@ -13,12 +12,6 @@ export default function Page() {
         date: "",
         time: "",
         message: "",
-        street: "",
-        addressLine2: "",
-        city: "",
-        state: "",
-        postalCode: "",
-        country: ""
     });
     const [serviceDetails, setServiceDetails] = useState([]);
 
@@ -36,16 +29,12 @@ export default function Page() {
             alert("Please fill in all required fields");
             return;
         }
-        if (!formData.street || !formData.city || !formData.state || !formData.postalCode || !formData.country || !formData.addressLine2) {
-            alert("Please fill in all required address fields");
-            return;
-        }
 
         if (serviceDetails.length === 0) {
             alert("Please select at least one service");
             return;
         }
-        const response = await fetch('/api/appointments', {
+        const response = await fetch('/api/appointment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -61,12 +50,6 @@ export default function Page() {
             date: "",
             time: "",
             message: "",
-            street: "",
-            addressLine2: "",
-            city: "",
-            state: "",
-            postalCode: "",
-            country: ""
         });
 
 
@@ -76,7 +59,6 @@ export default function Page() {
     return (
         <div className="max-w-screen-lg mx-auto bg-[#214207] p-4 my-10">
             <AppointMentForm onChange={handleChange} />
-            <AddressForm onChange={handleChange} />
             <AppointMentService setServiceDetails={setServiceDetails}/>
             <div className="flex justify-center my-5">
                 <Button className="bg-green-950 hover:bg-green-900 px-20 py-4 text-xl font-bold" onClick={handleSubmit}>Submit</Button>

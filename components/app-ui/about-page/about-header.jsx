@@ -1,5 +1,5 @@
 import Image from "next/image";
-import photoAbout1 from "@/public/about-images/photo-about-1.jpg";
+import photoAbout1 from "@/public/about-images/about-picture-2.jpeg";
 import { Spectral, Outfit } from "next/font/google";
 
 const spectral = Spectral({

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import cofounderImage from "@/public/cofounder-girl.jpg";
+import cofounderImage from "@/public/card-5.jpg";
 import Link from "next/link";
 import { Playfair_Display, Outfit } from "next/font/google";
 

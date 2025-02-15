@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import clientFirst from "@/public/client-1.jpg";
-import clientSecond from "@/public/client-2.jpg";
+import clientFirst from "@/public/card-1.jpg";
+import clientSecond from "@/public/card-2.jpg";
 import { Playfair_Display, Outfit, Shippori_Antique } from "next/font/google";
 
 

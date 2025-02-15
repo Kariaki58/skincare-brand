@@ -2,6 +2,8 @@ import { connectToDatabase } from "@/lib/mongoose";
 import Order from "@/models/order";
 import Customer from "@/models/customer";
 import Product from "@/models/product";
+import { generateSimpleSellerOrderNotificationTemplate } from "@/lib/email-template/email-content";
+import { sendEmail } from "@/actions/sendEmail";
 
 
 export async function GET() {
@@ -72,6 +74,9 @@ export async function POST(request) {
 
         await order.save();
 
+        const emailNotification = generateSimpleSellerOrderNotificationTemplate()
+
+        await sendEmail(process.env.EMAIL_ADDRESS, "Congratulations 🎉 New Order Received", emailNotification)
         return new Response(JSON.stringify({ message: "order placed successfully" }), {
             status: 201,
         });

@@ -25,7 +25,7 @@ const CheckoutUI = () => {
         formState: { errors },
         reset,
     } = useForm({ resolver: zodResolver(schema) });
-    const toast = useToast();
+    const {toast} = useToast();
 
     const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -39,12 +39,17 @@ const CheckoutUI = () => {
         });
         if (!response.ok) {
             toast({
+                title: "Order failed",
                 description: "Failed to place order. Please try again later.",
-                variant: "error",
+                variant: "destructive",
             });
             return;
         } else {
-            alert("Order placed successfully!");
+            toast({
+                title: "Order placed successfully!",
+                description: "We would call you once your order is ready for pickup.",
+                variant: "success",
+            });
         }
         setTimeout(() => {
             clearCart();

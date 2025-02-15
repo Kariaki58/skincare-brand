@@ -1,9 +1,26 @@
+"use client";
+import { useState } from "react";
 
 export default function AppointmentForm({ onChange }) {
-    const minDate = new Date().toISOString().split("T")[0];
+    const now = new Date();
+    const currentHour = now.getHours();
+    const minDate = now.toISOString().split("T")[0];
     
-    const timeOptions = Array.from({ length: 11 }, (_, i) => {
-        const hour = i + 8;
+    const [selectedDate, setSelectedDate] = useState(minDate);
+    
+    // Determine available times based on selected date
+    let startHour = 8;
+    let endHour = 18; // Last available time is 6 PM
+    
+    if (selectedDate === minDate) {
+        startHour = Math.max(currentHour + 1, 8); // Ensure at least 1 hour gap, min 8 AM
+        if (currentHour >= 18) {
+            startHour = 8; // Reset to 8 AM for the next day
+        }
+    }
+    
+    const timeOptions = Array.from({ length: endHour - startHour + 1 }, (_, i) => {
+        const hour = startHour + i;
         const period = hour < 12 ? "AM" : "PM";
         const formattedHour = hour > 12 ? hour - 12 : hour;
         return `${formattedHour.toString().padStart(2, "0")}:00 ${period}`;
@@ -59,7 +76,10 @@ export default function AppointmentForm({ onChange }) {
                             name="date"
                             required
                             min={minDate} // Restrict past dates
-                            onChange={(e) => onChange("date", e.target.value)}
+                            onChange={(e) => {
+                                setSelectedDate(e.target.value);
+                                onChange("date", e.target.value);
+                            }}
                             className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         />
                     </div>

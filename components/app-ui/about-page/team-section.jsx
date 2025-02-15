@@ -1,7 +1,5 @@
 import Image from "next/image";
-import photoAbout3 from "@/public/about-images/photo-about-3.jpg";
-import photoAbout4 from "@/public/about-images/photo-about-4.jpeg";
-import photoAbout5 from "@/public/about-images/photo-about-5.webp";
+import photoAbout3 from "@/public/about-images/about-picture-1.jpeg";
 import Review from "../Reviews";
 import { Spectral, Shippori_Antique, Outfit } from "next/font/google";
 
