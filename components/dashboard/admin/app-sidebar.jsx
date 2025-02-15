@@ -24,20 +24,20 @@ import {
     SidebarHeader,
     SidebarRail,
 } from "@/components/ui/sidebar";
-import profile from "@/public/profile-1.jpg";
+import profile from "@/public/about-images/about-picture-1.jpeg";
 import Link from "next/link";
 
 // This is sample data.
 
 const data = {
     user: {
-        name: "skincare brand",
+        name: "victoria hair braiding salon",
         email: "kariakistephen809@gmail.com",
         avatar: {profile},
     },
     teams: [
         {
-        name: "Skincare brand",
+        name: "victoria hair braiding salon",
         logo: GalleryVerticalEnd,
         plan: "business",
         },
@@ -67,12 +67,6 @@ const data = {
             icon: MdOutlineInventory,
             isActive: false,
         },
-        // {
-        //     title: "Reviews",
-        //     url: "/dashboard/admin/reviews",
-        //     icon: ScanEye,
-        //     isActive: false,
-        // },
         {
             title: "gallery",
             url: "/dashboard/admin/gallery",
@@ -97,12 +91,6 @@ const data = {
             icon: Command,
             isActive: false,
         },
-        // {
-        //     title: "Settings",
-        //     url: "/dashboard/admin/settings",
-        //     icon: Settings2,
-        //     isActive: false,
-        // }
     ],
 }
 

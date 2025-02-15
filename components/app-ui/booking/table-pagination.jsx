@@ -28,13 +28,6 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
-import profile1 from "@/public/gallery/cute-photo-1.jpg";
-import profile2 from "@/public/gallery/cute-photo-2.jpg";
-import profile3 from "@/public/gallery/cute-photo-3.jpg";
-import profile4 from "@/public/gallery/cute-photo-4.jpg";
-import profile5 from "@/public/gallery/cute-photo-5.jpg";
-import profile6 from "@/public/gallery/cute-photo-6.jpeg";
-import profile7 from "@/public/gallery/cute-photo-7.jpg";
 
 
 
@@ -42,7 +35,6 @@ export default function TablePagination() {
     const bookings = [
         {
             id: 1,
-            profile: profile1,
             name: "Anabel",
             bookingServices: ["nail fixes"],
             email: "anabel@gmail.com",
@@ -54,7 +46,6 @@ export default function TablePagination() {
         },
         {
             id: 2,
-            profile: profile2,
             name: "Sharon",
             bookingServices: ["nail fixes", "hair placement", "makeup"],
             email: "sharon@gmail.com",
@@ -66,7 +57,6 @@ export default function TablePagination() {
         },
         {
             id: 3,
-            profile: profile3,
             name: "Sandra",
             bookingServices: ["nail fixes"],
             email: "sandra@gmail.com",
@@ -78,7 +68,6 @@ export default function TablePagination() {
         },
         {
             id: 4,
-            profile: profile4,
             name: "Sandra",
             bookingServices: ["nail fixes", "hair placement"],
             email: "sandra@gmail.com",
@@ -90,7 +79,6 @@ export default function TablePagination() {
         },
         {
             id: 5,
-            profile: profile5,
             name: "Favour",
             bookingServices: ["nail fixes"],
             email: "favour@gmail.com",
@@ -102,7 +90,6 @@ export default function TablePagination() {
         },
         {
             id: 6,
-            profile: profile6,
             name: "Angle",
             bookingServices: ["nail fixes", "hair placement"],
             email: "angle@gmail.com",
@@ -114,7 +101,6 @@ export default function TablePagination() {
         },
         {
             id: 7,
-            profile: profile7,
             name: "Pricilia",
             bookingServices: ["nail fixes", "hair placement"],
             email: "pricilia@gmail.com",
@@ -126,7 +112,6 @@ export default function TablePagination() {
         },
         {
             id: 8,
-            profile: profile5,
             name: "Favour",
             bookingServices: ["nail fixes", "hair placement", "makeup"],
             email: "favour@gmail.com",
@@ -138,7 +123,6 @@ export default function TablePagination() {
         },
         {
             id: 9,
-            profile: profile6,
             name: "Angle",
             bookingServices: ["nail fixes"],
             email: "angle@gmail.com",
@@ -150,7 +134,6 @@ export default function TablePagination() {
         },
         {
             id: 10,
-            profile: profile7,
             name: "Pricilia",
             bookingServices: ["nail fixes", "hair placement", "makeup"],
             email: "pricilia@gmail.com",
@@ -162,7 +145,6 @@ export default function TablePagination() {
         },
         {
             id: 11,
-            profile: profile5,
             name: "Favour",
             bookingServices: ["nail fixes", "hair placement", "makeup"],
             email: "favour@gmail.com",
@@ -174,7 +156,6 @@ export default function TablePagination() {
         },
         {
             id: 12,
-            profile: profile6,
             name: "Angle",
             bookingServices: ["nail fixes", "hair placement", "makeup"],
             email: "angle@gmail.com",
@@ -186,7 +167,6 @@ export default function TablePagination() {
         },
         {
             id: 13,
-            profile: profile7,
             name: "Pricilia",
             bookingServices: ["nail fixes", "hair placement", "makeup"],
             email: "pricilia@gmail.com",
@@ -244,15 +224,6 @@ export default function TablePagination() {
                             <TableCell className="font-medium">{booking.id}</TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-2">
-                                    <div className="w-10 h-10 rounded-full relative">
-                                        <Image
-                                            src={booking.profile}
-                                            alt={booking.name}
-                                            fill="true"
-                                            priority
-                                            className="object-cover z-10 rounded-full"
-                                        />
-                                    </div>
                                     {booking.name}
                                 </div>
                             </TableCell>
@@ -272,7 +243,6 @@ export default function TablePagination() {
                             <TableCell className="whitespace-nowrap">{booking.phone}</TableCell>
                             <TableCell className="whitespace-nowrap">{booking.date}</TableCell>
                             <TableCell className="whitespace-nowrap">{booking.guest}</TableCell>
-                            {/* <TableCell className="whitespace-nowrap">{booking.totalDuration}</TableCell> */}
                             <TableCell className="whitespace-nowrap">{booking.totalPrice}</TableCell>
                             <TableCell className="whitespace-nowrap">{booking.arrival}</TableCell>
                             <TableCell>
