@@ -46,7 +46,7 @@ export default function ServiceDisplay() {
                     <div key={service._id} className="flex items-center justify-between text-black shadow-xl rounded-xl p-6 transition-transform transform hover:scale-105 hover:shadow-xl">
                         <div>
                             <h2 className="text-lg font-semibold">{service.name}</h2>
-                            <p className="text-base">{service.price} USD</p>
+                            <p className="text-base">From {service.price} USD</p>
                         </div>
                         <div className="flex gap-3">
                             <button className="text-blue-500 hover:text-blue-700" onClick={() => handleEdit(service._id)}>

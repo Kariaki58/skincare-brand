@@ -5,7 +5,38 @@ import { CalendarCheck, CalendarX, Clock, CircleCheckBig, X } from "lucide-react
 import { Suspense } from "react";
 
 
-export default function Page() {    
+export default async function Page({ searchParams }) {
+    let bookingLength = 0;
+    let comfirmedBooking = 0;
+    let pendingBooking = 0;
+    let cancelledBooking = 0;
+    let errorOccurred = false;
+
+    const params = await searchParams;
+
+    let data = [];
+
+
+    try {
+        const response = await fetch(`${process.env.FRONTEND_URL}/api/appointment?page=${params.page}`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            }
+        );
+        data = await response.json();
+        bookingLength = data.totalCount;
+        comfirmedBooking = data.comfirmedBookings;
+        pendingBooking = data.pendingBookings;
+        cancelledBooking = data.cancelledBookings;
+
+    } catch (error) {
+        errorOccurred = true;
+    }
+
+    if (errorOccurred) {
+        return <div>Error occurred while fetching bookings</div>;
+    }
     return (
         <SidebarInset>
             <SidebarInsetComponent />
@@ -16,7 +47,7 @@ export default function Page() {
                         <CalendarCheck size={32} />
                     </div>
                     <div>
-                        <p className="text-lg font-semibold">203</p>
+                        <p className="text-lg font-semibold">{bookingLength}</p>
                         <p className="text-sm text-gray-500">Total Bookings</p>
                     </div>
                 </div>
@@ -27,7 +58,7 @@ export default function Page() {
                         <CircleCheckBig size={32} />
                     </div>
                     <div>
-                        <p className="text-lg font-semibold">54</p>
+                        <p className="text-lg font-semibold">{comfirmedBooking}</p>
                         <p className="text-sm text-gray-500">Confirmed Bookings</p>
                     </div>
                 </div>
@@ -38,7 +69,7 @@ export default function Page() {
                         <Clock size={32} />
                     </div>
                     <div>
-                        <p className="text-lg font-semibold">12</p>
+                        <p className="text-lg font-semibold">{pendingBooking}</p>
                         <p className="text-sm text-gray-500">Pending Bookings</p>
                     </div>
                 </div>
@@ -49,13 +80,13 @@ export default function Page() {
                         <CalendarX size={32} />
                     </div>
                     <div>
-                        <p className="text-lg font-semibold">2</p>
+                        <p className="text-lg font-semibold">{cancelledBooking}</p>
                         <p className="text-sm text-gray-500">Cancelled Bookings</p>
                     </div>
                 </div>
             </div>
             <Suspense fallback={<div>Loading...</div>}>
-                <TablePagination />
+                <TablePagination bookings={data.bookings} totalPages={data.totalPages} currentPage={data.currentPage} totalCount={data.totalCount} />
             </Suspense>
         </SidebarInset>
     );

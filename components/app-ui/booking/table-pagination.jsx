@@ -1,12 +1,14 @@
 "use client";
 
 import { CircleCheckBig, X } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import {
     Table,
     TableBody,
@@ -14,15 +16,11 @@ import {
     TableCell,
     TableHead,
     TableHeader,
-    TableRow,
+    TableRow
 } from "@/components/ui/table";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
@@ -30,233 +28,125 @@ import {
 } from "@/components/ui/pagination";
 
 
-
-export default function TablePagination() {
-    const bookings = [
-        {
-            id: 1,
-            name: "Anabel",
-            bookingServices: ["nail fixes"],
-            email: "anabel@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-25",
-            arrival: "10AM",
-            totalPrice: "$100",
-            guest: 1
-        },
-        {
-            id: 2,
-            name: "Sharon",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
-            email: "sharon@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-26",
-            arrival: "12.15AM",
-            totalPrice: "$300",
-            guest: 3
-        },
-        {
-            id: 3,
-            name: "Sandra",
-            bookingServices: ["nail fixes"],
-            email: "sandra@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-25",
-            arrival: "2.30AM",
-            totalPrice: "$800",
-            guest: 1
-        },
-        {
-            id: 4,
-            name: "Sandra",
-            bookingServices: ["nail fixes", "hair placement"],
-            email: "sandra@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-25",
-            arrival: "8AM",
-            totalPrice: "$50",
-            guest: 2
-        },
-        {
-            id: 5,
-            name: "Favour",
-            bookingServices: ["nail fixes"],
-            email: "favour@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-26",
-            arrival: "10AM",
-            totalPrice: "$100",
-            guest: 1
-        },
-        {
-            id: 6,
-            name: "Angle",
-            bookingServices: ["nail fixes", "hair placement"],
-            email: "angle@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-25",
-            arrival: "2.30AM - 5.30PM",
-            totalPrice: "$800",
-            guest: 2
-        },
-        {
-            id: 7,
-            name: "Pricilia",
-            bookingServices: ["nail fixes", "hair placement"],
-            email: "pricilia@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-25",
-            arrival: "10AM",
-            totalPrice: "$100",
-            guest: 2
-        },
-        {
-            id: 8,
-            name: "Favour",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
-            email: "favour@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-26",
-            arrival: "10AM",
-            totalPrice: "$100",
-            guest: 3
-        },
-        {
-            id: 9,
-            name: "Angle",
-            bookingServices: ["nail fixes"],
-            email: "angle@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-25",
-            arrival: "2.30AM",
-            totalPrice: "$800",
-            guest: 1
-        },
-        {
-            id: 10,
-            name: "Pricilia",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
-            email: "pricilia@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-25",
-            arrival: "10AM",
-            totalPrice: "$100",
-            guest: 3
-        },
-        {
-            id: 11,
-            name: "Favour",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
-            email: "favour@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-26",
-            arrival: "10AM",
-            totalPrice: "$100",
-            guest: 3
-        },
-        {
-            id: 12,
-            name: "Angle",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
-            email: "angle@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-25",
-            arrival: "2.30AM",
-            totalPrice: "$800",
-            guest: 3
-        },
-        {
-            id: 13,
-            name: "Pricilia",
-            bookingServices: ["nail fixes", "hair placement", "makeup"],
-            email: "pricilia@gmail.com",
-            phone: "1234567890",
-            date: "2015-03-25",
-            arrival: "10AM",
-            totalPrice: "$100",
-            guest: 3
-        },
-    ];
-
-    const customersPerPage = 10;
+export default function TablePagination({ bookings, totalPages, currentPage, totalCount }) {
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    const currentPageFromUrl = parseInt(searchParams.get("page")) || 1;
-    const totalPages = Math.ceil(bookings.length / customersPerPage);
-
-    const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
+    const currentPageFromUrl = parseInt(searchParams.get("page") || "1", 10);
+    const [page, setPage] = useState(currentPageFromUrl);
 
     useEffect(() => {
-        setCurrentPage(currentPageFromUrl);
+        setPage(currentPageFromUrl);
     }, [currentPageFromUrl]);
 
-    const handlePageChange = (page) => {
-        router.push(`?page=${page}`);
-        setCurrentPage(page);
+    const handlePageChange = (newPage) => {
+        router.push(`?page=${newPage}`);
     };
 
-    const paginatedBookings = bookings.slice(
-        (currentPage - 1) * customersPerPage,
-        currentPage * customersPerPage
-    );
+    const acceptBooking = async (id) => {
+        if (!window.confirm("Are you sure you want to accept this booking?")) return;
+
+        try {
+            const response = await fetch(`/api/appointment/${id}/accept`, { method: "PUT" });
+            if (response.ok) {
+                alert("Booking accepted successfully!");
+                // router.refresh();
+            } else {
+                alert("Failed to accept booking. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error accepting booking:", error);
+            alert("Something went wrong!");
+        }
+    };
+
+    const declineBooking = async (id) => {
+        const reason = prompt("Please provide a reason for declining:");
+        if (!reason) return alert("Decline reason is required.");
+
+        if (!window.confirm("Are you sure you want to decline this booking?")) return;
+
+        try {
+            const response = await fetch(`/api/appointment/${id}/decline`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ reason }),
+            });
+
+            if (response.ok) {
+                alert("Booking declined successfully!");
+                // router.refresh();
+            } else {
+                alert("Failed to decline booking. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error declining booking:", error);
+            alert("Something went wrong!");
+        }
+    };
+
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-screen-lg overflow-x-auto">
             <Table>
-                <TableCaption>A list of your customers</TableCaption>
+                <TableCaption>List of all bookings</TableCaption>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">ID</TableHead>
-                        <TableHead className="whitespace-nowrap">NAME</TableHead>
-                        <TableHead className="whitespace-nowrap">SERVICES</TableHead>
-                        <TableHead className="whitespace-nowrap">EMAIL</TableHead>
-                        <TableHead className="whitespace-nowrap">PHONE</TableHead>
-                        <TableHead className="whitespace-nowrap">DATE</TableHead>
-                        <TableHead className="whitespace-nowrap">GUEST</TableHead>
-                        <TableHead className="whitespace-nowrap">TOTAL PRICE</TableHead>
-                        <TableHead className="whitespace-nowrap">ARRIVAL</TableHead>
-                        <TableHead>ACTIONS</TableHead>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Services</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Phone</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Arrival</TableHead>
+                        <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {paginatedBookings.map((booking) => (
-                        <TableRow key={booking.id}>
-                            <TableCell className="font-medium">{booking.id}</TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-2">
-                                    {booking.name}
-                                </div>
-                            </TableCell>
+                    {bookings.map((booking) => (
+                        <TableRow key={booking._id}>
+                            <TableCell>{booking._id}</TableCell>
+                            <TableCell>{booking.name}</TableCell>
                             <TableCell className="whitespace-nowrap">
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
-                                            <p className="underline text-blue-700 hover:cursor-pointer">{booking.bookingServices.length}</p>
+                                            <p className="underline text-blue-700 hover:cursor-pointer">
+                                                {booking.services.length}
+                                            </p>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                            <p className="text-lg">{booking.bookingServices.join(" | ")}</p>
+                                            <p className="text-lg">
+                                                {booking.services.map(service => service.name).join(" | ")}
+                                            </p>
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
                             </TableCell>
-                            <TableCell className="whitespace-nowrap">{booking.email}</TableCell>
-                            <TableCell className="whitespace-nowrap">{booking.phone}</TableCell>
-                            <TableCell className="whitespace-nowrap">{booking.date}</TableCell>
-                            <TableCell className="whitespace-nowrap">{booking.guest}</TableCell>
-                            <TableCell className="whitespace-nowrap">{booking.totalPrice}</TableCell>
-                            <TableCell className="whitespace-nowrap">{booking.arrival}</TableCell>
+                            <TableCell>{booking.email}</TableCell>
+                            <TableCell>{booking.phone}</TableCell>
                             <TableCell>
-                                <div className="flex gap-2 justify-center">
+                                {new Date(booking.selectedDate).toLocaleDateString("en-US", {
+                                    month: "short", day: "numeric", year: "numeric"
+                                })}
+                            </TableCell>
+                            <TableCell>{booking.selectedSlot}</TableCell>
+                            <TableCell>
+                                <div className="flex gap-2">
                                     <CircleCheckBig
                                         size={24}
-                                        className="text-green-700 hover:text-green-900 hover:cursor-pointer"
-                                        title="Confirm Booking"
+                                        className={`text-green-700 hover:cursor-pointer ${
+                                            booking.isConfirmed ? 'opacity-50 cursor-not-allowed' : ''
+                                        }`}
+                                        onClick={() => !booking.isConfirmed && acceptBooking(booking._id)}
                                     />
                                     <X
                                         size={24}
-                                        className="text-red-700 hover:text-red-900 hover:cursor-pointer"
-                                        title="Cancel Booking"
+                                        className={`text-red-700 hover:cursor-pointer ${
+                                            booking.isCancelled ? 'opacity-50 cursor-not-allowed' : ''
+                                        }`}
+                                        onClick={() => !booking.isCancelled && declineBooking(booking._id)}
                                     />
+
                                 </div>
                             </TableCell>
                         </TableRow>
@@ -264,32 +154,18 @@ export default function TablePagination() {
                 </TableBody>
             </Table>
             <Pagination>
-            <PaginationContent>
-                <PaginationItem>
-                    <PaginationPrevious
-                        href={`?page=${Math.max(currentPage - 1, 1)}`}
-                        onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-                    />
-                </PaginationItem>
-                {[...Array(totalPages).keys()].map((page) => (
-                    <PaginationItem key={page}>
-                        <PaginationLink
-                            href={`?page=${page + 1}`}
-                            isActive={currentPage === page + 1}
-                            onClick={() => handlePageChange(page + 1)}
-                        >
-                            {page + 1}
-                        </PaginationLink>
-                    </PaginationItem>
-                ))}
-                <PaginationItem>
-                    <PaginationNext
-                        href={`?page=${Math.min(currentPage + 1, totalPages)}`}
-                        onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
-                    />
-                </PaginationItem>
-            </PaginationContent>
+                <PaginationContent>
+                    <PaginationPrevious className="cursor-pointer" onClick={() => handlePageChange(Math.max(page - 1, 1))} />
+                    {[...Array(totalPages).keys()].map((i) => (
+                        <PaginationItem key={i}>
+                            <PaginationLink onClick={() => handlePageChange(i + 1)} isActive={page === i + 1}>
+                                {i + 1}
+                            </PaginationLink>
+                        </PaginationItem>
+                    ))}
+                    <PaginationNext className="cursor-pointer" onClick={() => handlePageChange(Math.min(page + 1, totalPages))} />
+                </PaginationContent>
             </Pagination>
         </div>
-    )
+    );
 }

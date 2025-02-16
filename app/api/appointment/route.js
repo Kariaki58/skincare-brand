@@ -10,22 +10,42 @@ import { generateSellerAppointmentNotificationTemplate, generateSellerDepositReq
 export async function GET(request) {
     try {
         await connectToDatabase();
-        const bookings = await Booking.find().sort({ selectedDate: 1 });
-        return new Response(JSON.stringify(bookings), { status: 200 });
+
+        const { searchParams } = new URL(request.url);
+        const page = parseInt(searchParams.get("page") || "1", 10);
+        const limit = 20;
+        const skip = (page - 1) * limit;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const bookings = await Booking.find({ selectedDate: { $gte: today } })
+            .sort({ selectedDate: 1 })
+            .populate("services")
+            .skip(skip)
+            .limit(limit);
+        const comfirmedBookings = await Booking.countDocuments({ isConfirmed: true });
+        const cancelledBookings = await Booking.countDocuments({ isCancelled: true });
+        const pendingBookings = await Booking.countDocuments({ isConfirmed: false, isCancelled: false });
+
+        const totalCount = await Booking.countDocuments();
+        const totalPages = Math.ceil(totalCount / limit);
+
+        return new Response(
+            JSON.stringify({ bookings, totalPages, currentPage: page, totalCount, comfirmedBookings, cancelledBookings, pendingBookings }),
+            { status: 200, headers: { "Content-Type": "application/json" } }
+        );
     } catch (error) {
+        console.error("Error fetching bookings:", error);
         return new Response("An error occurred while fetching appointments", { status: 500 });
     }
 }
 
 export async function POST(request) {
-    const { name, email, phone, date, time, message, street, addressLine2, city, state, postalCode, country, services } = await request.json();
-    if (!name || !email || !phone || !date || !time || !message 
-        || !street || !city || !state || !postalCode || !country 
-        || !services) {
+    const { name, email, phone, date, time, message, services } = await request.json();
+    if (!name || !email || !phone || !date || !time || !message || !services) {
         return new Response("Please fill in all required fields", { status: 400 });
     }
 
-    console.log({ name, email, phone, date, time, message, street, addressLine2, city, state, postalCode, country, services });
 
     try {
         await connectToDatabase();
