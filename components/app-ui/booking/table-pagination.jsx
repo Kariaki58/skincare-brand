@@ -50,7 +50,7 @@ export default function TablePagination({ bookings, totalPages, currentPage, tot
             const response = await fetch(`/api/appointment/${id}/accept`, { method: "PUT" });
             if (response.ok) {
                 alert("Booking accepted successfully!");
-                // router.refresh();
+                router.refresh();
             } else {
                 alert("Failed to accept booking. Please try again.");
             }
@@ -75,7 +75,7 @@ export default function TablePagination({ bookings, totalPages, currentPage, tot
 
             if (response.ok) {
                 alert("Booking declined successfully!");
-                // router.refresh();
+                router.refresh();
             } else {
                 alert("Failed to decline booking. Please try again.");
             }

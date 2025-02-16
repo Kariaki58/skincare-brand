@@ -23,9 +23,9 @@ export async function GET(request) {
             .populate("services")
             .skip(skip)
             .limit(limit);
-        const comfirmedBookings = await Booking.countDocuments({ isConfirmed: true });
-        const cancelledBookings = await Booking.countDocuments({ isCancelled: true });
-        const pendingBookings = await Booking.countDocuments({ isConfirmed: false, isCancelled: false });
+        const comfirmedBookings = await Booking.countDocuments({ isConfirmed: true, selectedDate: { $gte: today }  });
+        const cancelledBookings = await Booking.countDocuments({ isCancelled: true, selectedDate: { $gte: today } });
+        const pendingBookings = await Booking.countDocuments({ isConfirmed: false, isCancelled: false, selectedDate: { $gte: today }});
 
         const totalCount = await Booking.countDocuments();
         const totalPages = Math.ceil(totalCount / limit);
