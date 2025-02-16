@@ -7,15 +7,15 @@ import { SquareChevronRight } from "lucide-react";
 export default function Review() {
     const reviews = [
         {
-            text: "I had an amazing experience at Victoria Hair Braiding and Weaving Center! The stylists were incredibly skilled and professional, and they took the time to ensure my braids were flawless. The atmosphere was warm and welcoming, making me feel comfortable throughout my visit. I’ve received so many compliments on my new style, and I’ll definitely be coming back for my next appointment!",
+            text: "Had a fantastic experience at Victoria Hair Braiding and Weaving Center! Skilled stylists, a welcoming atmosphere, and flawless braids. I’ve received tons of compliments and will definitely be back!",
             author: "— LAUREN B.",
         },
         {
-            text: "This salon is a gem! From the moment I walked in, I felt taken care of. The staff is friendly and attentive, and the quality of their work is exceptional. I got knotless braids, and they turned out better than I imagined—neat, lightweight, and perfectly done. It’s clear they value both their craft and their customers. Highly recommend!",
+            text: "This salon is amazing! Friendly staff, exceptional service, and flawless knotless braids—neat, lightweight, and perfect. Highly recommend!",
             author: "— EMILY R.",
         },
         {
-            text: "Victoria Hair Braiding and Weaving Center is hands down the best hair salon I’ve been to. The team is incredibly talented and pays great attention to detail. They helped me choose the perfect style for my hair type, and the results were stunning. The salon is clean, organized, and provides a relaxing experience. I can’t wait to book my next appointment!",
+            text: "Victoria Hair Braiding and Weaving Center is the best! Talented stylists, great attention to detail, and a relaxing atmosphere. My hair turned out stunning—I’ll be back!",
             author: "— SARAH T.",
         },
     ];
