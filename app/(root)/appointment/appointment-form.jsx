@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-export default function AppointmentForm({ onChange }) {
+export default function AppointmentForm({ onChange, loading }) {
     const now = new Date();
     const currentHour = now.getHours();
     const minDate = now.toISOString().split("T")[0];
@@ -36,6 +36,7 @@ export default function AppointmentForm({ onChange }) {
                         type="text"
                         id="name"
                         name="name"
+                        disabled={loading}
                         required
                         onChange={(e) => onChange("name", e.target.value)}
                         className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -49,6 +50,7 @@ export default function AppointmentForm({ onChange }) {
                             type="email"
                             id="email"
                             name="email"
+                            disabled={loading}
                             required
                             onChange={(e) => onChange("email", e.target.value)}
                             className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -60,6 +62,7 @@ export default function AppointmentForm({ onChange }) {
                             type="tel"
                             id="phone"
                             name="phone"
+                            disabled={loading}
                             required
                             onChange={(e) => onChange("phone", e.target.value)}
                             className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -107,6 +110,7 @@ export default function AppointmentForm({ onChange }) {
                         id="message"
                         name="message"
                         rows={5}
+                        disabled={loading}
                         onChange={(e) => onChange("message", e.target.value)}
                         className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
