@@ -44,6 +44,11 @@ export default function Page() {
                 },
                 body: JSON.stringify({ ...formData, services: serviceDetails })
             });
+            if (!response.ok) {
+                const errorData = await response.json();
+                alert(errorData.error || "An unknown error occurred.");
+                return;
+            }
             const data = await response.json();
             alert(data.message);
             setFormData({
