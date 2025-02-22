@@ -1,5 +1,8 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
+import coffee from "@/public/coffee.jpeg";
+
 
 export default function AppointmentForm({ onChange, loading }) {
     const now = new Date();
@@ -116,6 +119,14 @@ export default function AppointmentForm({ onChange, loading }) {
                     />
                 </div>
             </form>
+            <Image
+                src={coffee}
+                alt="Victoria Hair Braiding & Weaving Center"
+                // width={200}
+                // height={200}
+                className="w-full h-80 object-cover rounded-lg"
+            />
+            <p className="text-white text-xl font-bold">we give complementary coffee and snacks</p>
         </div>
     );
 }

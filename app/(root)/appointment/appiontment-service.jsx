@@ -18,7 +18,7 @@ export default function AppointmentService({ setServiceDetails }) {
     if (error) return <div className="text-red-500">Failed to load services, reload page!.</div>;
 
     return (
-        <div>
+        <div>            
             <h1 className="text-center my-6 text-2xl font-semibold text-white">Victoria Hair Braiding Styles</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                 {services.map((service) => (
@@ -30,7 +30,7 @@ export default function AppointmentService({ setServiceDetails }) {
                         />
                         <div>
                             <h2 className="text-lg font-semibold text-white">{service.name}</h2>
-                            <p className="text-white text-base">{service.price} USD</p>
+                            <p className="text-white text-base">From {service.price} USD</p>
                         </div>
                     </div>
                 ))}
