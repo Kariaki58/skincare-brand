@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -12,10 +13,12 @@ export default function ServiceAdd() {
     const [price, setPrice] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const searchParams = useSearchParams();
+    const [error, setError] = useState("");
     const { toast } = useToast();
     const router = useRouter();
     const serviceId = searchParams.get("serviceId");
     const { mutate } = useSWR("/api/services", fetcher);
+    const { data: session } = useSession();
 
     useEffect(() => {
         if (serviceId) {
@@ -25,42 +28,59 @@ export default function ServiceAdd() {
                     setName(data.name);
                     setPrice(data.price);
                     setIsEditing(true);
+                }).catch((error) => {
+                    setError("Service not found");
                 });
         }
     }, [serviceId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const serviceData = { name, price: Number(price) };
-
-        const response = await fetch(isEditing ? `/api/services/${serviceId}` : "/api/services", {
-            method: isEditing ? "PUT" : "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(serviceData),
-        });
-
-        if (response.ok) {
-            toast({
-                title: `Service ${isEditing ? "updated" : "added"} successfully!`,
-                description: "The service list has been updated.",
-            });
-            mutate(); // Trigger re-fetching the service list
-            setName("");
-            setPrice("");
-            setIsEditing(false);
-            if (isEditing) {
-                router.push("/dashboard/admin/appointment");
+        try {
+            if (session?.user?.role !== "admin") {
+                router.push("/");
+                return;
             }
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
+            const userId = session?.user?.id;
+            const serviceData = { name, price: Number(price), userId };
+    
+            const response = await fetch(isEditing ? `/api/services/${serviceId}` : "/api/services", {
+                method: isEditing ? "PUT" : "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(serviceData),
             });
+    
+            if (response.ok) {
+                toast({
+                    title: `Service ${isEditing ? "updated" : "added"} successfully!`,
+                    description: "The service list has been updated.",
+                });
+                mutate(); // Trigger re-fetching the service list
+                setName("");
+                setPrice("");
+                setIsEditing(false);
+                if (isEditing) {
+                    router.push("/dashboard/admin/appointment");
+                }
+            } else {
+                const error = await response.json();
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: error.error,
+                });
+            }
+        } catch (error) {
+
+        } finally {
+
         }
     };
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <div className="max-w-md mx-auto mt-10 p-4 border rounded-lg shadow-lg">

@@ -4,6 +4,7 @@ import useSWR from "swr";
 import { Pencil, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -11,6 +12,7 @@ export default function ServiceDisplay() {
     const { data: services, error, mutate } = useSWR("/api/services", fetcher);
     const router = useRouter();
     const { toast } = useToast();
+    const { data: session } = useSession();
 
     if (error) {
         return <div className="text-red-500 font-semibold text-center mt-20">{error.message}</div>;
@@ -21,9 +23,27 @@ export default function ServiceDisplay() {
     };
 
     const handleDelete = async (id) => {
+        if (session?.user?.role !== "admin") {
+            router.push("/");
+            return;
+        }
         try {
-            await fetch(`/api/services/${id}`, { method: "DELETE" });
-            toast({ title: "Service Deleted Successfully" });
+            const response = await fetch(`/api/services/${id}?userId=${session?.user?.id}`, { method: "DELETE" });
+            if (!response.ok) {
+                const data = await response.json();
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: data.message,
+                });
+                return;
+            }
+            const data = await response.json();
+            toast({ 
+                variant: "success",
+                title: "Service Deleted Successfully",
+                description: data.message,
+            });
             mutate(); // Re-fetch the services list after deletion
         } catch (err) {
             toast({

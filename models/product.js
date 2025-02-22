@@ -11,10 +11,6 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    price: {
-        type: Number,
-        required: true,
-    },
     basePrice: {
         type: Number,
         required: true,

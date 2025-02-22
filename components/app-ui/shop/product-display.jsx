@@ -87,7 +87,7 @@ export default function ProductDisplay() {
                                 {product.name.length > 20 ? `${product.name.substring(0, 20)}...` : product.name}
                             </Link>
                             <p className="flex gap-3 justify-center">
-                                <span className="font-bold text-base text-[#2D2D2D]">${product.price}</span>
+                                <span className="font-bold text-base text-[#2D2D2D]">${product.basePrice}</span>
                             </p>
                             <div className="flex justify-center gap-1">
                                 {[...Array(5)].map((_, starIndex) => (

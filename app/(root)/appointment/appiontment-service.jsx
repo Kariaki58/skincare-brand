@@ -13,9 +13,9 @@ export default function AppointmentService({ setServiceDetails }) {
             setServiceDetails(prevDetails => prevDetails.filter(item => item.id !== service.id));
         }
     };
-
-    if (error) return <div className="text-red-500">Failed to load services</div>;
+    
     if (!services) return <div className="text-white text-center font-bold text-lg mt-5">Loading Services...</div>;
+    if (error) return <div className="text-red-500">Failed to load services, reload page!.</div>;
 
     return (
         <div>

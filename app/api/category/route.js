@@ -12,7 +12,6 @@ export async function GET(request) {
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (error) {
-        console.error(error);
         return new Response(JSON.stringify({ error: "something went wrong" }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },

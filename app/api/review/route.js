@@ -7,27 +7,29 @@ import Review from "@/models/review";
 export async function POST(request) {
     try {
         await connectToDatabase();
-        const { name, email, review, rating, userId, productId } = await request.json();
+        const { name, email, review, rating, productId } = await request.json();
 
         if (!name || !email || !review || !rating || !productId) {
-            return Response.json({ message: "Please fill in all fields" }, { status: 400 });
+            return Response.json({ message: "Please fill in all fields" }, { status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
         }
 
-        const user = await User.findById(userId);
-        if (!user) {
-            return Response.json({ message: "User not found" }, { status: 404 });
-        }
 
         const product = await Product.findById(productId);
         if (!product) {
-            return Response.json({ message: "Product not found" }, { status: 404 });
+            return Response.json({ message: "Product not found" }, { status: 404,
+                headers: { 'Content-Type': 'application/json' }
+            });
         }
 
         // Check if the user has already reviewed any product
-        const existingReview = await Review.findOne({ $or: [{ userId }, { email }] });
+        const existingReview = await Review.findOne({ email });
 
         if (existingReview) {
-            return Response.json({ message: "You have already submitted a review before" }, { status: 400 });
+            return Response.json({ message: "You have already submitted a review before" }, { status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
         }
 
         const newReview = new Review({
@@ -35,7 +37,6 @@ export async function POST(request) {
             email,
             content: review,
             rating,
-            userId,
         });
 
         await newReview.save();
@@ -44,8 +45,12 @@ export async function POST(request) {
         product.reviews.push(newReview._id);
         await product.save();
 
-        return Response.json(newReview, { status: 200 });
+        return Response.json(newReview, { status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        });
     } catch (error) {
-        return Response.json({ message: error.message }, { status: 500 });
+        return Response.json({ message: error.message }, { status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 }

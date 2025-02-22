@@ -26,6 +26,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useSession } from "next-auth/react";
 
 
 export default function TablePagination({ bookings, totalPages, currentPage, totalCount }) {
@@ -44,10 +45,19 @@ export default function TablePagination({ bookings, totalPages, currentPage, tot
     };
 
     const acceptBooking = async (id) => {
+        if (!session) {
+            return <div>you must log in</div>
+        }
+        if (session?.user?.role!== "admin") {
+            router.push("/");
+            return;
+        }
         if (!window.confirm("Are you sure you want to accept this booking?")) return;
 
         try {
-            const response = await fetch(`/api/appointment/${id}/accept`, { method: "PUT" });
+            const response = await fetch(`/api/appointment/${id}/accept`, { method: "PUT",
+                body: JSON.stringify({ userId: session?.user?.id }),
+            });
             if (response.ok) {
                 alert("Booking accepted successfully!");
                 router.refresh();
@@ -61,6 +71,13 @@ export default function TablePagination({ bookings, totalPages, currentPage, tot
     };
 
     const declineBooking = async (id) => {
+        if (!session) {
+            return <div>you must log in</div>
+        }
+        if (session?.user?.role!== "admin") {
+            router.push("/");
+            return;
+        }
         const reason = prompt("Please provide a reason for declining:");
         if (!reason) return alert("Decline reason is required.");
 
@@ -70,7 +87,9 @@ export default function TablePagination({ bookings, totalPages, currentPage, tot
             const response = await fetch(`/api/appointment/${id}/decline`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ reason }),
+                body: JSON.stringify({ reason,
+                    userId: session?.user?.id,
+                }),
             });
 
             if (response.ok) {

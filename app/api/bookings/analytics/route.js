@@ -1,11 +1,34 @@
 import Booking from "@/models/booking";
+import User from "@/models/user";
 import { connectToDatabase } from "@/lib/mongoose";
 
 export async function GET(request) {
     try {
+        const { searchParams } = new URL(request.url);
+        const userId = searchParams.get("userId");
+
         await connectToDatabase();
 
         const currentYear = new Date().getFullYear();
+
+        if (!userId) {
+            return new Response(JSON.stringify({ error: "User ID is required"}), { status: 400,
+            headers: { "Content-Type": "application/json" }
+            });
+        }
+
+        const user = await User.findOne({ _id: userId });
+        if (!user) {
+            return new Response(JSON.stringify({ error: "User not found" }), { status: 404,
+            headers: { "Content-Type": "application/json" }
+            });
+        }
+        if (user.role !== "admin") {
+            return new Response(JSON.stringify({ error: "Admin users cannot view their own analytics"}), { status: 403,
+                headers: { "Content-Type": "application/json" }
+            });
+        }
+
 
         // Step 1: Create an array of all months with initial counts set to zero
         const months = [
@@ -73,6 +96,8 @@ export async function GET(request) {
             headers: { "Content-Type": "application/json" },
         });
     } catch (error) {
-        return new Response("Internal server error", { status: 500 });
+        return new Response(JSON.stringify({error: "Internal server error"}), { status: 500,
+            headers: { "Content-Type": "application/json" }
+        });
     }
 }

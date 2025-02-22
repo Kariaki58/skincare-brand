@@ -3,15 +3,24 @@ import { useState } from 'react';
 import { Loader2, UploadCloud } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { useSession } from 'next-auth/react';
 
 export default function GalleryUploadButton() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+    const { data: session } = useSession();
     const router = useRouter();
     const { toast } = useToast();
 
     const handleFileChange = async (e) => {
+        if (!session) {
+            return <div>Login to upload image</div>
+        }
+        if (session.user.role!== "admin") {
+            return <div>You are not authorized to upload images.</div>
+        }
+
         const file = e.target.files?.[0];
 
 
@@ -38,6 +47,7 @@ export default function GalleryUploadButton() {
 
             const formData = new FormData();
             formData.append('image', file);
+            formData.append('userId', session?.user?.id);
 
             const response = await fetch('/api/gallery', {
                 method: 'POST',

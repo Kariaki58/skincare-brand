@@ -61,7 +61,6 @@ const ProductForm = ({ productId, initialData }) => {
     const [product, setProduct] = useState({
         name: "",
         stock: "",
-        price: "",
         basePrice: "",
         image: null,
         description: "",
@@ -119,11 +118,9 @@ const ProductForm = ({ productId, initialData }) => {
 
         formData.append("name", product.name);
         formData.append("stock", product.stock);
-        formData.append("price", product.price);
         formData.append("basePrice", product.basePrice);
         formData.append("description", product.description);
         formData.append("category", product.category);
-        // formData.append("additionalInfo", JSON.stringify(additionalInfo));
         formData.append("userId", session?.user?.id);
         formData.append("image", product.image);
 
@@ -180,9 +177,9 @@ const ProductForm = ({ productId, initialData }) => {
             <h1 className="text-center text-xl font-bold">
                 {productId ? 'Edit Product' : 'Upload Product'}
             </h1>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 shadow-lg p-4 rounded-lg">
+            <form onSubmit={handleSubmit} className="md:grid md:grid-cols-2 gap-5 mt-5">
                 {/* Form fields remain the same as original */}
-                <div>
+                <div className="w-full mt-5 md:mt-0">
                     <label>Product Name</label>
                     <input 
                         type="text" 
@@ -192,7 +189,7 @@ const ProductForm = ({ productId, initialData }) => {
                         className="border p-2 w-full rounded-md"
                     />
                 </div>
-                <div>
+                <div className="mt-5 md:mt-0">
                     <label>Stock</label>
                     <input 
                         type="number" 
@@ -203,17 +200,7 @@ const ProductForm = ({ productId, initialData }) => {
                     />
                 </div>
                 <div className="mt-5">
-                    <label>Base Price</label>
-                    <input 
-                        type="number" 
-                        value={product.price}
-                        disabled={submitting}
-                        onChange={(e) => setProduct({...product, price: e.target.value })} 
-                        className="border p-2 w-full rounded-md"
-                    />
-                </div>
-                <div className="mt-5">
-                    <label>Discounted Price</label>
+                    <label>Price</label>
                     <input 
                         type="number" 
                         value={product.basePrice}
@@ -243,7 +230,7 @@ const ProductForm = ({ productId, initialData }) => {
                         </div>
                     )}
                 </div>
-                <div className="mt-5">
+                <div className="mt-5 col-span-2">
                     <label className="block">Category</label>
                     <CreatableSelect
                         value={{ value: product.category, label: product.category }}

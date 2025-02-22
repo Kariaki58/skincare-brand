@@ -91,10 +91,10 @@ export default function ProductInventory() {
                                 </div>
                                 <span className="font-medium text-gray-900">{product.name}</span>
                             </td>
-                            <td className="px-4 py-3 border-b text-gray-800">${product.price.toFixed(2)}</td>
+                            <td className="px-4 py-3 border-b text-gray-800">${product.basePrice.toFixed(2)}</td>
                             <td className="px-4 py-3 border-b">{product.stock}</td>
                             <td className="px-4 py-3 border-b text-gray-800">
-                                ${(product.price * product.stock).toFixed(2)}
+                                ${(product.basePrice * product.stock).toFixed(2)}
                             </td>
                             <td className="px-4 py-3 border-b">
                                 <button

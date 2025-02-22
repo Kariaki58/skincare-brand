@@ -17,10 +17,10 @@ const reviewSchema = z.object({
 export default function ReviewForm() {
     const { id } = useParams();
     const { toast } = useToast();
-    const { data: session } = useSession();
 
     const [rating, setRating] = useState(0);
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
     
     const handleStarClick = (starIndex) => {
         setRating(starIndex + 1);
@@ -36,6 +36,7 @@ export default function ReviewForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         
         const formData = new FormData(e.target);
         const reviewContent = formData.get("review");
@@ -60,17 +61,19 @@ export default function ReviewForm() {
                 },
                 body: JSON.stringify({
                     ...formValues,
-                    userId: session?.user?.id,
                     productId: id,
                 }),
             })
             if (!response.ok) {
                 const data = await response.json();
 
+                console.log("line 70")
+                console.log({ data: data.message })
+
                 toast({
                     variant: "destructive",
                     title: "Failed to submit review",
-                    description: data.error,
+                    description: data.message || "seomthing went wrong.",
                 });
                 return;
             }
@@ -79,6 +82,7 @@ export default function ReviewForm() {
                 title: "Review submitted successfully",
                 description: "Thank you for your feedback!",
             });
+            e.target.reset();
         } catch (err) {
             if (err instanceof z.ZodError) {
                 const errorMessages = err.errors.reduce((acc, error) => {
@@ -86,7 +90,15 @@ export default function ReviewForm() {
                     return acc;
                 }, {});
                 setErrors(errorMessages);
+                return;
             }
+            toast({
+                variant: "destructive",
+                title: "Failed to submit review",
+                description: "something went wrong.",
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -99,7 +111,7 @@ export default function ReviewForm() {
                         <label 
                             key={starIndex} 
                             htmlFor={`star-${starIndex + 1}`} 
-                            className={`text-2xl cursor-pointer ${starIndex + 1 <= rating ? 'text-[#e9ff23]' : 'text-gray-400'}`} 
+                            className={`text-2xl cursor-pointer ${starIndex + 1 <= rating ? 'text-[#214207]' : 'text-gray-400'}`} 
                             onClick={() => handleStarClick(starIndex)}
                         >
                             <IoStar />
@@ -118,7 +130,7 @@ export default function ReviewForm() {
             />
             {errors.review && <p className="text-red-500 text-sm">{errors.review}</p>}
 
-            <div className="grid gap-4 grid-cols-2">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
                 <div>
                     <Input
                         name="name"
@@ -140,12 +152,15 @@ export default function ReviewForm() {
                     {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                 </div>
             </div>
-            <button
-                type="submit"
-                className="bg-[#214207] hover:bg-[#2b4d12] text-white font-medium py-4 px-4 rounded-md shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-                Submit Review
-            </button>
+            <div className="flex justify-center sm:justify-start">
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-[#214207] hover:bg-[#2b4d12] text-white font-medium py-4 px-4 rounded-md shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                    {loading ? "Submitting..." : "Submit Review"}
+                </button>
+            </div>
         </form>
     );
 }

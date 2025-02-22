@@ -21,6 +21,7 @@ import { Trash2 } from "lucide-react";
 import useSWR from "swr";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -29,6 +30,7 @@ export default function CustomerTable() {
     const { toast } = useToast();
     const router = useRouter();
     const currentPage = parseInt(searchParams.get("page")) || 1;
+    const { data: session } = useSession();
 
     const { data, error, mutate } = useSWR(`/api/customer?page=${currentPage}`, fetcher);
 
@@ -42,9 +44,25 @@ export default function CustomerTable() {
     };
 
     const handleDelete = async (customerId) => {
+        if (!session) {
+            toast({
+                variant: "destructive",
+                title: "Unauthorized",
+                description: "You must be logged in to delete customers.",
+            });
+            return;
+        }
+        if (session.user.role!== "admin") {
+            toast({
+                variant: "destructive",
+                title: "Unauthorized",
+                description: "You are not authorized to delete customers.",
+            });
+            return;
+        }
         try {
-            const res = await fetch(`/api/customer/${customerId}`, {
-                method: "DELETE",
+            const res = await fetch(`/api/customer/${customerId}?userId=${session?.user?.id}`, {
+                method: "DELETE"
             });
 
             if (!res.ok) {
@@ -53,6 +71,7 @@ export default function CustomerTable() {
                     title: "Uh oh! Something went wrong.",
                     description: "There was a problem with your request.",
                 });
+                return;
             }
 
             // Mutate the cache and remove the deleted customer

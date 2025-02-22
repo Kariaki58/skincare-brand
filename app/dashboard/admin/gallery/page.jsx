@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import { useToast } from '@/hooks/use-toast';
 import useSWR from "swr";
 import GalleryUploadButton from "@/components/dashboard/admin/gallery-upload-button/gallery-upload-button";
@@ -16,6 +16,7 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -25,6 +26,7 @@ function GalleryComponent() {
     
     const searchParams = useSearchParams();
     const router = useRouter();
+    const { data: session } = useSession();
 
     const { toast } = useToast();
     
@@ -55,7 +57,15 @@ function GalleryComponent() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`/api/gallery/${id}`, { method: "DELETE" });
+            if (!session) {
+                router.push("/");
+                return;
+            }
+            if (session?.user?.role !== "admin") {
+                router.push("/");
+                return;
+            }
+            const response = await fetch(`/api/gallery/${id}?userId=${session?.user?.id}`, { method: "DELETE" });
 
             if (!response.ok) {
                 toast({

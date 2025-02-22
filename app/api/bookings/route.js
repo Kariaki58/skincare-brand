@@ -22,10 +22,13 @@ export async function GET(request) {
 
         return new Response(JSON.stringify(bookedSlots), {
             headers: { "Content-Type": "application/json" },
+            status: 200,
         });
     } catch (error) {
         console.error(error);
-        return new Response("Internal server error", { status: 500 });
+        return new Response(JSON.stringify({error: "Internal server error" }), { status: 500,
+            headers: { "Content-Type": "application/json" }
+        });
     }
 }
 

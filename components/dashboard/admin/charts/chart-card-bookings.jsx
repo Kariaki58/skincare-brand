@@ -6,14 +6,19 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useState, useEffect } from "react";
-
+import { useSession } from "next-auth/react";
 
 
 export function Component() {
     const [chartData, setChartData] = useState([]);
+    const { data: session } = useSession();
+
 
     const fetchData = async () => {
-        const response = await fetch("/api/bookings/analytics");
+        console.log("line 19")
+        const response = await fetch(`/api/bookings/analytics?userId=${session?.user?.id}`, {
+            method: "GET"
+        });
         if (!response.ok) {
             return (
                 <p className="text-red-500">Failed to fetch booking analytics.</p>
@@ -24,8 +29,11 @@ export function Component() {
     }
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (session?.user?.id) {
+            fetchData();
+        }
+    }, [session]);
+    
     const chartConfig = {
         bookings: {
             label: "Bookings",

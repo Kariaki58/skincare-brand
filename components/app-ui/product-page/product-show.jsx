@@ -35,6 +35,7 @@ export default function ProductShow() {
     if (error) return <p>Error loading product.</p>;
     if (!product) return <p>Loading...</p>;
 
+
     const handleAddToCart = () => {
         addToCart(product, quantity);
     };
@@ -43,33 +44,20 @@ export default function ProductShow() {
         <section className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 p-6 md:p-10">
             {/* Carousel Section */}
             <div className="relative flex justify-center items-center">
-                {/* <Carousel
-                    showThumbs={false}
-                    autoPlay
-                    infiniteLoop
-                    interval={3000}
-                    showArrows={true}
-                    showStatus={false}
-                    className="rounded-lg overflow-hidden shadow-xl border border-gray-200"
-                > */}
-                    <div>
-                        <Image 
-                            src={product.image} 
-                            alt="Product image 3" 
-                            height={500} 
-                            width={500} 
-                            className="rounded-lg object-cover w-full h-auto"
-                        />
-                    </div>
-                {/* </Carousel> */}
-                {/* <div className="absolute top-4 left-4 bg-[#38271F] px-3 py-1 text-xs text-white font-semibold rounded-lg shadow-md">
-                    {Math.round(((product.basePrice - product.price) / product.basePrice) * 100)} OFF
-                </div> */}
+                <div>
+                    <Image 
+                        src={product.image} 
+                        alt="Product image 3" 
+                        height={500} 
+                        width={500} 
+                        className="rounded-lg object-cover w-full h-auto"
+                    />
+                </div>
             </div>
 
             {/* Product Details Section */}
             <div className="flex flex-col space-y-8">
-                <h1 className="text-4xl font-extrabold text-[#38271F] leading-tight">{product.name}</h1>
+                <h1 className="text-4xl font-extrabold text-black leading-tight">{product.name}</h1>
                 <div className="flex items-center gap-3">
                     <div className="flex justify-center gap-1">
                         {[...Array(5)].map((_, starIndex) => (
@@ -90,17 +78,29 @@ export default function ProductShow() {
                             </div>
                         ))}
                     </div>
-                    <Link href={`/product/${id}/reviews`} className="text-sm text-[#38271F] underline">({product?.reviews?.length} customer reviews)</Link>
+                    <Link 
+                        href={`#reviews`} 
+                        className="text-sm text-black underline"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            const reviewsSection = document.getElementById("reviews");
+                            if (reviewsSection) {
+                            reviewsSection.scrollIntoView({ behavior: "smooth" });
+                            }
+                        }}
+                        >
+                        ({product?.reviews?.length} customer reviews)
+                    </Link>
+
                 </div>
-                <p className="text-lg text-gray-700 leading-relaxed">
+                <p className="text-base text-black leading-relaxed">
                     {product.description}
                 </p>
                 <div className="flex items-center gap-4">
-                    <p className="text-3xl font-extrabold text-[#38271F]">Price: ${product.basePrice}</p>
-                    {/* <p className="line-through text-lg text-gray-400">${product.price}</p> */}
+                    <p className="text-3xl font-extrabold text-black">Price: ${product.basePrice}</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <select className="border w-full bg-[#38271F] text-white px-4 py-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all duration-200"
+                    <select className="border w-full bg-black text-white px-4 py-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all duration-200"
                         onChange={(e) => setQuantity(e.target.value)}
                         value={quantity}
                     >
@@ -109,7 +109,7 @@ export default function ProductShow() {
                         ))}
                     </select>
                     {product.stock > 0 ? (
-                        <button className="bg-[#38271F] w-full hover:bg-[#291c17] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg"
+                        <button className="bg-black w-full hover:bg-[#291c17] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg"
                             onClick={handleAddToCart}
                         >
                             Add to Cart
@@ -125,30 +125,10 @@ export default function ProductShow() {
                     
                 </div>
                 <div className="border-t border-[#af9e96] pt-4 space-y-2 text-sm">
-                    {/* <div className="flex items-center gap-2">
-                        <span className="font-semibold text-gray-900">SKU:</span>
-                        <span className="text-gray-800">SKU-123456</span>
-                    </div> */}
                     <div className="flex items-center gap-2">
-                        <span className="font-semibold text-gray-900">Category:</span>
-                        <Link href={`/shop?category=${product?.category?.name}`} className="text-[#38271F] hover:underline">{product?.category?.name}</Link>
-                        {/* <Link href="#" className="text-[#38271F] hover:underline">Primers</Link> */}
+                        <span className="text-black font-bold">Category:</span>
+                        <Link href={`/shop?category=${product?.category?.name}`} className="text-black underline">{product?.category?.name}</Link>
                     </div>
-                    {/* <div className="flex items-center gap-2">
-                        <span className="font-semibold text-gray-900">Tags:</span>
-                        <Link href="#" className="text-[#38271F] hover:underline">Beauty</Link>, 
-                        <Link href="#" className="text-[#38271F] hover:underline">Skin Care</Link>
-                    </div> */}
-                    {/* <div className="flex items-center gap-4 mt-4">
-                        <span className="font-semibold text-gray-900">Share:</span>
-                        <div className="flex items-center gap-3 text-xl text-gray-500">
-                            <TiSocialFacebook className="hover:text-[#3b5998] cursor-pointer" />
-                            <RiTwitterXLine className="hover:text-[#1DA1F2] cursor-pointer" />
-                            <TiSocialLinkedin className="hover:text-[#0077b5] cursor-pointer" />
-                            <FaWhatsapp className="hover:text-[#25D366] cursor-pointer" />
-                            <FaInstagram className="hover:text-[#E4405F] cursor-pointer" />
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </section>

@@ -28,7 +28,11 @@ export async function GET(req) {
         });
 
     } catch (error) {
-        return new Response(JSON.stringify({ error: "Failed to fetch customers" }), { status: 500 });
+        return new Response(JSON.stringify({ error: "Failed to fetch customers" }), { status: 500,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
     }
 }
 
@@ -38,11 +42,12 @@ export async function POST(req) {
         await connectToDatabase();
         let { name, email, phone } = await req.json();
         if (!email) {
-            return new Response(JSON.stringify({ error: "Email is required" }), { status: 400 });
+            return new Response(JSON.stringify({ error: "Email is required" }), { status: 400,
+                headers: { "Content-Type": "application/json" },
+            });
         }
         if (!name) {
             name = email.split('@')[0];
-            console.log({name})
         }
         if (!phone) {
             phone = "";
@@ -52,29 +57,12 @@ export async function POST(req) {
             const customer = new Customer({ name, email, phone });
             await customer.save();
         }
-        return new Response(JSON.stringify({ message: "Customer added successfully" }), { status: 201 });
+        return new Response(JSON.stringify({ message: "Customer added successfully" }), { status: 201,
+            headers: { "Content-Type": "application/json" },
+        });
     } catch (error) {
-        return new Response(JSON.stringify({ error: "Failed to add customer" }), { status: 500 });
+        return new Response(JSON.stringify({ error: "Failed to add customer" }), { status: 500,
+            headers: { "Content-Type": "application/json" },
+        });
     }
 }
-
-
-// TODO: IMPLEMENT PUT FUNCTION YOURSELF.
-// export async function PUT(req) {
-//     try {
-//         await connectToDatabase();
-//         const { customerId } = req.params;
-//         const { name, email, phone } = await req.json();
-//         const customer = await Customer
-//             .findByIdAndUpdate(customerId, { name, email, phone }, { new: true });  
-
-//         if (!customer) {
-//             return new Response(JSON.stringify({ error: "Customer not found" }), { status: 404 });
-//         }
-//         return new Response(JSON.stringify({ message: "Customer updated successfully" }), { status: 200 });
-//     }
-//     catch (error) {
-//         return new Response(JSON.stringify({ error: "Failed to update customer" }), { status: 500 });
-//     }
-
-// }

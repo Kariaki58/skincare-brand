@@ -3,9 +3,21 @@ import CustomerTable from "@/components/dashboard/admin/customers/customer-table
 import { SidebarInsetComponent } from "@/components/dashboard/admin/side-bar-inset-component";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { Suspense } from "react";
+import { getServerSession } from "next-auth/next";
+import { options } from "@/app/api/auth/options";
 
 
-export default function page() {
+export default async function page() {
+    const session = await getServerSession(options);
+
+    console.log({session})
+
+    if (!session) {
+        return <div>You need to be logged in to access this page.</div>;
+    }
+    if (session.user.role!== "admin") {
+        return <div>You are not authorized to access this page.</div>;
+    }
     return (
         <SidebarInset>
             <SidebarInsetComponent />

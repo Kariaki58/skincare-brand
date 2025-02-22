@@ -1,7 +1,8 @@
 import { connectToDatabase } from "@/lib/mongoose";
 import Gallery from "@/models/gallery";
 import { uploadImage } from "@/lib/cloudinary-upload";
-import { revalidatePath } from "next/cache"; 
+import { revalidatePath } from "next/cache";
+import User from "@/models/user"; 
 
 export async function GET(request) {
     try {
@@ -65,13 +66,36 @@ export async function POST(request) {
         if (!image) {
             return new Response(JSON.stringify({ success: false, message: "Image is required" }), {
                 status: 400,
+                headers: { "Content-Type": "application/json" },
             });
         }
         const file = image.get("image");
+        const userId = image.get("userId");
+
+        if (!userId) {
+            return new Response(JSON.stringify({ success: false, message: "User ID is required" }), {
+                status: 400,
+                headers: { "Content-Type": "application/json" },
+            });
+        }
+        const user = await User.findById(userId);
+        if (!user) {
+            return new Response(JSON.stringify({ success: false, message: "User not found" }), {
+                status: 404,
+                headers: { "Content-Type": "application/json" },
+            });
+        }
+        if (user.role !== "admin") {
+            return new Response(JSON.stringify({ success: false, message: "Unauthorized" }), {
+                status: 401,
+                headers: { "Content-Type": "application/json" },
+            });
+        }
 
         if (!file) {
             return new Response(JSON.stringify({ success: false, message: "Image is required" }), {
                 status: 400,
+                headers: { "Content-Type": "application/json" },
             });
         }
 
@@ -82,6 +106,7 @@ export async function POST(request) {
         if (!responsedUpload) {
             return new Response(JSON.stringify({ success: false, message: "Error uploading image" }), {
                 status: 500,
+                headers: { "Content-Type": "application/json" },
             });
         }
 
@@ -94,10 +119,12 @@ export async function POST(request) {
         revalidatePath("/dashboard/admin/gallery");
         return new Response(JSON.stringify({ success: true, message: "Image uploaded successfully" }), {
             status: 201,
+            headers: { "Content-Type": "application/json" },
         });
     } catch (error) {
         return new Response(JSON.stringify({ success: false, message: "Failed to upload image" }), {
             status: 500,
+            headers: { "Content-Type": "application/json" },
         });
     }
 }

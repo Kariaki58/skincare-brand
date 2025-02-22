@@ -3,7 +3,8 @@ import { SidebarInsetComponent } from "@/components/dashboard/admin/side-bar-ins
 import { SidebarInset } from "@/components/ui/sidebar";
 import { CalendarCheck, CalendarX, Clock, CircleCheckBig, X } from "lucide-react";
 import { Suspense } from "react";
-
+import { getServerSession } from "next-auth/next";
+import { options } from "@/app/api/auth/options";
 
 export default async function Page({ searchParams }) {
     let bookingLength = 0;
@@ -11,19 +12,33 @@ export default async function Page({ searchParams }) {
     let pendingBooking = 0;
     let cancelledBooking = 0;
     let errorOccurred = false;
+    const session = await getServerSession(options);
 
     const params = await searchParams;
 
     let data = [];
 
+    if (!session) {
+        return <div>You are not authorized to view this page.</div>;
+    }
+    if (session?.user?.role !== "admin") {
+        return <div>You are not authorized to view this page.</div>;
+    }
+
 
     try {
-        const response = await fetch(`${process.env.FRONTEND_URL}/api/appointment?page=${params.page}`,
+        console.log(session?.user?.id)
+        const response = await fetch(`${process.env.FRONTEND_URL}/api/appointment?page=${params.page}&userId=${session?.user?.id}`,
             {
                 method: "GET",
                 headers: { "Content-Type": "application/json" }
             }
         );
+        if (!response.ok) {
+            const error = await response.json()
+            console.log({error});
+            errorOccurred = true;
+        }
         data = await response.json();
         bookingLength = data.totalCount;
         comfirmedBooking = data.comfirmedBookings;

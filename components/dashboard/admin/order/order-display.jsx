@@ -2,50 +2,75 @@
 import { Trash2 } from 'lucide-react';
 import useSWR, { mutate } from 'swr';
 import { useToast } from '@/hooks/use-toast';
-
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function OrdersTable() {
-    const { data, error } = useSWR('/api/order', fetcher);
-    const { toast } = useToast();
+    const { data: session } = useSession();
+    const router = useRouter();
 
-    
+
+    const { data, error } = useSWR(
+        session?.user?.id ? `/api/order?userId=${session.user.id}` : null, 
+        fetcher
+    );
+
+    const { toast } = useToast();
 
     if (!data) return <div className="text-center p-8">Loading orders...</div>;
     if (error) return <div className="text-center p-8 text-red-500">Error: {error.message}</div>;
 
     const orders = data.orders;
 
+    console.log(orders)
+
     const handleDelete = async (orderId) => {
+        if (!session) {
+            toast({
+                variant: "destructive",
+                title: "Unauthorized",
+                description: "You need to log in to delete orders.",
+            });
+            return;
+        }
+        if (session.user.role !== "admin") {
+            toast({
+                variant: "destructive",
+                title: "Unauthorized",
+                description: "You are not authorized to delete orders.",
+            });
+            return;
+        }
+    
         if (confirm('Are you sure you want to delete this order?')) {
             try {
-                const response = await fetch(`/api/order/${orderId}`, {
+                const response = await fetch(`/api/order/${orderId}?userId=${session?.user?.id}`, {
                     method: 'DELETE',
                 });
+    
                 if (!response.ok) {
-                    toast({
-                        variant: "destructive",
-                        title: "Uh oh! Something went wrong.",
-                        description: "There was a problem with your request.",
-                    });
-                    return;
+                    throw new Error("Failed to delete order");
                 }
+    
                 toast({
                     variant: "success",
-                    title: "Order deleted successfully",
-                    description: "The order has been removed from the system.",
+                    title: "Order deleted",
+                    description: "The order has been removed successfully.",
                 });
-
-                // mutate('/api/order', (orders) => orders.filter((order) => order._id !== orderId), false);
+    
             } catch (err) {
+                // Rollback the UI if API call fails
+                mutate('/api/order');
                 toast({
                     variant: "destructive",
                     title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
+                    description: "There was a problem deleting the order.",
                 });
             }
         }
     };
+    
 
     return (
         <div className="p-6  rounded-lg border border-gray-100 shadow-lg">

@@ -3,6 +3,8 @@ import { useState } from "react";
 import AppointMentService from "./appiontment-service";
 import AppointMentForm from "./appointment-form";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
     const [formData, setFormData] = useState({
@@ -13,8 +15,10 @@ export default function Page() {
         time: "",
         message: "",
     });
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [serviceDetails, setServiceDetails] = useState([]);
+    const { toast } = useToast()
 
     const handleChange = (field, value) => {
         setFormData(prevState => ({
@@ -25,18 +29,18 @@ export default function Page() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!formData.name || !formData.email || !formData.phone || !formData.date || !formData.time || !formData.message) {
+            alert("Please fill in all required fields");
+            return;
+        }
 
-        setLoading(true)
+        if (serviceDetails.length === 0) {
+            alert("Please select at least one service");
+            return;
+        }
+
+        setLoading(true);
         try {
-            if (!formData.name || !formData.email || !formData.phone || !formData.date || !formData.time || !formData.message) {
-                alert("Please fill in all required fields");
-                return;
-            }
-    
-            if (serviceDetails.length === 0) {
-                alert("Please select at least one service");
-                return;
-            }
             const response = await fetch('/api/appointment', {
                 method: 'POST',
                 headers: {
@@ -44,13 +48,23 @@ export default function Page() {
                 },
                 body: JSON.stringify({ ...formData, services: serviceDetails })
             });
+
+            const data = await response.json();
+
             if (!response.ok) {
-                const errorData = await response.json();
-                alert(errorData.error || "An unknown error occurred.");
+                toast({
+                    title: "Booking failed",
+                    description: data.error,
+                    variant: "destructive",
+                });
                 return;
             }
-            const data = await response.json();
-            alert(data.message);
+            toast({
+                variant: "success",
+                title: "Booking placed successfully!",
+                description: data.message,
+            });
+            alert("To secure your booking please check your email address")
             setFormData({
                 name: "",
                 email: "",
@@ -59,13 +73,20 @@ export default function Page() {
                 time: "",
                 message: "",
             });
+            setTimeout(() => {
+                router.push("/")
+            }, 1000)
         } catch (error) {
-            console.error(error);
-            alert("An error occurred. Please try again.");
+            toast({
+                title: "Booking failed",
+                description: "Failed to place booking. Please try again later.",
+                variant: "destructive",
+            });
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
+
     return (
         <div className="max-w-screen-lg mx-auto bg-[#214207] p-4 my-10">
             <AppointMentForm onChange={handleChange} loading={loading}/>

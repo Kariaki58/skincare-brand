@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ProgressBar } from "react-loader-spinner";
+import { useSession } from "next-auth/react";
 
 
 export default function Page() {
@@ -10,6 +11,7 @@ export default function Page() {
     const [response, setResponse] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
+    const { data: session } = useSession();
 
     const pathname = usePathname();
     const segments = pathname.split("/");
@@ -19,7 +21,15 @@ export default function Page() {
     const handleSetAppointment = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/appointment/${appointmentId}/accept`, { method: "PUT" });
+            if (session?.user?.role !== "admin") {
+                router.push("/")
+                return;
+            }
+
+            const res = await fetch(`/api/appointment/${appointmentId}/accept`, { 
+                method: "PUT",
+                body: JSON.stringify({ userId: session?.user?.id }),
+            });
             const data = await res.json();
 
             if (!res.ok) {

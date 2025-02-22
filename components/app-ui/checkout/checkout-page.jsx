@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
-
+import { useState } from "react";
 
 const schema = z.object({
     name: z.string().min(3, "Name is required"),
@@ -18,6 +18,7 @@ const schema = z.object({
 
 const CheckoutUI = () => {
     const { cart, clearCart } = useCartStore();
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const {
         register,
@@ -30,32 +31,44 @@ const CheckoutUI = () => {
     const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const handleOrders = async (data) => {
-        const response = await fetch("/api/order", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ ...data, cart }),
-        });
-        if (!response.ok) {
+        try {
+            setLoading(true);
+            const response = await fetch("/api/order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...data, cart }),
+            });
+            if (!response.ok) {
+                toast({
+                    title: "Order failed",
+                    description: "Failed to place order. Please try again later.",
+                    variant: "destructive",
+                });
+                return;
+            } else {
+                toast({
+                    title: "Order placed successfully!",
+                    description: "We would call you once your order is ready for pickup.",
+                    variant: "success",
+                });
+            }
+            setTimeout(() => {
+                clearCart();
+                reset();
+                router.push("/");
+            }, 2000);
+        } catch (error) {
             toast({
                 title: "Order failed",
                 description: "Failed to place order. Please try again later.",
                 variant: "destructive",
             });
-            return;
-        } else {
-            toast({
-                title: "Order placed successfully!",
-                description: "We would call you once your order is ready for pickup.",
-                variant: "success",
-            });
+        } finally {
+            setLoading(false);
         }
-        setTimeout(() => {
-            clearCart();
-            reset();
-            router.push("/");
-        }, 2000);
+    
     };
 
     return (
@@ -102,6 +115,7 @@ const CheckoutUI = () => {
                                 <input
                                     type="text"
                                     {...register(field)}
+                                    disabled={loading}
                                     className="w-full border rounded-md py-2 px-3 mt-2 bg-[#214207] focus:ring-2 focus:ring-gray-500 outline-none"
                                 />
                                 {errors[field] && <p className="text-red-500 text-sm mt-1">{errors[field]?.message}</p>}
@@ -111,9 +125,10 @@ const CheckoutUI = () => {
                     <div className="flex justify-center">
                         <button
                             type="submit"
+                            disabled={loading}
                             className="bg-[#37700b] shadow-xl text-white py-2 px-4 rounded-md hover:bg-[#27460f] transition duration-150"
                         >
-                            Place Order
+                            {loading ? "Processing..." : "Place Order"}
                         </button>
                     </div>
                 </form>

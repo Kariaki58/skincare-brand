@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ProgressBar } from "react-loader-spinner";
+import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast";
 
 
 export default function Page() {
@@ -11,33 +13,49 @@ export default function Page() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const { data: session } = useSession()
+    const { toast } = useToast();
 
     const pathname = usePathname();
     const segments = pathname.split("/");
     const appointmentId = segments[segments.length - 2];
 
     const handleDecline = async () => {
+        if (session?.user?.role !== "admin") {
+            router.push("/");
+            return;
+        }
         if (!reason.trim()) {
-            alert("Please provide a reason before declining.");
+            toast({
+                variant: "destructive",
+                title: "Decline Reason",
+                description: "Please provide a reason before declining.",
+            })
             return;
         }
 
         setLoading(true);
-
+        setError("")
         try {
             const res = await fetch(`/api/appointment/${appointmentId}/decline`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ reason }),
+                body: JSON.stringify({ userId: session?.user?.id, reason }),
             });
 
             if (!res.ok) {
                 const data = await res.json();
                 setError(data.error);
+                toast({
+                    variant: "destructive",
+                    title: "Booking failed",
+                    description: "Booking could not be declined. try again",
+                })
                 return;
             }
+            const data = await res.json();
 
             setResponse(data.message);
             setTimeout(() => {
@@ -45,6 +63,11 @@ export default function Page() {
             }, 2000);
         } catch (error) {
             setError("Failed to decline appointment");
+            toast({
+                variant: "destructive",
+                title: "Booking failed",
+                description: "Booking could not be declined. try again",
+            })
         } finally {
             setLoading(false);
         }

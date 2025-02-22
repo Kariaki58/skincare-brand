@@ -80,6 +80,8 @@ export default function ContactPage() {
             })
 
             toast({
+                variant: "success",
+                title: "Message sent successfully!",
                 description: "Thank you for contacting us. We will respond shortly.",
             })
             event.target.reset();
@@ -88,7 +90,6 @@ export default function ContactPage() {
                 variant: "destructive",
                 title: "Uh oh! Something went wrong.",
                 description: "Failed to send message. Please try again.",
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
             })
         } finally {
             setLoading(false);
