@@ -12,7 +12,7 @@ export default function Cart() {
 
 
     useEffect(() => {
-        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const total = cart.reduce((sum, item) => sum + item.basePrice * item.quantity, 0);
         setTotalAmount(total);
     }, [cart]);
 

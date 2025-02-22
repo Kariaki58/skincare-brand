@@ -28,7 +28,7 @@ const CheckoutUI = () => {
     } = useForm({ resolver: zodResolver(schema) });
     const {toast} = useToast();
 
-    const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalAmount = cart.reduce((sum, item) => sum + item.basePrice * item.quantity, 0);
 
     const handleOrders = async (data) => {
         try {
@@ -84,7 +84,7 @@ const CheckoutUI = () => {
                             {cart.map((item) => (
                                 <li key={item._id} className="flex justify-between items-center border-b pb-2">
                                     <Image src={item.image} width={50} height={50} className="h-10 w-10" alt={item.name} />
-                                    <span>{item.quantity} x ${item.price}</span>
+                                    <span>{item.quantity} x ${item.basePrice}</span>
                                 </li>
                             ))}
                         </ul>
