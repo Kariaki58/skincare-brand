@@ -32,6 +32,7 @@ import { useSession } from "next-auth/react";
 export default function TablePagination({ bookings, totalPages, currentPage, totalCount }) {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const { data: session } = useSession()
 
     const currentPageFromUrl = parseInt(searchParams.get("page") || "1", 10);
     const [page, setPage] = useState(currentPageFromUrl);
