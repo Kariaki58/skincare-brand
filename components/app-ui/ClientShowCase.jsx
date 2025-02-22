@@ -44,7 +44,7 @@ export default function ClientShowCase() {
                 
                 <div className="max-w-sm">
                     <h1 className={`text-[45px] ${playfair_display.className} text-black mb-4 leading-[54px]`}>EXPLORE OUR PAST CLIENTS</h1>
-                    <p className={`text-[14px] ${outfit.className} leading-[25.2px] text-black mb-6`}>
+                    <p className={`text-base ${outfit.className} leading-[25.2px] text-black mb-6`}>
                         The problem we solve is twofold: finding a salon that understands your unique hair 
                         needs and delivering consistent, quality results. We provide expert care for all hair types, 
                         from braids and weaves to natural hair treatments, ensuring every client leaves feeling confident, stylish, and satisfied.
