@@ -100,8 +100,8 @@ export async function POST(request) {
                 $inc: { bookings: 1 }, 
                 $set: { email, name, phone } 
             },
-            { new: true }
-        );        
+            { new: true, upsert: true }
+        );
 
         const booking = new Booking({
             name,
