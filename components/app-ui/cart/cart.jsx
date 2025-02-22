@@ -82,7 +82,7 @@ export default function Cart() {
                             </div>
                             <div className="mt-4 flex justify-between items-center">
                                 <p className="text-lg sm:text-xl font-semibold text-gray-800">
-                                    ${item.price.toFixed(2)}
+                                    ${item.basePrice.toFixed(2)}
                                 </p>
                                 <X
                                     onClick={() => handleRemoveFromCart(item._id)}

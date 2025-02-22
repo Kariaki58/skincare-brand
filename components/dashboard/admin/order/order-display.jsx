@@ -107,7 +107,7 @@ export default function OrdersTable() {
                                                 <div className="flex items-center gap-4 ml-4">
                                                     <span className="text-gray-600">x{item.quantity}</span>
                                                     <span className="font-medium text-gray-900 w-20 text-right">
-                                                        ${(item.price * item.quantity).toFixed(2)}
+                                                        ${(item.basePrice * item.quantity).toFixed(2)}
                                                     </span>
                                                 </div>
                                             </div>
