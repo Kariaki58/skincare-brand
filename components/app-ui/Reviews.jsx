@@ -35,22 +35,22 @@ export default function Review() {
     return (
         <section className="max-w-screen-xl mx-auto my-20 p-5">
             <div className="flex flex-col items-center w-full max-w-5xl mx-auto">
-                <p className="text-4xl italic text-center text-[#38271F]">
+                <p className="text-4xl italic text-center text-black">
                     "{reviews[currentIndex].text}"
                 </p>
-                <p className="mt-4 text-sm font-medium text-gray-800">
+                <p className="mt-4 text-sm font-medium text-black">
                     {reviews[currentIndex].author}
                 </p>
                 <div className="flex mt-6 space-x-4">
                     <SquareChevronLeft
                         onClick={handlePrev}
                         size={54}
-                        className="hover:cursor-pointer hover:text-[#291c17] text-[#38271F]"
+                        className="hover:cursor-pointer hover:text-[#291c17] text-black"
                     />
                     <SquareChevronRight
                         onClick={handleNext}
                         size={54}
-                        className="hover:cursor-pointer hover:text-[#291c17] text-[#38271F]"
+                        className="hover:cursor-pointer hover:text-[#291c17] text-black"
                     />
                 </div>
             </div>

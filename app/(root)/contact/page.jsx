@@ -120,7 +120,7 @@ export default function ContactPage() {
                 <h3 className="uppercase text-center text-black">
                     Located at 5811 Freedom Drive, Charlotte, NC
                 </h3>
-                <p className="text-center text-sm text-black tracking-wider leading-relaxed">
+                <p className="text-center text-lg text-black tracking-wider leading-relaxed">
                     Please fill out the form below & we’ll get in touch with you shortly! 
                     You can also email us directly at <span>info@victoriahairbraiding.com</span>
                 </p>

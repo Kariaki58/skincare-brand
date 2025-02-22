@@ -20,12 +20,12 @@ export default function FeaturedProducts() {
     return (
         <section className="max-w-screen-xl mx-auto px-5 md:px-10 py-10">
             <h3
-                className={`uppercase text-[#2D2D2D] text-center text-[11px] ${shipporiAntique.className}`}
+                className={`uppercase text-black text-center text-base ${shipporiAntique.className}`}
             >
                 we have a store filled with products you would love
             </h3>
             <h1
-                className={`uppercase text-center text-[30px] md:text-[54px] ${playfair_display.className} text-[#38271F] mt-5`}
+                className={`uppercase text-center text-[30px] md:text-[54px] ${playfair_display.className} text-black mt-5`}
             >
                 SHOP OUR WIDE RANGE OF PRODUCTS
             </h1>
@@ -57,10 +57,10 @@ export default function FeaturedProducts() {
                 href="/shop"
                 className="flex items-center justify-center gap-2 mt-10 hover:underline"
             >
-                <p className="text-center text-[#38271F] text-lg md:text-xl">
+                <p className="text-center text-black text-lg md:text-xl">
                 VIEW ALL PRODUCTS
                 </p>
-                <MoveRight className="text-[#38271F] w-5 h-5" />
+                <MoveRight className="text-black w-5 h-5" />
             </Link>
         </section>
     );

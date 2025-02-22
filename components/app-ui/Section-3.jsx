@@ -36,11 +36,11 @@ export default function ServiceSection() {
                     >
                         Professional Braid feel
                     </h2>
-                    <h3 className="text-sm sm:text-base uppercase my-5 tracking-widest font-medium font-serif">
+                    <h3 className="text-base text-white sm:text-lg uppercase my-5 tracking-widest font-medium font-serif">
                         LOCATED IN 5811 Freedom Drive, Charlotte, NC 28214
                     </h3>
                 <p
-                    className={`mb-10 ${outfit.className} text-[12px] sm:text-[14px] tracking-widest text-sm font-light text-black`}
+                    className={`mb-10 ${outfit.className} text-base sm:text-xl tracking-widest font-light text-white`}
                 >
                     At Victoria Hair Braiding and Weaving Center, we specialize in creating beautiful, 
                     custom braids and weaves that express your unique style. From box braids to knotless, cornrows, 
@@ -48,17 +48,17 @@ export default function ServiceSection() {
                     Let us bring your hair vision to life with expert care and creativity.
                 </p>
                 <ul
-                    className={`flex flex-col sm:flex-row justify-between gap-8 sm:gap-10 mb-10 ${playfair_display.className} text-[#38271F] text-[24px] sm:text-[30px]`}
+                    className={`flex flex-col sm:flex-row justify-between gap-8 sm:gap-10 mb-10 ${playfair_display.className} text-black text-lg sm:text-xl`}
                 >
                     <ul className="space-y-3 sm:space-y-5">
-                        <li className="capitalize text-xl sm:text-2xl">Micro braids</li>
-                        <li className="capitalize text-xl sm:text-2xl">Knotless Braids</li>
-                        <li className="capitalize text-xl sm:text-2xl">Senegalese Twist</li>
+                        <li className="capitalize text-3xl">Micro braids</li>
+                        <li className="capitalize text-3xl">Knotless Braids</li>
+                        <li className="capitalize text-3xl">Senegalese Twist</li>
                     </ul>
                     <ul className="space-y-3 sm:space-y-5">
-                        <li className="capitalize text-xl sm:text-2xl">Box braids</li>
-                        <li className="capitalize text-xl sm:text-2xl">Kinky twist</li>
-                        <li className="capitalize text-xl sm:text-2xl">Soft Loc</li>
+                        <li className="capitalize text-3xl">Box braids</li>
+                        <li className="capitalize text-3xl">Kinky twist</li>
+                        <li className="capitalize text-3xl">Soft Loc</li>
                     </ul>
                 </ul>
                 <Link
