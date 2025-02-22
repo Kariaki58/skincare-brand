@@ -122,7 +122,7 @@ export default function ContactPage() {
                 </h3>
                 <p className="text-center text-lg text-white tracking-wider leading-relaxed">
                     Please fill out the form below & we’ll get in touch with you shortly! 
-                    You can also email us directly at <span>info@victoriahairbraiding.com</span>
+                    You can also email us directly at <span>aderonkeanimashaun29@gmail.com</span>
                 </p>
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
