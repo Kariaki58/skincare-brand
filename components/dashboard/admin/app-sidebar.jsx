@@ -32,7 +32,7 @@ import Link from "next/link";
 const data = {
     user: {
         name: "victoria hair braiding salon",
-        email: "kariakistephen809@gmail.com",
+        email: "aderonkeanimashaun29@gmail.com",
         avatar: {profile},
     },
     teams: [
