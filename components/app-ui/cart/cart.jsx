@@ -34,7 +34,7 @@ export default function Cart() {
 
     return (
         <div className="container mx-auto p-4 sm:p-8 min-h-screen">
-            <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-6 sm:mb-10">
+            <h1 className="text-2xl sm:text-4xl font-bold text-black mb-6 sm:mb-10">
                 Shopping Cart
             </h1>
 
@@ -45,7 +45,7 @@ export default function Cart() {
                 >
                     Clear Cart
                 </button>
-                <div className="text-lg sm:text-xl font-semibold text-gray-700 mt-4 sm:mt-0">
+                <div className="text-lg sm:text-xl font-semibold text-black mt-4 sm:mt-0">
                     Total: ${totalAmount.toFixed(2)}
                 </div>
             </div>
@@ -62,26 +62,26 @@ export default function Cart() {
                             className="w-40 h-40 object-cover rounded-md"
                         />
                         <div className="ml-0 sm:ml-4 flex-1 mt-4 sm:mt-0">
-                            <h2 className="text-xl sm:text-2xl font-medium text-gray-800">{item.name}</h2>
+                            <h2 className="text-xl sm:text-2xl font-medium text-black">{item.name}</h2>
                             <div className="mt-4 flex items-center justify-center space-x-2">
                                 <button
                                     onClick={() => handleDecreaseQuantity(item._id)}
-                                    className="px-3 py-2 bg-[#214207] text-white font-bold text-xl rounded-md hover:bg-primary-dark transition-all duration-300 ease-in-out flex items-center justify-center shadow-md transform hover:scale-105"
+                                    className="px-3 py-2 bg-black text-white font-bold text-xl rounded-md hover:bg-primary-dark transition-all duration-300 ease-in-out flex items-center justify-center shadow-md transform hover:scale-105"
                                 >
                                     -
                                 </button>
-                                <span className="px-4 py-2 border border-gray-300 bg-[#214207] text-white rounded-md text-lg font-semibold shadow-sm">
+                                <span className="px-4 py-2 border border-gray-300 bg-black text-white rounded-md text-lg font-semibold shadow-sm">
                                     {item.quantity}
                                 </span>
                                 <button
                                     onClick={() => handleIncreaseQuantity(item._id)}
-                                    className="px-3 py-2 bg-[#214207] text-white font-bold text-xl rounded-md hover:bg-primary-dark transition-all duration-300 ease-in-out flex items-center justify-center shadow-md transform hover:scale-105"
+                                    className="px-3 py-2 bg-black text-white font-bold text-xl rounded-md hover:bg-primary-dark transition-all duration-300 ease-in-out flex items-center justify-center shadow-md transform hover:scale-105"
                                 >
                                     +
                                 </button>
                             </div>
                             <div className="mt-4 flex justify-between items-center">
-                                <p className="text-lg sm:text-xl font-semibold text-gray-800">
+                                <p className="text-lg sm:text-xl font-semibold text-black">
                                     ${item.basePrice.toFixed(2)}
                                 </p>
                                 <X
@@ -112,7 +112,7 @@ export default function Cart() {
                 )
             }
             <div className={`text-center mt-10 sm:mt-20 ${cart.length === 0 ? '' : 'hidden'}`}>
-                <p className="text-xl sm:text-2xl text-gray-700">Your cart is empty.</p>
+                <p className="text-xl sm:text-2xl text-black">Your cart is empty.</p>
                 <button className="mt-6 sm:mt-8 px-4 py-2 sm:px-6 sm:py-3 bg-gray-950 text-white rounded-md hover:bg-gray-600 transition duration-300 text-sm sm:text-base">
                     <Link href="/shop">
                         Continue Shopping
