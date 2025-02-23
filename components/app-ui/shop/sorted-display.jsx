@@ -7,6 +7,7 @@ import { Suspense } from "react";
 export default async function SortedDisplay() {
     let categories = [];
     let priceRange = { lowPrice: 0, highPrice: 0 };
+    const errorOccurred = false;
 
     try {
         await connectToDatabase();
@@ -23,14 +24,16 @@ export default async function SortedDisplay() {
             }
         ]);
 
-        console.log(priceData);
-
         if (priceData.length > 0) {
             priceRange.lowPrice = priceData[0].lowPrice;
             priceRange.highPrice = priceData[0].highPrice;
         }
 
     } catch (error) {
+        errorOccurred = true;
+    }
+    if (errorOccurred) {
+        return <div>Error occurred while fetching data</div>;
     }
 
     return (

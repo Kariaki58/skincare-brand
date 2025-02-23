@@ -71,28 +71,28 @@ export default function Footer() {
                         in a wide range of hair braiding, weaving, and styling services designed to celebrate your unique beauty.
                     </p>
                     <div className="flex mt-6 space-x-2">
-                        <Link href="https://www.instagram.com">
+                        <Link href="https://www.instagram.com/braidingvictoriahair/?igsh=ZTR5OGoyMzd0eXA2#" target="_blank">
                             <Image
                                 src={instagramIcon}
                                 alt="Instagram icon"
                                 className="h-8 w-8 hover:opacity-75 transition-opacity"
                             />
                         </Link>
-                        <Link href="https://www.facebook.com">
+                        <Link href="https://web.facebook.com/people/Victoria-hair-braiding/100027305571369/?rdid=Psg8CCXL6pOwBveC&share_url=https%253A%252F%252Fweb.facebook.com%252Fshare%252F157RBoWz7s%252F%253F_rdc%253D1%2526_rdr" target="_blank">
                             <Image
                                 src={facebookIcon}
                                 alt="Facebook icon"
                                 className="h-8 w-8 hover:opacity-75 transition-opacity"
                             />
                         </Link>
-                        <Link href="https://www.x.com">
+                        {/* <Link href="https://www.x.com">
                             <Image
                                 src={twitterIcon}
                                 alt="Twitter icon"
                                 className="h-8 w-8 hover:opacity-75 transition-opacity"
                             />
-                        </Link>
-                        <Link href="https://www.pinterest.com">
+                        </Link> */}
+                        {/* <Link href="https://www.pinterest.com">
                             <Image
                                 src={pinterestIcon}
                                 alt="Pinterest icon"
@@ -105,8 +105,8 @@ export default function Footer() {
                                 alt="LinkedIn icon"
                                 className="h-8 w-8 hover:opacity-75 transition-opacity"
                             />
-                        </Link>
-                        <Link href="https://tiktok.com">
+                        </Link> */}
+                        {/* <Link href="https://tiktok.com">
                             <Image
                                 src={tiktokIcon}
                                 alt="TikTok icon"
@@ -119,7 +119,7 @@ export default function Footer() {
                                 alt="WhatsApp icon"
                                 className="h-8 w-8 hover:opacity-75 transition-opacity"
                             />
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
                 <div className="max-w-sm">
