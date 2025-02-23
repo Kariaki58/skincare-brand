@@ -12,7 +12,7 @@ export default function Filter({ categories, PriceRangeFilter }) {
 
     // State for filters
     const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
-    const [priceRange, setPriceRange] = useState(searchParams.get("price") || "240");
+    const [priceRange, setPriceRange] = useState(searchParams.get("price") || PriceRangeFilter.lowPrice);
 
     // Function to update URL parameters
     const handleFilterChange = (key, value) => {

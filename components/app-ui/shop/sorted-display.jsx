@@ -17,11 +17,13 @@ export default async function SortedDisplay() {
             {
                 $group: {
                     _id: null,
-                    lowPrice: { $min: "$price" },
-                    highPrice: { $max: "$price" },
+                    lowPrice: { $min: "$basePrice" },
+                    highPrice: { $max: "$basePrice" },
                 }
             }
         ]);
+
+        console.log(priceData);
 
         if (priceData.length > 0) {
             priceRange.lowPrice = priceData[0].lowPrice;
