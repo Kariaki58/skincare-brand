@@ -91,6 +91,12 @@ export default function Navigation() {
                     </Link>
                 )}
             </li>
+            {/* add a logout button here */}
+            <li className="hover:underline">
+                {session && session?.user?.role === "user" && (
+                    <Button onClick={() => signOut()} variant="outline" className="ml-2 text-[12px] text-black">LOGOUT</Button>
+                )}
+            </li>
             <li className="relative">
                 <Link href="/cart">
                     <ShoppingBag className="cursor-pointer" />
@@ -162,6 +168,19 @@ export default function Navigation() {
                         <Link href="/contact" onClick={() => setMenuOpen(false)}>
                         CONTACT
                         </Link>
+                    </li>
+                    {/* add a logout button */}
+                    <li>
+                        {session && session?.user?.role === "user" && (
+                            <Button onClick={() => signOut()} variant="outline" className="text-[12px] text-black">LOGOUT</Button>
+                        )}
+                    </li>
+                    <li>
+                        {session && session?.user?.role === "admin" && (
+                            <Link href={session?.user?.role === "user" ? "/" : "/dashboard/admin"}>
+                                <p className="text-[12px]">PROFILE</p>
+                            </Link>
+                        )}
                     </li>
                 </ul>
             </motion.div>
