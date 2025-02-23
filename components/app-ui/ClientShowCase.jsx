@@ -4,7 +4,6 @@ import clientFirst from "@/public/card-1.jpg";
 import clientSecond from "@/public/card-2.jpg";
 import { Playfair_Display, Outfit, Shippori_Antique } from "next/font/google";
 
-
 const playfair_display = Playfair_Display({
     subsets: ["latin"],
     weight: "400"
@@ -20,20 +19,19 @@ const shappori_antique = Shippori_Antique({
     weight: "400"
 });
 
-
 export default function ClientShowCase() {
     return (
-        <section className="max-w-screen-xl mx-auto my-20 hidden lg:block">
-            <div className="flex gap-10 mb-12 items-center">
-                <div className="flex">
-                    <div className="h-[30rem] w-96 border-8 border-[#214207] p-10 relative -left-36">
+        <section className="max-w-screen-xl mx-auto my-20 px-5 md:px-10 lg:px-0">
+            <div className="flex flex-col lg:flex-row gap-10 mb-12 items-center">
+                <div className="flex flex-col sm:flex-row gap-5">
+                    <div className="h-80 w-64 sm:h-[30rem] sm:w-96 border-8 border-[#214207] p-5 sm:p-10 relative">
                         <Image src={clientFirst} alt="Client 1"
                             fill={true}
                             className="z-10 object-cover"
                             priority
                         />
                     </div>
-                    <div className="h-[30rem] w-96 border-8 border-[#214207] relative p-10 -left-28">
+                    <div className="h-80 w-64 sm:h-[30rem] sm:w-96 border-8 border-[#214207] p-5 sm:p-10 relative">
                         <Image src={clientSecond} alt="Client 2"
                             fill={true}
                             className="z-10 object-cover"
@@ -42,8 +40,10 @@ export default function ClientShowCase() {
                     </div>
                 </div>
                 
-                <div className="max-w-sm">
-                    <h1 className={`text-[45px] ${playfair_display.className} text-black mb-4 leading-[54px]`}>EXPLORE OUR PAST CLIENTS</h1>
+                <div className="max-w-sm text-center lg:text-left">
+                    <h1 className={`text-[30px] sm:text-[45px] ${playfair_display.className} text-black mb-4 leading-[40px] sm:leading-[54px]`}>
+                        EXPLORE OUR PAST CLIENTS
+                    </h1>
                     <p className={`text-base ${outfit.className} leading-[25.2px] text-black mb-6`}>
                         The problem we solve is twofold: finding a salon that understands your unique hair 
                         needs and delivering consistent, quality results. We provide expert care for all hair types, 
@@ -54,7 +54,6 @@ export default function ClientShowCase() {
                     </Link>
                 </div>
             </div>
-            
         </section>
     );
 }
