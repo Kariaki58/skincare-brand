@@ -94,7 +94,7 @@ export default function Navigation() {
             {/* add a logout button here */}
             <li className="hover:underline">
                 {session && session?.user?.role === "user" && (
-                    <Button onClick={() => signOut()} variant="outline" className="ml-2 text-[12px] text-black">LOGOUT</Button>
+                    <Button onClick={() => signOut({ callbackUrl: "/" })} variant="outline" className="ml-2 text-[12px] text-black">LOGOUT</Button>
                 )}
             </li>
             <li className="relative">
@@ -172,7 +172,7 @@ export default function Navigation() {
                     {/* add a logout button */}
                     <li>
                         {session && session?.user?.role === "user" && (
-                            <Button onClick={() => signOut()} variant="outline" className="text-[12px] text-black">LOGOUT</Button>
+                            <Button onClick={() => signOut({ callbackUrl: "/" })} variant="outline" className="text-[12px] text-black">LOGOUT</Button>
                         )}
                     </li>
                     <li>
