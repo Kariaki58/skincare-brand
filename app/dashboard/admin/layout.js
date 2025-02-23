@@ -7,14 +7,13 @@ import { redirect } from "next/navigation";
 
 export default async function layout({ children }) {
     const session = await getServerSession(options);
-    console.log(session)
     if (!session) {
         redirect("/");
     }
     if (session.user.role!== "admin") {
         redirect("/");
     }
-    
+
     return (
         <SidebarProvider>
             <AppSidebar />
