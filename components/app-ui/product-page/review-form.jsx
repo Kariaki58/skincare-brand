@@ -67,9 +67,6 @@ export default function ReviewForm() {
             if (!response.ok) {
                 const data = await response.json();
 
-                console.log("line 70")
-                console.log({ data: data.message })
-
                 toast({
                     variant: "destructive",
                     title: "Failed to submit review",

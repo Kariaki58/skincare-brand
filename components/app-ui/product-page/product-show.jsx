@@ -43,17 +43,17 @@ export default function ProductShow() {
     return (
         <section className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 p-6 md:p-10">
             {/* Carousel Section */}
-            <div className="relative flex justify-center items-center">
-                <div>
-                    <Image 
-                        src={product.image} 
-                        alt="Product image 3" 
-                        height={500} 
-                        width={500} 
-                        className="rounded-lg object-cover w-full h-auto"
-                    />
-                </div>
+            {/* <div className="relative w-[580px] rounded-lg overflow-hidden"> */}
+            <div className="h-[580px] w-full relative rounded-lg overflow-hidden">
+                <Image
+                    src={product.image}
+                    alt="cute 1"
+                    fill={true}
+                    className="object-cover"
+                    priority
+                />
             </div>
+            {/* </div> */}
 
             {/* Product Details Section */}
             <div className="flex flex-col space-y-8">

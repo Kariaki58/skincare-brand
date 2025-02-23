@@ -10,7 +10,6 @@ export default async function getProductDocumentLength() {
         const productCount = await Product.countDocuments().exec();
         return productCount;
     } catch (error) {
-        console.error(error);
         throw new Error("Error counting products");
     }
 }

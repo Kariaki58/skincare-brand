@@ -66,7 +66,6 @@ export default function TablePagination({ bookings, totalPages, currentPage, tot
                 alert("Failed to accept booking. Please try again.");
             }
         } catch (error) {
-            console.error("Error accepting booking:", error);
             alert("Something went wrong!");
         }
     };
@@ -100,7 +99,6 @@ export default function TablePagination({ bookings, totalPages, currentPage, tot
                 alert("Failed to decline booking. Please try again.");
             }
         } catch (error) {
-            console.error("Error declining booking:", error);
             alert("Something went wrong!");
         }
     };

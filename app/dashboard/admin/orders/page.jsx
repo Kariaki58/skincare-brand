@@ -10,7 +10,6 @@ import { options } from "@/app/api/auth/options";
 export default async function page() {
     const session = await getServerSession(options);
 
-    console.log({session})
 
     if (!session) {
         return <div>You need to be logged in to access this page.</div>;

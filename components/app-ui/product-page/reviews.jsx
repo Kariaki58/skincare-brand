@@ -10,7 +10,6 @@ import { useParams } from "next/navigation";
 export default function Review() {
     const params = useParams();
     const { products, fetchProducts } = useProductStore();
-    console.log("line 13")
     useEffect(() => {
         if (params.id) {
             fetchProducts(params.id);
@@ -20,8 +19,6 @@ export default function Review() {
     if (!products || products.length === 0) {
         return <p>Loading...</p>;
     }
-    console.log("mounted")
-    console.log({products})
 
     return (
         <div className="space-y-4 p-10 my-20" id="reviews">

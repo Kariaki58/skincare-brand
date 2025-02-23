@@ -10,7 +10,6 @@ export async function PUT(request, { params }) {
     const { id } = await params;
     const { userId, reason } = await request.json();
 
-    console.log(userId, reason)
     if (!id || !reason) {
         return new Response(JSON.stringify({ error: "Please provide an id and reason" }), { status: 400,
             headers: { 'Content-Type': 'application/json' }
@@ -60,7 +59,6 @@ export async function PUT(request, { params }) {
         const customerNotify = generateCustomerAppointmentConfirmationTemplate(false, date, time, reason);
         await sendEmail(email, "Appointment Decline", customerNotify);
         revalidatePath('/dashboard/admin/bookings');
-        console.log("line 63")
         return new Response(JSON.stringify({ message: "We have changed the status, the client would receive an email."}), { status: 200,
             headers: { 'Content-Type': 'application/json' }
         });

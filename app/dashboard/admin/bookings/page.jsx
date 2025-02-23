@@ -27,7 +27,6 @@ export default async function Page({ searchParams }) {
 
 
     try {
-        console.log(session?.user?.id)
         const response = await fetch(`${process.env.FRONTEND_URL}/api/appointment?page=${params.page}&userId=${session?.user?.id}`,
             {
                 method: "GET",
@@ -36,7 +35,6 @@ export default async function Page({ searchParams }) {
         );
         if (!response.ok) {
             const error = await response.json()
-            console.log({error});
             errorOccurred = true;
         }
         data = await response.json();

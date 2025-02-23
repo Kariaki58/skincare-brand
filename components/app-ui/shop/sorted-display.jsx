@@ -29,7 +29,6 @@ export default async function SortedDisplay() {
         }
 
     } catch (error) {
-        console.error("Failed to fetch categories or price range:", error);
     }
 
     return (

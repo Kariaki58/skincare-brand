@@ -30,7 +30,6 @@ export async function DELETE(request, { params }) {
                 headers: { "Content-Type": "application/json" }
             });
         }
-        console.log({user})
         if (user.role !== "admin") {
             return new Response(JSON.stringify({ success: false, message: "Unauthorized" }), {
                 status: 403,
@@ -50,7 +49,6 @@ export async function DELETE(request, { params }) {
             headers: { "Content-Type": "application/json" }
         });
     } catch (error) {
-        console.log(error);
         return new Response(JSON.stringify({ success: false, message: error.message || "Server error" }), {
             status: 500,
             headers: { "Content-Type": "application/json" }

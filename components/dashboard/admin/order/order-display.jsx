@@ -23,7 +23,6 @@ export default function OrdersTable() {
 
     const orders = data.orders;
 
-    console.log(orders)
 
     const handleDelete = async (orderId) => {
         if (!session) {

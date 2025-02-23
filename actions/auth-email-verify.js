@@ -103,7 +103,6 @@ export async function EmailVerification(formData) {
             return true;
         }
     } catch (error) {
-        console.error(error);
         return false;
     }
 }

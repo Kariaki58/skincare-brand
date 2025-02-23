@@ -11,10 +11,14 @@ import { options } from "@/app/api/auth/options";
 export default async function Page() {
     let productLength = 0;
     const session = await getServerSession(options);
+    const errorOccurred = false;
     try {
         productLength = await getProductDocumentLength();
     } catch (error) {
-        console.error(error);
+        errorOccurred = true;
+    }
+    if (errorOccurred) {
+        return <div>Error occurred while fetching products</div>;
     }
 
     const productsPerPage = 20

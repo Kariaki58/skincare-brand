@@ -37,7 +37,6 @@ export async function DELETE(req, { params }) {
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (error) {
-        console.log(error)
         return new Response(JSON.stringify({ error: "Failed to delete customer" }), { status: 500,
             headers: { 'Content-Type': 'application/json' },
         });

@@ -18,7 +18,6 @@ export async function GET(request,  { params }) {
             });
         }
 
-        console.log({id})
 
         const product = await Product.findById(id).populate('category').populate('reviews').exec();
         
@@ -27,7 +26,6 @@ export async function GET(request,  { params }) {
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (error) {
-        console.error(error);
         return new Response(JSON.stringify({ error: "An error occurred" }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
@@ -210,7 +208,6 @@ export async function DELETE(request, { params }) {
         });
 
     } catch (error) {
-        console.error("Error deleting product:", error);
         return new Response(JSON.stringify({ error: "An error occurred" }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },

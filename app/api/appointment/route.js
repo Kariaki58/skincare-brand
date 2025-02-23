@@ -21,7 +21,6 @@ export async function GET(request) {
         const skip = (page - 1) * limit;
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        console.log({ userId })
         if (!userId) {
             return new Response(JSON.stringify({ error: "Missing required userId parameter"}), { status: 400, headers: { "Content-Type": "application/json" } });
         }
@@ -51,7 +50,6 @@ export async function GET(request) {
             { status: 200, headers: { "Content-Type": "application/json" } }
         );
     } catch (error) {
-        console.error("Error fetching bookings:", error);
         return new Response(JSON.stringify({error: "An error occurred while fetching appointments"}), { status: 500,
             headers: { 'Content-Type': 'application/json' },
         });
@@ -86,7 +84,6 @@ export async function POST(request) {
 
         const existingBooking = await Booking.findOne({ email, selectedDate: { $gte: startOfDay, $lte: endOfDay }})
 
-        console.log(existingBooking)
 
         if (existingBooking) {
             return new Response(JSON.stringify({ error: "You have already booked an appointment for that date" }), { status: 400,
@@ -125,7 +122,6 @@ export async function POST(request) {
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {
-        console.error(error);
         return new Response(JSON.stringify({error: "An error occurred while booking your appointment"}), { status: 500,
             headers: { 'Content-Type': 'application/json' },
         });

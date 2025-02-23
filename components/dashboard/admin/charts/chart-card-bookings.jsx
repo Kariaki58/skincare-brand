@@ -15,7 +15,6 @@ export function Component() {
 
 
     const fetchData = async () => {
-        console.log("line 19")
         const response = await fetch(`/api/bookings/analytics?userId=${session?.user?.id}`, {
             method: "GET"
         });
