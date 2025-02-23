@@ -7,7 +7,7 @@ import { Suspense } from "react";
 export default async function SortedDisplay() {
     let categories = [];
     let priceRange = { lowPrice: 0, highPrice: 0 };
-    const errorOccurred = false;
+    let errorOccurred = false;
 
     try {
         await connectToDatabase();
