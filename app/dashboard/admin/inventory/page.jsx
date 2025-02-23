@@ -11,7 +11,7 @@ import { options } from "@/app/api/auth/options";
 export default async function Page() {
     let productLength = 0;
     const session = await getServerSession(options);
-    const errorOccurred = false;
+    let errorOccurred = false;
     try {
         productLength = await getProductDocumentLength();
     } catch (error) {
