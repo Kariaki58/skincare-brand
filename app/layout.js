@@ -1,6 +1,8 @@
 import AuthProvider from "@/components/AuthProvider";
 import { Toaster } from "@/components/ui/toaster"
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
 
 
@@ -31,6 +33,9 @@ export default function RootLayout({ children }) {
           </main>
           <Toaster />
         </AuthProvider>
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
