@@ -35,6 +35,7 @@ export default async function Page({ searchParams }) {
         );
         if (!response.ok) {
             const error = await response.json()
+            console.log(error);
             errorOccurred = true;
         }
         data = await response.json();
